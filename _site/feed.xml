@@ -1,14 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-14T23:12:38+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hun development blog</title><subtitle>Android &amp; Flutter &amp; Fullstack</subtitle><author><name>Hun</name></author><entry><title type="html">android navigation drawer - kotlin</title><link href="http://localhost:4000/android-kotlin/android-navigation-drawer-kotlin-mvvm/" rel="alternate" type="text/html" title="android navigation drawer - kotlin" /><published>2020-10-14T00:00:00+09:00</published><updated>2020-10-14T00:00:00+09:00</updated><id>http://localhost:4000/android-kotlin/android-navigation-drawer-kotlin-mvvm</id><content type="html" xml:base="http://localhost:4000/android-kotlin/android-navigation-drawer-kotlin-mvvm/">&lt;p&gt;참고자료 &lt;br /&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-15T00:20:48+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hun development blog</title><subtitle>Android &amp; Flutter &amp; Fullstack</subtitle><author><name>Hun</name></author><entry><title type="html">android navigation drawer - kotlin</title><link href="http://localhost:4000/android-kotlin/android-navigation-drawer-kotlin-mvvm/" rel="alternate" type="text/html" title="android navigation drawer - kotlin" /><published>2020-10-14T00:00:00+09:00</published><updated>2020-10-14T00:00:00+09:00</updated><id>http://localhost:4000/android-kotlin/android-navigation-drawer-kotlin-mvvm</id><content type="html" xml:base="http://localhost:4000/android-kotlin/android-navigation-drawer-kotlin-mvvm/">&lt;p&gt;참고자료 &lt;br /&gt;
 &lt;a href=&quot;https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin&quot;&gt;https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&quot;script&quot;&gt;Script&lt;/h2&gt;
 &lt;h4 id=&quot;kotlin&quot;&gt;Kotlin&lt;/h4&gt;
 &lt;p&gt;home &lt;br /&gt;
 ㄴ HomeActivity.kt &lt;br /&gt;
+note &lt;br /&gt;
+ㄴ NoteActivity.kt &lt;br /&gt;
+notice &lt;br /&gt;
+ㄴ NoticeActivity.kt &lt;br /&gt;
 util &lt;br /&gt;
 ㄴ AppcompatActivityExt.kt&lt;/p&gt;
 &lt;h4 id=&quot;resource-xml&quot;&gt;Resource (xml)&lt;/h4&gt;
 &lt;p&gt;layout &lt;br /&gt;
-ㄴ main_act.xml &lt;br /&gt;
+ㄴ home_act.xml &lt;br /&gt;
+ㄴ note_act.xml &lt;br /&gt;
+ㄴ notice_act.xml &lt;br /&gt;
 ㄴ nav_header.xml &lt;br /&gt;
 menu &lt;br /&gt;
 ㄴ drawer_actions.xml&lt;/p&gt;
@@ -71,13 +77,19 @@ menu &lt;br /&gt;
   navigationView.setNavigationItemSelectedListener { menuItem -&amp;gt;
   when (menuItem.itemId) {
       R.id.navigation_menu_home -&amp;gt; {
-          // Do nothing
+          //
       }
       R.id.navigation_menu_notice -&amp;gt; {
-          //
+          val intent = Intent(this@HomeActivity, NoticeActivity::class.java).apply {
+              addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+          }
+          startActivity(intent)
       }
       R.id.navigation_menu_note -&amp;gt; {
-          //
+          val intent = Intent(this@HomeActivity, NoteActivity::class.java).apply {
+              addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+          }
+          startActivity(intent)
       }
   }
   menuItem.isChecked = true
@@ -86,8 +98,13 @@ menu &lt;br /&gt;
   }
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
-        &lt;p&gt;-&amp;gt; 3가지 버튼을 셋팅 home, notice, note&lt;/p&gt;
+        &lt;p&gt;-&amp;gt; 3가지 버튼을 셋팅 home, notice, note &lt;br /&gt;
+  -&amp;gt; notice, note 도 home 과 동일하게 셋팅  &lt;br /&gt;
+  -&amp;gt; intent를 활용한 activity 이동&lt;/p&gt;
       &lt;/li&gt;
     &lt;/ul&gt;
+
+    &lt;p&gt;Android Emulator Test &lt;br /&gt;
+  &lt;img src=&quot;/assets/images/gif/2020-10-1500-07.gif&quot; alt=&quot;&quot; width=&quot;80%&quot; height=&quot;80%&quot; class=&quot;center&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Hun</name></author><category term="android-kotlin" /><category term="Kotlin" /><category term="AndroidUI" /><category term="Android" /><summary type="html">참고자료 https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin Script Kotlin home ㄴ HomeActivity.kt util ㄴ AppcompatActivityExt.kt Resource (xml) layout ㄴ main_act.xml ㄴ nav_header.xml menu ㄴ drawer_actions.xml</summary></entry></feed>
+&lt;/ul&gt;</content><author><name>Hun</name></author><category term="android-kotlin" /><category term="Kotlin" /><category term="AndroidUI" /><category term="Android" /><summary type="html">참고자료 https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin Script Kotlin home ㄴ HomeActivity.kt note ㄴ NoteActivity.kt notice ㄴ NoticeActivity.kt util ㄴ AppcompatActivityExt.kt Resource (xml) layout ㄴ home_act.xml ㄴ note_act.xml ㄴ notice_act.xml ㄴ nav_header.xml menu ㄴ drawer_actions.xml</summary></entry></feed>

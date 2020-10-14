@@ -13,11 +13,17 @@ tags:
 #### Kotlin 
 home   
 ㄴ HomeActivity.kt   
+note   
+ㄴ NoteActivity.kt   
+notice   
+ㄴ NoticeActivity.kt   
 util   
 ㄴ AppcompatActivityExt.kt
 #### Resource (xml)
 layout   
-ㄴ main_act.xml   
+ㄴ home_act.xml   
+ㄴ note_act.xml   
+ㄴ notice_act.xml   
 ㄴ nav_header.xml   
 menu   
 ㄴ drawer_actions.xml   
@@ -79,13 +85,19 @@ private fun setupNavigationDrawer() {
     navigationView.setNavigationItemSelectedListener { menuItem ->
         when (menuItem.itemId) {
             R.id.navigation_menu_home -> {
-                // Do nothing
+                //
             }
             R.id.navigation_menu_notice -> {
-                //
+                val intent = Intent(this@HomeActivity, NoticeActivity::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                }
+                startActivity(intent)
             }
             R.id.navigation_menu_note -> {
-                //
+                val intent = Intent(this@HomeActivity, NoteActivity::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                }
+                startActivity(intent)
             }
         }
         menuItem.isChecked = true
@@ -94,4 +106,9 @@ private fun setupNavigationDrawer() {
     }
 }
 	```
-	-> 3가지 버튼을 셋팅 home, notice, note
+	-> 3가지 버튼을 셋팅 home, notice, note   
+	-> notice, note 도 home 과 동일하게 셋팅    
+	-> intent를 활용한 activity 이동   
+	
+	Android Emulator Test   
+	![](/assets/images/gif/2020-10-1500-07.gif){: width="80%" height="80%"}{: .center}

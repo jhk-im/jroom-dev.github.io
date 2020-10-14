@@ -1,14 +1,20 @@
-I"�<p>참고자료 <br />
+I"d<p>참고자료 <br />
 <a href="https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin">https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin</a></p>
 <h2 id="script">Script</h2>
 <h4 id="kotlin">Kotlin</h4>
 <p>home <br />
 ㄴ HomeActivity.kt <br />
+note <br />
+ㄴ NoteActivity.kt <br />
+notice <br />
+ㄴ NoticeActivity.kt <br />
 util <br />
 ㄴ AppcompatActivityExt.kt</p>
 <h4 id="resource-xml">Resource (xml)</h4>
 <p>layout <br />
-ㄴ main_act.xml <br />
+ㄴ home_act.xml <br />
+ㄴ note_act.xml <br />
+ㄴ notice_act.xml <br />
 ㄴ nav_header.xml <br />
 menu <br />
 ㄴ drawer_actions.xml</p>

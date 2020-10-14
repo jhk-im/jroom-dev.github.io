@@ -10,7 +10,7 @@
     <meta charset="utf-8">
 
 <!-- begin _includes/seo.html --><title>android navigation drawer - kotlin $#124; Hun development blog</title>
-<meta name="description" content="참고자료  https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin Script Kotlin home  ㄴ HomeActivity.kt  util  ㄴ AppcompatActivityExt.kt Resource (xml) layout  ㄴ main_act.xml  ㄴ nav_header.xml  menu  ㄴ drawer_actions.xml">
+<meta name="description" content="참고자료  https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin Script Kotlin home  ㄴ HomeActivity.kt  note  ㄴ NoteActivity.kt  notice  ㄴ NoticeActivity.kt  util  ㄴ AppcompatActivityExt.kt Resource (xml) layout  ㄴ home_act.xml  ㄴ note_act.xml  ㄴ notice_act.xml  ㄴ nav_header.xml  menu  ㄴ drawer_actions.xml">
 
 
   <meta name="author" content="Hun">
@@ -26,7 +26,7 @@
 <meta property="og:url" content="http://localhost:4000/android-kotlin/android-navigation-drawer-kotlin-mvvm/">
 
 
-  <meta property="og:description" content="참고자료  https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin Script Kotlin home  ㄴ HomeActivity.kt  util  ㄴ AppcompatActivityExt.kt Resource (xml) layout  ㄴ main_act.xml  ㄴ nav_header.xml  menu  ㄴ drawer_actions.xml">
+  <meta property="og:description" content="참고자료  https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin Script Kotlin home  ㄴ HomeActivity.kt  note  ㄴ NoteActivity.kt  notice  ㄴ NoticeActivity.kt  util  ㄴ AppcompatActivityExt.kt Resource (xml) layout  ㄴ home_act.xml  ㄴ note_act.xml  ㄴ notice_act.xml  ㄴ nav_header.xml  menu  ㄴ drawer_actions.xml">
 
 
 
@@ -303,7 +303,7 @@
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
     <meta itemprop="headline" content="android navigation drawer - kotlin">
-    <meta itemprop="description" content="참고자료 https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlinScriptKotlinhome ㄴ HomeActivity.kt util ㄴ AppcompatActivityExt.ktResource (xml)layout ㄴ main_act.xml ㄴ nav_header.xml menu ㄴ drawer_actions.xml">
+    <meta itemprop="description" content="참고자료 https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlinScriptKotlinhome ㄴ HomeActivity.kt note ㄴ NoteActivity.kt notice ㄴ NoticeActivity.kt util ㄴ AppcompatActivityExt.ktResource (xml)layout ㄴ home_act.xml ㄴ note_act.xml ㄴ notice_act.xml ㄴ nav_header.xml menu ㄴ drawer_actions.xml">
     <meta itemprop="datePublished" content="2020-10-14T00:00:00+09:00">
     
 
@@ -344,11 +344,17 @@
 <h4 id="kotlin">Kotlin</h4>
 <p>home <br />
 ㄴ HomeActivity.kt <br />
+note <br />
+ㄴ NoteActivity.kt <br />
+notice <br />
+ㄴ NoticeActivity.kt <br />
 util <br />
 ㄴ AppcompatActivityExt.kt</p>
 <h4 id="resource-xml">Resource (xml)</h4>
 <p>layout <br />
-ㄴ main_act.xml <br />
+ㄴ home_act.xml <br />
+ㄴ note_act.xml <br />
+ㄴ notice_act.xml <br />
 ㄴ nav_header.xml <br />
 menu <br />
 ㄴ drawer_actions.xml</p>
@@ -411,13 +417,19 @@ menu <br />
   navigationView.setNavigationItemSelectedListener { menuItem -&gt;
   when (menuItem.itemId) {
       R.id.navigation_menu_home -&gt; {
-          // Do nothing
+          //
       }
       R.id.navigation_menu_notice -&gt; {
-          //
+          val intent = Intent(this@HomeActivity, NoticeActivity::class.java).apply {
+              addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+          }
+          startActivity(intent)
       }
       R.id.navigation_menu_note -&gt; {
-          //
+          val intent = Intent(this@HomeActivity, NoteActivity::class.java).apply {
+              addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+          }
+          startActivity(intent)
       }
   }
   menuItem.isChecked = true
@@ -426,9 +438,14 @@ menu <br />
   }
 }
 </code></pre></div>        </div>
-        <p>-&gt; 3가지 버튼을 셋팅 home, notice, note</p>
+        <p>-&gt; 3가지 버튼을 셋팅 home, notice, note <br />
+  -&gt; notice, note 도 home 과 동일하게 셋팅  <br />
+  -&gt; intent를 활용한 activity 이동</p>
       </li>
     </ul>
+
+    <p>Android Emulator Test <br />
+  <img src="/assets/images/gif/2020-10-1500-07.gif" alt="" width="80%" height="80%" class="center" /></p>
   </li>
 </ul>
 
