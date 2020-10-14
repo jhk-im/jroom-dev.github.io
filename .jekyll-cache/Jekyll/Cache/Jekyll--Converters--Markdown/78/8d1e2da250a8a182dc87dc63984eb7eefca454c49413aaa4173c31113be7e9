@@ -1,10 +1,10 @@
-I"�<p>참고자료 <br />
+I"�<p>참고자료 <br />
 <a href="https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin">todo-mvvm-live-kotlin</a></p>
 <h2 id="script">Script</h2>
 <h4 id="kotlin">Kotlin</h4>
 <p>home <br />
 ㄴ HomeActivity.kt <br />
-util
+util <br />
 ㄴ AppcompatActivityExt.kt</p>
 <h4 id="resource-xml">Resource (xml)</h4>
 <p>layout <br />

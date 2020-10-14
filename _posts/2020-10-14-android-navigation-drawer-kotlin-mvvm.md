@@ -1,5 +1,5 @@
 ---
-title: android navigation drawer - kotlin / mvvm
+title: android navigation drawer - kotlin
 category: android-kotlin
 tags:
 - Kotlin
@@ -8,7 +8,9 @@ tags:
 ---
 
 참고자료   
-[todo-mvvm-live-kotlin](https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin)
+[todo-mvvm-live-kotlin]   
+https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin   
+
 ## Script   
 #### Kotlin 
 home   
