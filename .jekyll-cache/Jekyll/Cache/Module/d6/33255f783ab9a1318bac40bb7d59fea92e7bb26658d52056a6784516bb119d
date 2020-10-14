@@ -1,4 +1,4 @@
-I"ë
+I"Š
 
 <div class="masthead">
   <div class="masthead__inner-wrap">
@@ -10,13 +10,11 @@
           <span class="site-subtitle">Android & Flutter & Fullstack</span>
         </a>
         <ul class="visible-links"><li class="masthead__menu-item">
-              <a href="/about/">About</a>
+              <a href="/">Home</a>
             </li><li class="masthead__menu-item">
               <a href="/categories/">Categories</a>
             </li><li class="masthead__menu-item">
               <a href="/tags/">Tags</a>
-            </li><li class="masthead__menu-item">
-              <a href="/date/">Date</a>
             </li></ul>
         
         <button class="greedy-nav__toggle hidden" type="button">
