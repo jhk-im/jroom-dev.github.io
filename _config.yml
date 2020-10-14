@@ -12,19 +12,19 @@
 
 # theme                  : "minimal-mistakes-jekyll"
 # remote_theme           : "mmistakes/minimal-mistakes"
-minimal_mistakes_skin    : "dark" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
+minimal_mistakes_skin    : "mint" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
 
 # Site Settings
 locale                   : "en-US"
 title                    : "Hun development blog"
 title_separator          : "$#124;"
-subtitle                 : "Android & Flutter & Fullstack" 
+subtitle                 : "Steadlily growing developer" 
 name                     : "Jeong Hun Kim"
 description              : "Android & Flutter & Fullstack"
 url                      : "https://ll0301.github.io/"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : "ll0301/ll0301.github.io"
-teaser                   : "/assets/images/background/sunset-background.jpg"
+teaser                   : "/assets/images/background/teaser1.jpg"
 logo                     : # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
 masthead_title           : "하루하루 개발 기록"
 breadcrumbs              : true # true, false (default)
@@ -95,7 +95,7 @@ analytics:
 author:
   name             : "Hun"
   avatar           : "/assets/images/profile/hun.png"
-  bio              : "Steadlily growing developer."
+  bio              : "Android & Flutter & FullStack"
   location         : "Republic of Korea"
   links:
     - label: "GitHub"

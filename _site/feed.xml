@@ -1,1 +1,93 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-14T18:01:28+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hun development blog</title><subtitle>Android &amp; Flutter &amp; Fullstack</subtitle><author><name>Hun</name></author></feed>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-14T22:46:46+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hun development blog</title><subtitle>Android &amp; Flutter &amp; Fullstack</subtitle><author><name>Hun</name></author><entry><title type="html">android navigation drawer - kotlin / mvvm</title><link href="http://localhost:4000/android-kotlin/android-navigation-drawer-kotlin-mvvm/" rel="alternate" type="text/html" title="android navigation drawer - kotlin / mvvm" /><published>2020-10-14T00:00:00+09:00</published><updated>2020-10-14T00:00:00+09:00</updated><id>http://localhost:4000/android-kotlin/android-navigation-drawer-kotlin-mvvm</id><content type="html" xml:base="http://localhost:4000/android-kotlin/android-navigation-drawer-kotlin-mvvm/">&lt;p&gt;참고자료 &lt;br /&gt;
+&lt;a href=&quot;https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin&quot;&gt;todo-mvvm-live-kotlin&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;script&quot;&gt;Script&lt;/h2&gt;
+&lt;h4 id=&quot;kotlin&quot;&gt;Kotlin&lt;/h4&gt;
+&lt;p&gt;home &lt;br /&gt;
+ㄴ HomeActivity.kt &lt;br /&gt;
+util
+ㄴ AppcompatActivityExt.kt&lt;/p&gt;
+&lt;h4 id=&quot;resource-xml&quot;&gt;Resource (xml)&lt;/h4&gt;
+&lt;p&gt;layout &lt;br /&gt;
+ㄴ main_act.xml &lt;br /&gt;
+ㄴ nav_header.xml &lt;br /&gt;
+menu &lt;br /&gt;
+ㄴ drawer_actions.xml&lt;/p&gt;
+
+&lt;h2 id=&quot;homeactivity&quot;&gt;HomeActivity&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;in onCreate&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;setupActionBar(R.id.toolbar) {
+	setHomeAsUpIndicator(R.drawable.ic_menu)
+	setDisplayHomeAsUpEnabled(true)
+}
+
+ setupNavigationDrawer()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;setupActionBar() &lt;br /&gt;
+-&amp;gt; util/AppcompatActivityExt.kt 에 선언되어 있음 &lt;br /&gt;
+-&amp;gt; 거의 모든 액티비티에서 호출 될 가능성이 높은 메소드이기 때문에 util에 선언 후 손쉽게 가져다 사용함 &lt;br /&gt;
+-&amp;gt; 입력 값으로 main_act.xml에 선언된 appcompat.widget.Toolbar 를 입력값으로 받음 &lt;br /&gt;
+      -&amp;gt; toolbar는 material.appbar.AppBarLayout으로 감싸고 있음 &lt;br /&gt;
+-&amp;gt; setHomeAsUpIndicator()는 AppBar 왼쪽 상단에 버튼 이미지 커스텀 &lt;br /&gt;
+-&amp;gt; setDisPlayHomeAsUpEnabled(true)  왼쪽 상단 버튼 활성화
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;fun AppCompatActivity.setupActionBar(@IdRes toolbarId: Int, action: ActionBar.() -&amp;gt; Unit) {
+  setSupportActionBar(findViewById(toolbarId))
+  supportActionBar?.run {
+      action()
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;setActionBar()
+-&amp;gt; @IdRes 는 ui 리소스의 id값만을 입력받도록 강제    &lt;br /&gt;
+-&amp;gt; ActionBar.() -&amp;gt; Unit &lt;br /&gt;
+  -&amp;gt; Unit은 java의 void와 같은 역할 &lt;br /&gt;
+  -&amp;gt; unit type은 인자로도 사용할 수 있음 &lt;br /&gt;
+  -&amp;gt; return 없이 사용할 수 있음 &lt;br /&gt;
+-&amp;gt; toolbarid 를 입력하여 생성 &lt;br /&gt;
+  -&amp;gt; actionBar가 deprecated 되면서 등장한 새로운 릴리즈가 toolbar &lt;br /&gt;
+  -&amp;gt; toolbar를 셋팅하는 방법&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;setupNavigationDrawer
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;private fun setupNavigationDrawer() {
+  mDrawerLayout = (findViewById&amp;lt;DrawerLayout&amp;gt;(R.id.drawer_layout)).apply {
+      // 상태바의 색상을 지정함 
+      setStatusBarBackground(R.color.colorPrimaryDark)
+  }
+  // main_act.xml 에 선언된 navagationView를 content로 셋팅
+  setupDrawerContent(findViewById(R.id.navigation_view))
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+    &lt;p&gt;-&amp;gt; apply 는 T의 확장 함수이며 블럭안에서 프로퍼티를 호출할 때 it 이나 this를 사용할 필요가 없음 &lt;br /&gt;
+  -&amp;gt; run과 유사하지만 블럭에서 return값을 받지 않으며 자기 자신인 T를 반환&lt;/p&gt;
+    &lt;ul&gt;
+      &lt;li&gt;setupDrawerContent()
+        &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  private fun setupDrawerContent(navigationView: NavigationView) {
+  navigationView.setNavigationItemSelectedListener { menuItem -&amp;gt;
+  when (menuItem.itemId) {
+      R.id.navigation_menu_home -&amp;gt; {
+          // Do nothing
+      }
+      R.id.navigation_menu_notice -&amp;gt; {
+          //
+      }
+      R.id.navigation_menu_note -&amp;gt; {
+          //
+      }
+  }
+  menuItem.isChecked = true
+  mDrawerLayout.closeDrawers()
+  true
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
+        &lt;p&gt;-&amp;gt; 3가지 버튼을 셋팅 home, notice, note&lt;/p&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Hun</name></author><category term="android-kotlin" /><category term="Kotlin" /><category term="AndroidUI" /><category term="Android" /><summary type="html">참고자료 todo-mvvm-live-kotlin Script Kotlin home ㄴ HomeActivity.kt util ㄴ AppcompatActivityExt.kt Resource (xml) layout ㄴ main_act.xml ㄴ nav_header.xml menu ㄴ drawer_actions.xml</summary></entry></feed>
