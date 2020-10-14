@@ -1,4 +1,4 @@
-I"�
+I"�
 
 <div class="masthead">
   <div class="masthead__inner-wrap">
@@ -7,7 +7,7 @@
         
         <a class="site-title" href="/">
           하루하루 개발 기록
-          <span class="site-subtitle">Verision 1.0</span>
+          <span class="site-subtitle">Android & Flutter & Fullstack</span>
         </a>
         <ul class="visible-links"><li class="masthead__menu-item">
               <a href="/about/">About</a>
