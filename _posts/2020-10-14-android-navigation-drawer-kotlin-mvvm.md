@@ -13,7 +13,7 @@ tags:
 #### Kotlin 
 home   
 ㄴ HomeActivity.kt   
-util
+util   
 ㄴ AppcompatActivityExt.kt
 #### Resource (xml)
 layout   
