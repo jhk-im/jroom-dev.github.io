@@ -1,0 +1,95 @@
+I"@<p>참고자료 <br />
+https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin</p>
+
+<h2 id="script">Script</h2>
+<h4 id="kotlin">Kotlin</h4>
+<p>home <br />
+ㄴ HomeActivity.kt <br />
+util <br />
+ㄴ AppcompatActivityExt.kt</p>
+<h4 id="resource-xml">Resource (xml)</h4>
+<p>layout <br />
+ㄴ main_act.xml <br />
+ㄴ nav_header.xml <br />
+menu <br />
+ㄴ drawer_actions.xml</p>
+
+<h2 id="homeactivity">HomeActivity</h2>
+<ul>
+  <li>in onCreate</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>setupActionBar(R.id.toolbar) {
+	setHomeAsUpIndicator(R.drawable.ic_menu)
+	setDisplayHomeAsUpEnabled(true)
+}
+
+ setupNavigationDrawer()
+</code></pre></div></div>
+
+<ul>
+  <li>setupActionBar() <br />
+-&gt; util/AppcompatActivityExt.kt 에 선언되어 있음 <br />
+-&gt; 거의 모든 액티비티에서 호출 될 가능성이 높은 메소드이기 때문에 util에 선언 후 손쉽게 가져다 사용함 <br />
+-&gt; 입력 값으로 main_act.xml에 선언된 appcompat.widget.Toolbar 를 입력값으로 받음 <br />
+      -&gt; toolbar는 material.appbar.AppBarLayout으로 감싸고 있음 <br />
+-&gt; setHomeAsUpIndicator()는 AppBar 왼쪽 상단에 버튼 이미지 커스텀 <br />
+-&gt; setDisPlayHomeAsUpEnabled(true)  왼쪽 상단 버튼 활성화
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fun AppCompatActivity.setupActionBar(@IdRes toolbarId: Int, action: ActionBar.() -&gt; Unit) {
+  setSupportActionBar(findViewById(toolbarId))
+  supportActionBar?.run {
+      action()
+  }
+}
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>setActionBar()
+-&gt; @IdRes 는 ui 리소스의 id값만을 입력받도록 강제    <br />
+-&gt; ActionBar.() -&gt; Unit <br />
+  -&gt; Unit은 java의 void와 같은 역할 <br />
+  -&gt; unit type은 인자로도 사용할 수 있음 <br />
+  -&gt; return 없이 사용할 수 있음 <br />
+-&gt; toolbarid 를 입력하여 생성 <br />
+  -&gt; actionBar가 deprecated 되면서 등장한 새로운 릴리즈가 toolbar <br />
+  -&gt; toolbar를 셋팅하는 방법</p>
+  </li>
+  <li>setupNavigationDrawer
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>private fun setupNavigationDrawer() {
+  mDrawerLayout = (findViewById&lt;DrawerLayout&gt;(R.id.drawer_layout)).apply {
+      // 상태바의 색상을 지정함 
+      setStatusBarBackground(R.color.colorPrimaryDark)
+  }
+  // main_act.xml 에 선언된 navagationView를 content로 셋팅
+  setupDrawerContent(findViewById(R.id.navigation_view))
+}
+</code></pre></div>    </div>
+    <p>-&gt; apply 는 T의 확장 함수이며 블럭안에서 프로퍼티를 호출할 때 it 이나 this를 사용할 필요가 없음 <br />
+  -&gt; run과 유사하지만 블럭에서 return값을 받지 않으며 자기 자신인 T를 반환</p>
+    <ul>
+      <li>setupDrawerContent()
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  private fun setupDrawerContent(navigationView: NavigationView) {
+  navigationView.setNavigationItemSelectedListener { menuItem -&gt;
+  when (menuItem.itemId) {
+      R.id.navigation_menu_home -&gt; {
+          // Do nothing
+      }
+      R.id.navigation_menu_notice -&gt; {
+          //
+      }
+      R.id.navigation_menu_note -&gt; {
+          //
+      }
+  }
+  menuItem.isChecked = true
+  mDrawerLayout.closeDrawers()
+  true
+  }
+}
+</code></pre></div>        </div>
+        <p>-&gt; 3가지 버튼을 셋팅 home, notice, note</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+:ET
