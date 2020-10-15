@@ -6,8 +6,8 @@
       <nav id="site-nav" class="greedy-nav">
         
         <a class="site-title" href="/">
-          하루하루 개발 기록
-          <span class="site-subtitle">Steadlily growing developer</span>
+          Daily development record
+          <span class="site-subtitle">Android & Flutter & Fullstack</span>
         </a>
         <ul class="visible-links"><li class="masthead__menu-item">
               <a href="/">Home</a>

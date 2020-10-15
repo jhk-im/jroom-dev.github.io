@@ -1,4 +1,261 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-15T11:35:30+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hun development blog</title><subtitle>Android &amp; Flutter &amp; Fullstack</subtitle><author><name>Hun</name></author><entry><title type="html">android room local database - kotlin</title><link href="http://localhost:4000/android-kotlin/android-room-local-database-kotlin/" rel="alternate" type="text/html" title="android room local database - kotlin" /><published>2020-10-15T00:00:00+09:00</published><updated>2020-10-15T00:00:00+09:00</updated><id>http://localhost:4000/android-kotlin/android-room-local-database-kotlin</id><content type="html" xml:base="http://localhost:4000/android-kotlin/android-room-local-database-kotlin/">&lt;p&gt;참고자료 &lt;br /&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-15T14:45:50+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hun development blog</title><subtitle>Android &amp; Flutter &amp; Fullstack</subtitle><author><name>Hun</name></author><entry><title type="html">android local &amp;amp; remote data source - kotlin</title><link href="http://localhost:4000/android-kotlin/android-local-remote-data-source-kotlin/" rel="alternate" type="text/html" title="android local &amp;amp; remote data source - kotlin" /><published>2020-10-15T00:00:00+09:00</published><updated>2020-10-15T00:00:00+09:00</updated><id>http://localhost:4000/android-kotlin/android-local-remote-data-source-kotlin</id><content type="html" xml:base="http://localhost:4000/android-kotlin/android-local-remote-data-source-kotlin/">&lt;p&gt;참고자료 &lt;br /&gt;
+&lt;a href=&quot;https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin&quot;&gt;https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin&lt;/a&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;script&quot;&gt;Script&lt;/h2&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;Kotlin&lt;/p&gt;
+  &lt;ul&gt;
+    &lt;li&gt;data
+      &lt;ul&gt;
+        &lt;li&gt;source
+          &lt;ul&gt;
+            &lt;li&gt;BookmarkRepository.kt&lt;/li&gt;
+            &lt;li&gt;remote
+              &lt;ul&gt;
+                &lt;li&gt;BookmarkRemoteDataSource.kt&lt;/li&gt;
+              &lt;/ul&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;(mock)
+      &lt;ul&gt;
+        &lt;li&gt;Injection.kt&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;datasourcebookmarkremotedatasourcekt&quot;&gt;data/source/BookmarkRemoteDataSource.kt&lt;/h2&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;object BookmarkRemoteDataSource : BookmarkDataSource {
+
+    private const val SERVICE_LATENCY_IN_MILLIS = 5000L
+
+    private var BOOKMARKS_SERVICE_DATA = LinkedHashMap&amp;lt;String, Bookmark&amp;gt;(2)
+
+    init {
+        addBookmark(&quot;Google&quot;, &quot;Portal&quot;,&quot;https://www.google.com&quot;)
+        addBookmark(&quot;Naver&quot;, &quot;Portal&quot;,&quot;https://www.naver.com&quot;)
+        addBookmark(&quot;Daum&quot;, &quot;Portal&quot;,&quot;https://www.daum.net&quot;)
+    }
+
+    private fun addBookmark(title: String, category: String, url: String) {
+
+        val newBookmark = Bookmark(title, category, url)
+
+        BOOKMARKS_SERVICE_DATA.put(newBookmark.id, newBookmark)
+    }
+
+    override fun getBookmarks(callback: BookmarkDataSource.LoadBookmarksCallback) {
+
+        val bookmarks = Lists.newArrayList&amp;lt;Bookmark&amp;gt;(BOOKMARKS_SERVICE_DATA.values)
+
+        // Simulate network
+        Handler(Looper.getMainLooper()).postDelayed({
+            callback.onBookmarksLoaded(bookmarks)
+        }, SERVICE_LATENCY_IN_MILLIS)
+    }
+
+    override fun getBookmark(
+        bookmarkId: String,
+        callback: BookmarkDataSource.GetBookmarkCallback
+    ) {
+
+        val bookmark = BOOKMARKS_SERVICE_DATA[bookmarkId]
+
+        // simulate network
+        with(Handler(Looper.getMainLooper())) {
+            if (bookmark != null) {
+                postDelayed({ callback.onBookmarkLoaded(bookmark) }, SERVICE_LATENCY_IN_MILLIS)
+            } else {
+                postDelayed({ callback.onDataNotAvailable() }, SERVICE_LATENCY_IN_MILLIS)
+            }
+        }
+    }
+
+    override fun saveBookmark(bookmark: Bookmark) {
+
+        BOOKMARKS_SERVICE_DATA.put(bookmark.id, bookmark)
+    }
+
+    override fun deleteAllBookmarks() {
+
+        BOOKMARKS_SERVICE_DATA.clear()
+    }
+
+    override fun deleteBookmark(bookmarkId: String) {
+
+        BOOKMARKS_SERVICE_DATA.remove(bookmarkId)
+    }
+
+    override fun refreshBookmark() {
+        //
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;-&amp;gt; 아직 원격 데이터베이스와 api가 셋팅되어있지 않기때문에 cache를 활용하여 임시로 구현&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;LinkedHashMap&amp;lt;String, Bookmark&amp;gt;
+  -&amp;gt; id와 bookmark 객체를 crud &lt;br /&gt;
+  -&amp;gt; remote database 가 구현이 안되어 있어도 linkedhashmap을 통해 테스트 가능 &lt;br /&gt;
+  -&amp;gt; linkedhasmap은 cache 메모리 이며 속도가 빠름 &lt;br /&gt;
+      -&amp;gt; 변동이 없는 경우 cache에서 가져오는 편이 속도나 성능면에서 이득 &lt;br /&gt;
+      -&amp;gt; remote - cache 를 동기화해주는 로직을 구현해야함&lt;/li&gt;
+  &lt;li&gt;init {} &lt;br /&gt;
+-&amp;gt; init block 이라 하며 객체 생성시 호출 됨 &lt;br /&gt;
+  -&amp;gt; google, naver, daum 이라는 임시 데이터 모델이 객체 생성 시 자동으로 생성되어 linkedhasmap에 추가됨&lt;/li&gt;
+  &lt;li&gt;BookmarkDataSource 상속 &lt;br /&gt;
+  -&amp;gt; 내부 메소드가 오버라이드 되며 임시 cache linkedmap 를 통해 crud 동작 구현&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;datasourcebookmarkrepositorykt&quot;&gt;data/source/BookmarkRepository.kt&lt;/h2&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class BookmarkRepository(
+    private val bookmarkLocalDataSource: BookmarkDataSource,
+    private val bookmarkRemoteDataSource: BookmarkDataSource
+) : BookmarkDataSource {
+
+    var cachedBookmarks: LinkedHashMap&amp;lt;String, Bookmark&amp;gt; = LinkedHashMap()
+
+    var cacheIsDirty = false
+
+    private fun refreshCache(bookmarks: List&amp;lt;Bookmark&amp;gt;) {
+        cachedBookmarks.clear()
+        bookmarks.forEach {
+            cacheAndPerform(it) {}
+        }
+        cacheIsDirty = false
+    }
+
+    private fun refreshLocalDataSource(bookmarks: List&amp;lt;Bookmark&amp;gt;) {
+        bookmarkLocalDataSource.deleteAllBookmarks()
+        for (bookmark in bookmarks) {
+            bookmarkLocalDataSource.saveBookmark(bookmark)
+        }
+    }
+
+    private fun getBookmarkFromRemoteDataSource(callback: BookmarkDataSource.LoadBookmarksCallback) {
+        bookmarkRemoteDataSource.getBookmarks(object : BookmarkDataSource.LoadBookmarksCallback {
+            override fun onBookmarksLoaded(bookmarks: List&amp;lt;Bookmark&amp;gt;) {
+                refreshCache(bookmarks)
+                refreshLocalDataSource(bookmarks)
+
+                callback.onBookmarksLoaded(ArrayList(cachedBookmarks.values))
+            }
+
+            override fun onDataNotAvailable() {
+                callback.onDataNotAvailable()
+            }
+
+        })
+    }
+
+    private fun getBookmarkId(id: String) = cachedBookmarks[id]
+
+    private inline fun cacheAndPerform(bookmark: Bookmark, perform: (Bookmark) -&amp;gt; Unit) {
+        val cachedBookmark =
+            Bookmark(
+                bookmark.id,
+                bookmark.category,
+                bookmark.url,
+                bookmark.title
+            ).apply {
+                favicon = bookmark.favicon
+                position = bookmark.position
+            }
+
+        cachedBookmarks[cachedBookmark.id] = cachedBookmark
+        perform(cachedBookmark)
+    }
+
+		. . .
+		BookmarkDataSource override method 
+		. . .
+
+
+    companion object {
+
+        private var INSTANCE: BookmarkRepository? = null
+
+        @JvmStatic
+        fun getInstance(
+            bookmarkLocalDataSource: BookmarkDataSource,
+            bookmarkRemoteDataSource: BookmarkDataSource
+        ) =
+            INSTANCE ?: synchronized(BookmarkRepository::class.java) {
+                INSTANCE ?: BookmarkRepository(
+                    bookmarkLocalDataSource,
+                    bookmarkRemoteDataSource
+                ).also { INSTANCE = it }
+            }
+
+        @JvmStatic
+        fun destroyInstance() {
+            INSTANCE = null
+        }
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;BookmarkDataSource 를 2개 입력받아 remote와 local로 나눔&lt;/li&gt;
+  &lt;li&gt;var cachedBookmarks: LinkedHashMap&amp;lt;String, Bookmark&amp;gt; = LinkedHashMap()
+    &lt;ul&gt;
+      &lt;li&gt;cache의 사용으로 속도와 성능 향상&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;var cacheIsDirty = false&lt;/li&gt;
+  &lt;li&gt;Bookmark data에 변동이있는지 구분&lt;/li&gt;
+  &lt;li&gt;변동이 없으면 false / 변동이 있으면 true&lt;/li&gt;
+  &lt;li&gt;refreshCache()
+    &lt;ul&gt;
+      &lt;li&gt;LinkedHashMap() 을 refresh 함&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;refreshLocalDataSource()
+    &lt;ul&gt;
+      &lt;li&gt;Room Database의 bookmarks 테이블을 refresh함&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;getMookmarkRemoteDataSource()
+    &lt;ul&gt;
+      &lt;li&gt;local에는 없으나 remote에 객체가 존재할 때 (동기화가 안된 상황)
+        &lt;ul&gt;
+          &lt;li&gt;cache와 room database를 refresh 하여 동기화&lt;/li&gt;
+          &lt;li&gt;가져온 객체를 callback으로 반환&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;getBookmarkId()
+    &lt;ul&gt;
+      &lt;li&gt;cache에서 입력받은 id의 bookmark 객체 찾아 반환&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;cacheAndPerform()
+    &lt;ul&gt;
+      &lt;li&gt;inline fun
+        &lt;ul&gt;
+          &lt;li&gt;Kotlin은 컴파일 단계에서 함수 타입의 변수(람다)를 FunctionN 인터페이스를 구현한 객체로 저장&lt;/li&gt;
+          &lt;li&gt;매개변수에 따라 Function0&lt;R&gt; , Function1&amp;lt;P1, R&amp;gt; ... Function22&amp;lt;...&amp;gt; 까지 제공됨&lt;/R&gt;&lt;/li&gt;
+          &lt;li&gt;각각의 람다식마다 객체가 생성되어 메모리에 저장되고 invoke() 함수가 각각 호출되어 메모리할당 및 가상 호출에 의한 런타임 오버헤드 발생&lt;/li&gt;
+          &lt;li&gt;람다를 매개로하는 고차함수를 inline fun 으로 정의하여 오버헤드를 줄임&lt;/li&gt;
+          &lt;li&gt;직접 객체를 호출하기 보단 함수의 본문을 복붙함&lt;/li&gt;
+          &lt;li&gt;saveBookmark() , refreshCache(),  getBookmark() 등 단일 객체를 가져오거나 저장할 때 cahce 상의 객체를 동기화&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;(Bookmark) -&amp;gt; Unit
+    &lt;ul&gt;
+      &lt;li&gt;함수의 반환 구문이 없다는 것을 표현하기 위해 사용 = java의 void&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Hun</name></author><category term="android-kotlin" /><category term="Kotlin" /><category term="Android" /><category term="MVVM" /><category term="Database" /><summary type="html">참고자료 https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin</summary></entry><entry><title type="html">android room local database - kotlin</title><link href="http://localhost:4000/android-kotlin/android-room-local-database-kotlin/" rel="alternate" type="text/html" title="android room local database - kotlin" /><published>2020-10-15T00:00:00+09:00</published><updated>2020-10-15T00:00:00+09:00</updated><id>http://localhost:4000/android-kotlin/android-room-local-database-kotlin</id><content type="html" xml:base="http://localhost:4000/android-kotlin/android-room-local-database-kotlin/">&lt;p&gt;참고자료 &lt;br /&gt;
 &lt;a href=&quot;https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin&quot;&gt;https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin&lt;/a&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
@@ -80,7 +337,7 @@ data class Bookmark @JvmOverloads constructor (
   -&amp;gt; Room의 anotation&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&quot;sourcebookmarkdatasourcekt&quot;&gt;source/BookmarkDataSource.kt&lt;/h2&gt;
+&lt;h2 id=&quot;datasourcebookmarkdatasourcekt&quot;&gt;data/source/BookmarkDataSource.kt&lt;/h2&gt;
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;interface BookmarkDataSource {
 
     interface LoadBookmarksCallback {
@@ -110,7 +367,7 @@ data class Bookmark @JvmOverloads constructor (
 	-&amp;gt; 데이터 베이스와 클라이언트 사이에서 단일객체 혹은 복수의 객체들을 체크하여 callback &lt;br /&gt;
 -&amp;gt; 나머지는 bookmark객체를 데이터베이스로부터 CRUD를 구현 할 메소드&lt;/p&gt;
 
-&lt;h2 id=&quot;sourcebookmarkrepositorykt&quot;&gt;source/BookmarkRepository.kt&lt;/h2&gt;
+&lt;h2 id=&quot;datasourcebookmarkrepositorykt&quot;&gt;data/source/BookmarkRepository.kt&lt;/h2&gt;
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class BookmarkRepository(
     val bookmarksLocalDataSource: BookmarkLocalDataSource
 		// 추후 에 remote도 추가 
@@ -151,7 +408,7 @@ data class Bookmark @JvmOverloads constructor (
 -&amp;gt; java에서 해당 코드를 static으로 인지하도록 anotation 추가&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&quot;sourcelocalbookmarkdatabasekt&quot;&gt;source/local/BookmarkDatabase.kt&lt;/h2&gt;
+&lt;h2 id=&quot;datasourcelocalbookmarkdatabasekt&quot;&gt;data/source/local/BookmarkDatabase.kt&lt;/h2&gt;
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@Database(entities = [Bookmark::class], version = 1)
 abstract class BookmarkDatabase : RoomDatabase() {
 
@@ -185,7 +442,7 @@ abstract class BookmarkDatabase : RoomDatabase() {
 -&amp;gt; Room.databaseBuilder() 
 	-&amp;gt; Bookmark.kt 에 선언된 entity를 기반으로 실제 bookmarks.db라는 파일을 생성하여 실제 로컬 table 생성&lt;/p&gt;
 
-&lt;h2 id=&quot;sourcelocalbookmarkdaokt&quot;&gt;source/local/BookmarkDao.kt&lt;/h2&gt;
+&lt;h2 id=&quot;datasourcelocalbookmarkdaokt&quot;&gt;data/source/local/BookmarkDao.kt&lt;/h2&gt;
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@Dao
 interface BookmarkDao {
 
@@ -213,7 +470,7 @@ interface BookmarkDao {
 	-&amp;gt; BookmarkDatabase 를 통해 사용 &lt;br /&gt;
 -&amp;gt; 실제 Database 의 query 문을 사용&lt;/p&gt;
 
-&lt;h2 id=&quot;sourcelocalbookmarklocaldatasourcekt&quot;&gt;source/local/BookmarkLocalDataSource.kt&lt;/h2&gt;
+&lt;h2 id=&quot;datasourcelocalbookmarklocaldatasourcekt&quot;&gt;data/source/local/BookmarkLocalDataSource.kt&lt;/h2&gt;
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class BookmarkLocalDataSource private constructor(
     private val appExecutors: AppExecutors,
     private val bookmarkDao: BookmarkDao

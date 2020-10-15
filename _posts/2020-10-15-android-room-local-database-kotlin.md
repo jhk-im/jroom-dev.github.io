@@ -73,7 +73,7 @@ data class Bookmark @JvmOverloads constructor (
 ->  @NonNull, @PrimaryKey, @ColumnInfo   
 	-> Room의 anotation
 
-## source/BookmarkDataSource.kt
+## data/source/BookmarkDataSource.kt
 ```
 interface BookmarkDataSource {
 
@@ -104,7 +104,7 @@ interface BookmarkDataSource {
 	-> 데이터 베이스와 클라이언트 사이에서 단일객체 혹은 복수의 객체들을 체크하여 callback   
 -> 나머지는 bookmark객체를 데이터베이스로부터 CRUD를 구현 할 메소드   
 
-## source/BookmarkRepository.kt
+## data/source/BookmarkRepository.kt
 ```
 class BookmarkRepository(
     val bookmarksLocalDataSource: BookmarkLocalDataSource
@@ -144,7 +144,7 @@ class BookmarkRepository(
 * @JvmStatic   
 -> java에서 해당 코드를 static으로 인지하도록 anotation 추가
 
-## source/local/BookmarkDatabase.kt 
+## data/source/local/BookmarkDatabase.kt 
 ```
 @Database(entities = [Bookmark::class], version = 1)
 abstract class BookmarkDatabase : RoomDatabase() {
@@ -179,7 +179,7 @@ abstract class BookmarkDatabase : RoomDatabase() {
 -> Room.databaseBuilder() 
 	-> Bookmark.kt 에 선언된 entity를 기반으로 실제 bookmarks.db라는 파일을 생성하여 실제 로컬 table 생성   
 
-## source/local/BookmarkDao.kt
+## data/source/local/BookmarkDao.kt
 ```
 @Dao
 interface BookmarkDao {
@@ -208,7 +208,7 @@ interface BookmarkDao {
 	-> BookmarkDatabase 를 통해 사용   
 -> 실제 Database 의 query 문을 사용   
 
-## source/local/BookmarkLocalDataSource.kt
+## data/source/local/BookmarkLocalDataSource.kt
 ```
 class BookmarkLocalDataSource private constructor(
     private val appExecutors: AppExecutors,

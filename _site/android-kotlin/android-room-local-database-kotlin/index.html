@@ -129,8 +129,8 @@
       <nav id="site-nav" class="greedy-nav">
         
         <a class="site-title" href="/">
-          하루하루 개발 기록
-          <span class="site-subtitle">Steadlily growing developer</span>
+          Daily development record
+          <span class="site-subtitle">Android & Flutter & Fullstack</span>
         </a>
         <ul class="visible-links"><li class="masthead__menu-item">
               <a href="/">Home</a>
@@ -214,7 +214,7 @@
     
     
       <div class="author__bio" itemprop="description">
-        <p>Android &amp; Flutter &amp; FullStack</p>
+        <p>Steadlily growing developer</p>
 
       </div>
     
@@ -420,7 +420,7 @@ data class Bookmark @JvmOverloads constructor (
   -&gt; Room의 anotation</li>
 </ul>
 
-<h2 id="sourcebookmarkdatasourcekt">source/BookmarkDataSource.kt</h2>
+<h2 id="datasourcebookmarkdatasourcekt">data/source/BookmarkDataSource.kt</h2>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>interface BookmarkDataSource {
 
     interface LoadBookmarksCallback {
@@ -450,7 +450,7 @@ data class Bookmark @JvmOverloads constructor (
 	-&gt; 데이터 베이스와 클라이언트 사이에서 단일객체 혹은 복수의 객체들을 체크하여 callback <br />
 -&gt; 나머지는 bookmark객체를 데이터베이스로부터 CRUD를 구현 할 메소드</p>
 
-<h2 id="sourcebookmarkrepositorykt">source/BookmarkRepository.kt</h2>
+<h2 id="datasourcebookmarkrepositorykt">data/source/BookmarkRepository.kt</h2>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class BookmarkRepository(
     val bookmarksLocalDataSource: BookmarkLocalDataSource
 		// 추후 에 remote도 추가 
@@ -491,7 +491,7 @@ data class Bookmark @JvmOverloads constructor (
 -&gt; java에서 해당 코드를 static으로 인지하도록 anotation 추가</li>
 </ul>
 
-<h2 id="sourcelocalbookmarkdatabasekt">source/local/BookmarkDatabase.kt</h2>
+<h2 id="datasourcelocalbookmarkdatabasekt">data/source/local/BookmarkDatabase.kt</h2>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@Database(entities = [Bookmark::class], version = 1)
 abstract class BookmarkDatabase : RoomDatabase() {
 
@@ -525,7 +525,7 @@ abstract class BookmarkDatabase : RoomDatabase() {
 -&gt; Room.databaseBuilder() 
 	-&gt; Bookmark.kt 에 선언된 entity를 기반으로 실제 bookmarks.db라는 파일을 생성하여 실제 로컬 table 생성</p>
 
-<h2 id="sourcelocalbookmarkdaokt">source/local/BookmarkDao.kt</h2>
+<h2 id="datasourcelocalbookmarkdaokt">data/source/local/BookmarkDao.kt</h2>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@Dao
 interface BookmarkDao {
 
@@ -553,7 +553,7 @@ interface BookmarkDao {
 	-&gt; BookmarkDatabase 를 통해 사용 <br />
 -&gt; 실제 Database 의 query 문을 사용</p>
 
-<h2 id="sourcelocalbookmarklocaldatasourcekt">source/local/BookmarkLocalDataSource.kt</h2>
+<h2 id="datasourcelocalbookmarklocaldatasourcekt">data/source/local/BookmarkLocalDataSource.kt</h2>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class BookmarkLocalDataSource private constructor(
     private val appExecutors: AppExecutors,
     private val bookmarkDao: BookmarkDao
@@ -751,7 +751,7 @@ interface BookmarkDao {
       
   <nav class="pagination">
     
-      <a href="/android-kotlin/android-navigation-drawer-kotlin-mvvm/" class="pagination--pager" title="android navigation drawer - kotlin
+      <a href="/android-kotlin/android-local-remote-data-source-kotlin/" class="pagination--pager" title="android local &amp; remote data source - kotlin
 ">Previous</a>
     
     
@@ -769,6 +769,51 @@ interface BookmarkDao {
     <div class="page__related">
       <h4 class="page__related-title">You may also enjoy</h4>
       <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/background/teaser1.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/android-kotlin/android-local-remote-data-source-kotlin/" rel="permalink">android local &amp; remote data source - kotlin
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">참고자료 
+https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin
+</p>
+  </article>
+</div>
+
         
           
 
