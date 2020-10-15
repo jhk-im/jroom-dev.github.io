@@ -1,0 +1,876 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>android room local database - kotlin $#124; Hun development blog</title>
+<meta name="description" content="참고자료  https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin">
+
+
+  <meta name="author" content="Hun">
+  
+  <meta property="article:author" content="Hun">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Hun development blog">
+<meta property="og:title" content="android room local database - kotlin">
+<meta property="og:url" content="http://localhost:4000/android-kotlin/android-room-local-database-kotlin/">
+
+
+  <meta property="og:description" content="참고자료  https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2020-10-15T00:00:00+09:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/android-kotlin/android-room-local-database-kotlin/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Jeong Hun Kim",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Hun development blog Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          하루하루 개발 기록
+          <span class="site-subtitle">Steadlily growing developer</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/">Home</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tags</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="http://localhost:4000/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#android-kotlin" itemprop="item"><span itemprop="name">Android kotlin</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">android room local database - kotlin</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/profile/hun.png" alt="Hun" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Hun</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Android &amp; Flutter &amp; FullStack</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Republic of Korea</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/ll0301" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="android room local database - kotlin">
+    <meta itemprop="description" content="참고자료 https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin">
+    <meta itemprop="datePublished" content="2020-10-15T00:00:00+09:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">android room local database - kotlin
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <p>참고자료 <br />
+<a href="https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin">https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin</a></p>
+
+<hr />
+<hr />
+
+<h2 id="bookmark">Bookmark</h2>
+<p float="left">
+  <img src="/assets/images/gif/2020-10-1509-47.gif" width="300" />
+	<img src="/assets/images/gif/2020-10-1509-48.gif" width="300" />
+</p>
+<h2 id="script">Script</h2>
+<blockquote>
+  <p>Kotlin</p>
+  <ul>
+    <li>data
+      <ul>
+        <li>Bookmark.kt</li>
+        <li>source
+          <ul>
+            <li>BookmarkDataSource.kt</li>
+            <li>BookmarkRepository.kt</li>
+            <li>local
+              <ul>
+                <li>BookmarkDatabase.kt</li>
+                <li>BookmarkDao.kt</li>
+                <li>BookmarkLocalDataSource.kt</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li>util
+      <ul>
+        <li>AppExecutors.kt</li>
+        <li>DiskIOThreadExecutor.kt</li>
+      </ul>
+    </li>
+  </ul>
+</blockquote>
+
+<h2 id="bookmarkkt">Bookmark.kt</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@Entity(tableName= "bookmarks")
+data class Bookmark @JvmOverloads constructor (
+    @NonNull @PrimaryKey @ColumnInfo(name = "id") var id: String = UUID.randomUUID().toString(),
+    @NonNull @ColumnInfo(name= "title") var title: String = "",
+    @NonNull @ColumnInfo(name= "url") var url: String = "",
+    @NonNull @ColumnInfo(name= "category") var category: String = ""
+) {
+
+    @ColumnInfo(name = "position") var position: Int = 0
+    
+    @ColumnInfo(name = "favicon") var favicon: String = ""
+    
+    val isEmpty
+        get() = title.isEmpty()
+}
+</code></pre></div></div>
+<ul>
+  <li>Bookmark Entity Model</li>
+  <li>Bookmarks Table을 생성하고 id, title 등의 데이터 컬럼 작성</li>
+  <li>Bookmark 객체 생성자</li>
+  <li>@Entity() <br />
+  -&gt; room anotation <br />
+  -&gt; table name 을 입력하고 아래 클래스가 room entity 임을 나타냄</li>
+  <li>data class <br />
+  -&gt; 데이터를 보유하면서 아무것도 하지 않는 model에 특화된 class <br />
+-&gt; @JvmOverloads <br />
+  -&gt; Default 메소드를 사용할 수 있음 <br />
+      -&gt; Java에는 Kotlin 처럼 파라미터 안에 Default 값을 넣을 수 없음 <br />
+      -&gt; @JvmOverloads를 기입하면 java에서 Default 값을 오버로딩하여 할당함 <br />
+-&gt; constructor <br />
+  -&gt; java의 생성자 역할 <br />
+  -&gt; java에서는 클래스 내부에 직접 생성자를 등록해야함 <br />
+      -&gt; Kotlin에선 constructor 를 파라미터 앞에 선언하면 간단하게 생성자 등록 가능 <br />
+          -&gt; 객체 생성시 반드시 필요한 값은 파라미터에 <br />
+          -&gt; 그렇지 않은 값은 클래스 내부에 선언 <br />
+-&gt;  @NonNull, @PrimaryKey, @ColumnInfo <br />
+  -&gt; Room의 anotation</li>
+</ul>
+
+<h2 id="sourcebookmarkdatasourcekt">source/BookmarkDataSource.kt</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>interface BookmarkDataSource {
+
+    interface LoadBookmarksCallback {
+        fun onBookmarksLoaded(bookmarks: List&lt;Bookmark&gt;)
+        fun onDataNotAvailable()
+    }
+
+    interface GetBookmarkCallback {
+        fun onBookmarkLoaded(book: Bookmark)
+        fun onDataNotAvailable()
+    }
+
+    fun getBookmarks(callback: LoadBookmarksCallback)
+
+    fun getBookmark(bookmarkId: String, callback: GetBookmarkCallback)
+
+    fun saveBookmark(bookmark: Bookmark)
+
+    fun deleteAllBookmarks()
+
+    fun deleteBookmark(bookmarkId: String)
+}
+</code></pre></div></div>
+<p>-&gt; interface <br />
+	-&gt; java와 마찬가지로 해당 interface를 상속받은 클래스는 내부에 구현된 함수를 강제 오버라이드 하게 됨 <br />
+-&gt; LoadBookmarksCallback | GetBookmarkCallbaclk <br />
+	-&gt; 데이터 베이스와 클라이언트 사이에서 단일객체 혹은 복수의 객체들을 체크하여 callback <br />
+-&gt; 나머지는 bookmark객체를 데이터베이스로부터 CRUD를 구현 할 메소드</p>
+
+<h2 id="sourcebookmarkrepositorykt">source/BookmarkRepository.kt</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class BookmarkRepository(
+    val bookmarksLocalDataSource: BookmarkLocalDataSource
+		// 추후 에 remote도 추가 
+		// val bookmarkRemoteDataSource : BookmarkRemoteDataSource
+) : BookmarkDataSource {
+
+		. . .
+		// override method 구현 
+
+    companion object {
+
+        private var INSTANCE: BookmarkRepository? = null
+
+        @JvmStatic
+        fun getInstance(bookmarksLocalDataSource: BookmarkLocalDataSource) =
+            INSTANCE ?: synchronized(BookmarkRepository::class.java) {
+                INSTANCE ?: BookmarkRepository(bookmarksLocalDataSource).also { INSTANCE = it }
+            }
+
+        @JvmStatic
+        fun destroyInstance() {
+            INSTANCE = null
+        }
+    }
+}
+
+</code></pre></div></div>
+<p>-&gt; DataSource(interface)를 입력받음 <br />
+-&gt; BookmarkDataSource 상속받아 내부 메소드 오버라이드 <br />
+-&gt; 추후에 RemoteLocalDataSource.kt 추가 됨 <br />
+	-&gt; Local | Remote &lt;-&gt; 데이터 요청 로직 사이에서 데이터 crud 구현하여 callback 구현</p>
+<ul>
+  <li>companion object <br />
+-&gt; Kotlin에는 자바의 static 메소드가 없음 <br />
+  -&gt; 싱글턴 패턴을 구현하기 위해서 companion object를 마지막에 넣어주어야 함  <br />
+      -&gt; 패키지 전역에서 접근하여 활용</li>
+  <li>@JvmStatic <br />
+-&gt; java에서 해당 코드를 static으로 인지하도록 anotation 추가</li>
+</ul>
+
+<h2 id="sourcelocalbookmarkdatabasekt">source/local/BookmarkDatabase.kt</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@Database(entities = [Bookmark::class], version = 1)
+abstract class BookmarkDatabase : RoomDatabase() {
+
+    abstract fun bookmarkDao(): BookmarkDao
+
+    companion object {
+
+        private var INSTANCE: BookmarkDatabase? = null
+
+        private val lock = Any()
+
+        fun getInstance(context: Context): BookmarkDatabase {
+            synchronized(lock) {
+                if (INSTANCE == null) {
+                    INSTANCE = Room.databaseBuilder(
+                        context.applicationContext,
+                        BookmarkDatabase::class.java,
+                        "bookmarks.db"
+                    ).build()
+                }
+                return  INSTANCE!!
+            }
+        }
+    }
+}
+</code></pre></div></div>
+<p>-&gt; abstract class (추상 클래스) <br />
+	-&gt;  인터페이스와 흡사하지만 내부에 선언된 메소드를 강제하지 않음 <br />
+	-&gt;  이 객체를 생성할 경우 bookmarkDao interface를 선택적으로 사용함 <br />
+-&gt; 싱글턴 패턴 <br />
+-&gt; Room.databaseBuilder() 
+	-&gt; Bookmark.kt 에 선언된 entity를 기반으로 실제 bookmarks.db라는 파일을 생성하여 실제 로컬 table 생성</p>
+
+<h2 id="sourcelocalbookmarkdaokt">source/local/BookmarkDao.kt</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@Dao
+interface BookmarkDao {
+
+    @Query("SELECT * FROM bookmarks")
+    fun getBookmarks(): List&lt;Bookmark&gt;
+
+    @Query("SELECT * FROM bookmarks WHERE id = :bookmarkId")
+    fun getBookmarkById(bookmarkId: String): Bookmark?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertBookmark(bookmark: Bookmark)
+
+    @Update
+    fun updateBookmark(bookmark: Bookmark): Int
+
+    @Query("DELETE FROM bookmarks WHERE id = :bookmarkId")
+    fun deleteBookmarkById(bookmarkId: String): Int
+
+    @Query("DELETE FROM bookmarks") fun deleteBookmarks()
+}
+
+</code></pre></div></div>
+<p>-&gt; 실제 Room database에서 활용되는 Query가 메소드로 구현 <br />
+-&gt; BookmarkDatabase 추상 클래스에 선언되어 있음 <br />
+	-&gt; BookmarkDatabase 를 통해 사용 <br />
+-&gt; 실제 Database 의 query 문을 사용</p>
+
+<h2 id="sourcelocalbookmarklocaldatasourcekt">source/local/BookmarkLocalDataSource.kt</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class BookmarkLocalDataSource private constructor(
+    private val appExecutors: AppExecutors,
+    private val bookmarkDao: BookmarkDao
+) : BookmarkDataSource {
+
+    override fun getBookmarks(callback: BookmarkDataSource.LoadBookmarksCallback) {
+        appExecutors.diskIO.execute {
+            val bookmarks = bookmarkDao.getBookmarks()
+            appExecutors.mainThread.execute {
+                if (bookmarks.isEmpty()) {
+                    callback.onDataNotAvailable()
+                } else {
+                    callback.onBookmarksLoaded(bookmarks)
+                }
+            }
+        }
+    }
+
+    override fun getBookmark(
+        bookmarkId: String,
+        callback: BookmarkDataSource.GetBookmarkCallback
+    ) {
+        appExecutors.diskIO.execute {
+            val bookmark = bookmarkDao.getBookmarkById(bookmarkId)
+            appExecutors.mainThread.execute {
+                if (bookmark != null) {
+                    callback.onBookmarkLoaded(bookmark)
+                } else {
+                    callback.onDataNotAvailable()
+                }
+            }
+        }
+    }
+
+    override fun saveBookmark(bookmark: Bookmark) {
+        appExecutors.diskIO.execute { bookmarkDao.insertBookmark(bookmark) }
+    }
+
+    override fun deleteAllBookmarks() {
+        appExecutors.diskIO.execute { bookmarkDao.deleteBookmarks() }
+    }
+
+    override fun deleteBookmark(bookmarkId: String) {
+        appExecutors.diskIO.execute { bookmarkDao.deleteBookmarkById(bookmarkId) }
+    }
+
+    companion object {
+        private var INSTANCE: BookmarkLocalDataSource? = null
+
+        @JvmStatic
+        fun getInstance(appExecutors: AppExecutors, bookmarkDao: BookmarkDao): BookmarkLocalDataSource {
+            if (INSTANCE == null) {
+                synchronized(BookmarkLocalDataSource::javaClass) {
+                    INSTANCE = BookmarkLocalDataSource(appExecutors, bookmarkDao)
+                }
+            }
+            return INSTANCE!!
+        }
+
+        @VisibleForTesting
+        fun clearInstance() {
+            INSTANCE = null
+        }
+    }
+}
+
+</code></pre></div></div>
+<p>-&gt; Room database에 실제 접근 할 bookmarkDao 인터페이스를 입력값으로 받음 <br />
+-&gt; 로컬 데이터베이스 사용 시 thread 관리 할 AppExcutors를 입력값으로 받음 <br />
+-&gt; BookmarkDataSource를 상속받음 <br />
+	-&gt; 인터페이스 내부 메소드 오버라이드 <br />
+-&gt; crud 메소드 내부에 bookmarkDao의 쿼리 인터페이스를 활용하여 실제 CRUD 구현 <br />
+	-&gt; crud 결과를 callback 함수를 통해 요청한 로직에 전달</p>
+<blockquote>
+  <p>companion object 로 싱글턴 패턴 구현과 전역적으로 사용 할 수 있도록 선언</p>
+</blockquote>
+
+<h2 id="utilappexcutorskt">util/AppExcutors.kt</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>open class AppExecutors constructor(
+    val diskIO: Executor = DiskIOThreadExecutor(),
+    val mainThread: Executor = MainThreadExecutor()
+		// 추후 networkIO도 추가됨
+		 // val networkIO: Executor = Executors.newFixedThreadPool(THREAD_COUNT)
+) {
+
+    private class MainThreadExecutor : Executor {
+        private val mainThreadHandler = Handler(Looper.getMainLooper())
+
+        override fun execute(command: Runnable?) {
+            if (command != null) {
+                mainThreadHandler.post(command)
+            }
+        }
+    }
+}
+</code></pre></div></div>
+<p>-&gt; 데이터베이스 접근 시 MainThread를 사용하면 충돌이 일어나 앱이 멈춰버림 <br />
+	-&gt; 그렇기 때문에 새로운 Thread를 생성해서 사용해야 함   <br />
+	-&gt; AppExcutors는 main, local, network thread를 각각 생성 함 <br />
+		-&gt; 필요에 따라 각각의 thread를 꺼내쓰도록 함</p>
+<ul>
+  <li>open class <br />
+-&gt; java와 다르게 Kotlin은 class와 메소드가 기본적으로 final임  <br />
+  -&gt; 클래스의 상속을 허용하려면 클래스 앞에 open 변경자를 붙여야함 <br />
+  -&gt; 마찬가지로 오버라이드하고 싶은 메소드 or 프로퍼티 앞에도 open 변경자를 붙여야함</li>
+</ul>
+
+<h2 id="utildiskiothreadexecutorkt">util/DiskIOThreadExecutor.kt</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class DiskIOThreadExecutor : Executor {
+
+    private val diskIO = Executors.newSingleThreadExecutor()
+
+    override fun execute(command: Runnable?) { diskIO.execute(command) }
+}
+</code></pre></div></div>
+<p>-&gt; local database crud 할 때 사용할 thread 를 생성함</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#android" class="page__taxonomy-item" rel="tag">Android</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#database" class="page__taxonomy-item" rel="tag">Database</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#kotlin" class="page__taxonomy-item" rel="tag">Kotlin</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#mvvm" class="page__taxonomy-item" rel="tag">MVVM</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#android-kotlin" class="page__taxonomy-item" rel="tag">android-kotlin</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2020-10-15T00:00:00+09:00">October 15, 2020</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=android+room+local+database+-+kotlin%20http%3A%2F%2Flocalhost%3A4000%2Fandroid-kotlin%2Fandroid-room-local-database-kotlin%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fandroid-kotlin%2Fandroid-room-local-database-kotlin%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fandroid-kotlin%2Fandroid-room-local-database-kotlin%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/android-kotlin/android-navigation-drawer-kotlin-mvvm/" class="pagination--pager" title="android navigation drawer - kotlin
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You may also enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/background/teaser1.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/android-kotlin/android-navigation-drawer-kotlin-mvvm/" rel="permalink">android navigation drawer - kotlin
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">참고자료 
+https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin
+Script
+Kotlin
+home 
+ㄴ HomeActivity.kt 
+note 
+ㄴ NoteActivity.kt 
+notice 
+ㄴ Not...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+          <li><a href="https://github.com/ll0301" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2020 Jeong Hun Kim. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

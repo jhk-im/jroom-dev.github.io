@@ -1,4 +1,335 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-15T00:20:48+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hun development blog</title><subtitle>Android &amp; Flutter &amp; Fullstack</subtitle><author><name>Hun</name></author><entry><title type="html">android navigation drawer - kotlin</title><link href="http://localhost:4000/android-kotlin/android-navigation-drawer-kotlin-mvvm/" rel="alternate" type="text/html" title="android navigation drawer - kotlin" /><published>2020-10-14T00:00:00+09:00</published><updated>2020-10-14T00:00:00+09:00</updated><id>http://localhost:4000/android-kotlin/android-navigation-drawer-kotlin-mvvm</id><content type="html" xml:base="http://localhost:4000/android-kotlin/android-navigation-drawer-kotlin-mvvm/">&lt;p&gt;참고자료 &lt;br /&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-15T11:35:30+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hun development blog</title><subtitle>Android &amp; Flutter &amp; Fullstack</subtitle><author><name>Hun</name></author><entry><title type="html">android room local database - kotlin</title><link href="http://localhost:4000/android-kotlin/android-room-local-database-kotlin/" rel="alternate" type="text/html" title="android room local database - kotlin" /><published>2020-10-15T00:00:00+09:00</published><updated>2020-10-15T00:00:00+09:00</updated><id>http://localhost:4000/android-kotlin/android-room-local-database-kotlin</id><content type="html" xml:base="http://localhost:4000/android-kotlin/android-room-local-database-kotlin/">&lt;p&gt;참고자료 &lt;br /&gt;
+&lt;a href=&quot;https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin&quot;&gt;https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin&lt;/a&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;bookmark&quot;&gt;Bookmark&lt;/h2&gt;
+&lt;p float=&quot;left&quot;&gt;
+  &lt;img src=&quot;/assets/images/gif/2020-10-1509-47.gif&quot; width=&quot;300&quot; /&gt;
+	&lt;img src=&quot;/assets/images/gif/2020-10-1509-48.gif&quot; width=&quot;300&quot; /&gt;
+&lt;/p&gt;
+&lt;h2 id=&quot;script&quot;&gt;Script&lt;/h2&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;Kotlin&lt;/p&gt;
+  &lt;ul&gt;
+    &lt;li&gt;data
+      &lt;ul&gt;
+        &lt;li&gt;Bookmark.kt&lt;/li&gt;
+        &lt;li&gt;source
+          &lt;ul&gt;
+            &lt;li&gt;BookmarkDataSource.kt&lt;/li&gt;
+            &lt;li&gt;BookmarkRepository.kt&lt;/li&gt;
+            &lt;li&gt;local
+              &lt;ul&gt;
+                &lt;li&gt;BookmarkDatabase.kt&lt;/li&gt;
+                &lt;li&gt;BookmarkDao.kt&lt;/li&gt;
+                &lt;li&gt;BookmarkLocalDataSource.kt&lt;/li&gt;
+              &lt;/ul&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;util
+      &lt;ul&gt;
+        &lt;li&gt;AppExecutors.kt&lt;/li&gt;
+        &lt;li&gt;DiskIOThreadExecutor.kt&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;bookmarkkt&quot;&gt;Bookmark.kt&lt;/h2&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@Entity(tableName= &quot;bookmarks&quot;)
+data class Bookmark @JvmOverloads constructor (
+    @NonNull @PrimaryKey @ColumnInfo(name = &quot;id&quot;) var id: String = UUID.randomUUID().toString(),
+    @NonNull @ColumnInfo(name= &quot;title&quot;) var title: String = &quot;&quot;,
+    @NonNull @ColumnInfo(name= &quot;url&quot;) var url: String = &quot;&quot;,
+    @NonNull @ColumnInfo(name= &quot;category&quot;) var category: String = &quot;&quot;
+) {
+
+    @ColumnInfo(name = &quot;position&quot;) var position: Int = 0
+    
+    @ColumnInfo(name = &quot;favicon&quot;) var favicon: String = &quot;&quot;
+    
+    val isEmpty
+        get() = title.isEmpty()
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;Bookmark Entity Model&lt;/li&gt;
+  &lt;li&gt;Bookmarks Table을 생성하고 id, title 등의 데이터 컬럼 작성&lt;/li&gt;
+  &lt;li&gt;Bookmark 객체 생성자&lt;/li&gt;
+  &lt;li&gt;@Entity() &lt;br /&gt;
+  -&amp;gt; room anotation &lt;br /&gt;
+  -&amp;gt; table name 을 입력하고 아래 클래스가 room entity 임을 나타냄&lt;/li&gt;
+  &lt;li&gt;data class &lt;br /&gt;
+  -&amp;gt; 데이터를 보유하면서 아무것도 하지 않는 model에 특화된 class &lt;br /&gt;
+-&amp;gt; @JvmOverloads &lt;br /&gt;
+  -&amp;gt; Default 메소드를 사용할 수 있음 &lt;br /&gt;
+      -&amp;gt; Java에는 Kotlin 처럼 파라미터 안에 Default 값을 넣을 수 없음 &lt;br /&gt;
+      -&amp;gt; @JvmOverloads를 기입하면 java에서 Default 값을 오버로딩하여 할당함 &lt;br /&gt;
+-&amp;gt; constructor &lt;br /&gt;
+  -&amp;gt; java의 생성자 역할 &lt;br /&gt;
+  -&amp;gt; java에서는 클래스 내부에 직접 생성자를 등록해야함 &lt;br /&gt;
+      -&amp;gt; Kotlin에선 constructor 를 파라미터 앞에 선언하면 간단하게 생성자 등록 가능 &lt;br /&gt;
+          -&amp;gt; 객체 생성시 반드시 필요한 값은 파라미터에 &lt;br /&gt;
+          -&amp;gt; 그렇지 않은 값은 클래스 내부에 선언 &lt;br /&gt;
+-&amp;gt;  @NonNull, @PrimaryKey, @ColumnInfo &lt;br /&gt;
+  -&amp;gt; Room의 anotation&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;sourcebookmarkdatasourcekt&quot;&gt;source/BookmarkDataSource.kt&lt;/h2&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;interface BookmarkDataSource {
+
+    interface LoadBookmarksCallback {
+        fun onBookmarksLoaded(bookmarks: List&amp;lt;Bookmark&amp;gt;)
+        fun onDataNotAvailable()
+    }
+
+    interface GetBookmarkCallback {
+        fun onBookmarkLoaded(book: Bookmark)
+        fun onDataNotAvailable()
+    }
+
+    fun getBookmarks(callback: LoadBookmarksCallback)
+
+    fun getBookmark(bookmarkId: String, callback: GetBookmarkCallback)
+
+    fun saveBookmark(bookmark: Bookmark)
+
+    fun deleteAllBookmarks()
+
+    fun deleteBookmark(bookmarkId: String)
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;-&amp;gt; interface &lt;br /&gt;
+	-&amp;gt; java와 마찬가지로 해당 interface를 상속받은 클래스는 내부에 구현된 함수를 강제 오버라이드 하게 됨 &lt;br /&gt;
+-&amp;gt; LoadBookmarksCallback | GetBookmarkCallbaclk &lt;br /&gt;
+	-&amp;gt; 데이터 베이스와 클라이언트 사이에서 단일객체 혹은 복수의 객체들을 체크하여 callback &lt;br /&gt;
+-&amp;gt; 나머지는 bookmark객체를 데이터베이스로부터 CRUD를 구현 할 메소드&lt;/p&gt;
+
+&lt;h2 id=&quot;sourcebookmarkrepositorykt&quot;&gt;source/BookmarkRepository.kt&lt;/h2&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class BookmarkRepository(
+    val bookmarksLocalDataSource: BookmarkLocalDataSource
+		// 추후 에 remote도 추가 
+		// val bookmarkRemoteDataSource : BookmarkRemoteDataSource
+) : BookmarkDataSource {
+
+		. . .
+		// override method 구현 
+
+    companion object {
+
+        private var INSTANCE: BookmarkRepository? = null
+
+        @JvmStatic
+        fun getInstance(bookmarksLocalDataSource: BookmarkLocalDataSource) =
+            INSTANCE ?: synchronized(BookmarkRepository::class.java) {
+                INSTANCE ?: BookmarkRepository(bookmarksLocalDataSource).also { INSTANCE = it }
+            }
+
+        @JvmStatic
+        fun destroyInstance() {
+            INSTANCE = null
+        }
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;-&amp;gt; DataSource(interface)를 입력받음 &lt;br /&gt;
+-&amp;gt; BookmarkDataSource 상속받아 내부 메소드 오버라이드 &lt;br /&gt;
+-&amp;gt; 추후에 RemoteLocalDataSource.kt 추가 됨 &lt;br /&gt;
+	-&amp;gt; Local | Remote &amp;lt;-&amp;gt; 데이터 요청 로직 사이에서 데이터 crud 구현하여 callback 구현&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;companion object &lt;br /&gt;
+-&amp;gt; Kotlin에는 자바의 static 메소드가 없음 &lt;br /&gt;
+  -&amp;gt; 싱글턴 패턴을 구현하기 위해서 companion object를 마지막에 넣어주어야 함  &lt;br /&gt;
+      -&amp;gt; 패키지 전역에서 접근하여 활용&lt;/li&gt;
+  &lt;li&gt;@JvmStatic &lt;br /&gt;
+-&amp;gt; java에서 해당 코드를 static으로 인지하도록 anotation 추가&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;sourcelocalbookmarkdatabasekt&quot;&gt;source/local/BookmarkDatabase.kt&lt;/h2&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@Database(entities = [Bookmark::class], version = 1)
+abstract class BookmarkDatabase : RoomDatabase() {
+
+    abstract fun bookmarkDao(): BookmarkDao
+
+    companion object {
+
+        private var INSTANCE: BookmarkDatabase? = null
+
+        private val lock = Any()
+
+        fun getInstance(context: Context): BookmarkDatabase {
+            synchronized(lock) {
+                if (INSTANCE == null) {
+                    INSTANCE = Room.databaseBuilder(
+                        context.applicationContext,
+                        BookmarkDatabase::class.java,
+                        &quot;bookmarks.db&quot;
+                    ).build()
+                }
+                return  INSTANCE!!
+            }
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;-&amp;gt; abstract class (추상 클래스) &lt;br /&gt;
+	-&amp;gt;  인터페이스와 흡사하지만 내부에 선언된 메소드를 강제하지 않음 &lt;br /&gt;
+	-&amp;gt;  이 객체를 생성할 경우 bookmarkDao interface를 선택적으로 사용함 &lt;br /&gt;
+-&amp;gt; 싱글턴 패턴 &lt;br /&gt;
+-&amp;gt; Room.databaseBuilder() 
+	-&amp;gt; Bookmark.kt 에 선언된 entity를 기반으로 실제 bookmarks.db라는 파일을 생성하여 실제 로컬 table 생성&lt;/p&gt;
+
+&lt;h2 id=&quot;sourcelocalbookmarkdaokt&quot;&gt;source/local/BookmarkDao.kt&lt;/h2&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@Dao
+interface BookmarkDao {
+
+    @Query(&quot;SELECT * FROM bookmarks&quot;)
+    fun getBookmarks(): List&amp;lt;Bookmark&amp;gt;
+
+    @Query(&quot;SELECT * FROM bookmarks WHERE id = :bookmarkId&quot;)
+    fun getBookmarkById(bookmarkId: String): Bookmark?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertBookmark(bookmark: Bookmark)
+
+    @Update
+    fun updateBookmark(bookmark: Bookmark): Int
+
+    @Query(&quot;DELETE FROM bookmarks WHERE id = :bookmarkId&quot;)
+    fun deleteBookmarkById(bookmarkId: String): Int
+
+    @Query(&quot;DELETE FROM bookmarks&quot;) fun deleteBookmarks()
+}
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;-&amp;gt; 실제 Room database에서 활용되는 Query가 메소드로 구현 &lt;br /&gt;
+-&amp;gt; BookmarkDatabase 추상 클래스에 선언되어 있음 &lt;br /&gt;
+	-&amp;gt; BookmarkDatabase 를 통해 사용 &lt;br /&gt;
+-&amp;gt; 실제 Database 의 query 문을 사용&lt;/p&gt;
+
+&lt;h2 id=&quot;sourcelocalbookmarklocaldatasourcekt&quot;&gt;source/local/BookmarkLocalDataSource.kt&lt;/h2&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class BookmarkLocalDataSource private constructor(
+    private val appExecutors: AppExecutors,
+    private val bookmarkDao: BookmarkDao
+) : BookmarkDataSource {
+
+    override fun getBookmarks(callback: BookmarkDataSource.LoadBookmarksCallback) {
+        appExecutors.diskIO.execute {
+            val bookmarks = bookmarkDao.getBookmarks()
+            appExecutors.mainThread.execute {
+                if (bookmarks.isEmpty()) {
+                    callback.onDataNotAvailable()
+                } else {
+                    callback.onBookmarksLoaded(bookmarks)
+                }
+            }
+        }
+    }
+
+    override fun getBookmark(
+        bookmarkId: String,
+        callback: BookmarkDataSource.GetBookmarkCallback
+    ) {
+        appExecutors.diskIO.execute {
+            val bookmark = bookmarkDao.getBookmarkById(bookmarkId)
+            appExecutors.mainThread.execute {
+                if (bookmark != null) {
+                    callback.onBookmarkLoaded(bookmark)
+                } else {
+                    callback.onDataNotAvailable()
+                }
+            }
+        }
+    }
+
+    override fun saveBookmark(bookmark: Bookmark) {
+        appExecutors.diskIO.execute { bookmarkDao.insertBookmark(bookmark) }
+    }
+
+    override fun deleteAllBookmarks() {
+        appExecutors.diskIO.execute { bookmarkDao.deleteBookmarks() }
+    }
+
+    override fun deleteBookmark(bookmarkId: String) {
+        appExecutors.diskIO.execute { bookmarkDao.deleteBookmarkById(bookmarkId) }
+    }
+
+    companion object {
+        private var INSTANCE: BookmarkLocalDataSource? = null
+
+        @JvmStatic
+        fun getInstance(appExecutors: AppExecutors, bookmarkDao: BookmarkDao): BookmarkLocalDataSource {
+            if (INSTANCE == null) {
+                synchronized(BookmarkLocalDataSource::javaClass) {
+                    INSTANCE = BookmarkLocalDataSource(appExecutors, bookmarkDao)
+                }
+            }
+            return INSTANCE!!
+        }
+
+        @VisibleForTesting
+        fun clearInstance() {
+            INSTANCE = null
+        }
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;-&amp;gt; Room database에 실제 접근 할 bookmarkDao 인터페이스를 입력값으로 받음 &lt;br /&gt;
+-&amp;gt; 로컬 데이터베이스 사용 시 thread 관리 할 AppExcutors를 입력값으로 받음 &lt;br /&gt;
+-&amp;gt; BookmarkDataSource를 상속받음 &lt;br /&gt;
+	-&amp;gt; 인터페이스 내부 메소드 오버라이드 &lt;br /&gt;
+-&amp;gt; crud 메소드 내부에 bookmarkDao의 쿼리 인터페이스를 활용하여 실제 CRUD 구현 &lt;br /&gt;
+	-&amp;gt; crud 결과를 callback 함수를 통해 요청한 로직에 전달&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;companion object 로 싱글턴 패턴 구현과 전역적으로 사용 할 수 있도록 선언&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;utilappexcutorskt&quot;&gt;util/AppExcutors.kt&lt;/h2&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;open class AppExecutors constructor(
+    val diskIO: Executor = DiskIOThreadExecutor(),
+    val mainThread: Executor = MainThreadExecutor()
+		// 추후 networkIO도 추가됨
+		 // val networkIO: Executor = Executors.newFixedThreadPool(THREAD_COUNT)
+) {
+
+    private class MainThreadExecutor : Executor {
+        private val mainThreadHandler = Handler(Looper.getMainLooper())
+
+        override fun execute(command: Runnable?) {
+            if (command != null) {
+                mainThreadHandler.post(command)
+            }
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;-&amp;gt; 데이터베이스 접근 시 MainThread를 사용하면 충돌이 일어나 앱이 멈춰버림 &lt;br /&gt;
+	-&amp;gt; 그렇기 때문에 새로운 Thread를 생성해서 사용해야 함   &lt;br /&gt;
+	-&amp;gt; AppExcutors는 main, local, network thread를 각각 생성 함 &lt;br /&gt;
+		-&amp;gt; 필요에 따라 각각의 thread를 꺼내쓰도록 함&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;open class &lt;br /&gt;
+-&amp;gt; java와 다르게 Kotlin은 class와 메소드가 기본적으로 final임  &lt;br /&gt;
+  -&amp;gt; 클래스의 상속을 허용하려면 클래스 앞에 open 변경자를 붙여야함 &lt;br /&gt;
+  -&amp;gt; 마찬가지로 오버라이드하고 싶은 메소드 or 프로퍼티 앞에도 open 변경자를 붙여야함&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;utildiskiothreadexecutorkt&quot;&gt;util/DiskIOThreadExecutor.kt&lt;/h2&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class DiskIOThreadExecutor : Executor {
+
+    private val diskIO = Executors.newSingleThreadExecutor()
+
+    override fun execute(command: Runnable?) { diskIO.execute(command) }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;-&amp;gt; local database crud 할 때 사용할 thread 를 생성함&lt;/p&gt;</content><author><name>Hun</name></author><category term="android-kotlin" /><category term="Kotlin" /><category term="Android" /><category term="Database" /><category term="MVVM" /><summary type="html">참고자료 https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin</summary></entry><entry><title type="html">android navigation drawer - kotlin</title><link href="http://localhost:4000/android-kotlin/android-navigation-drawer-kotlin-mvvm/" rel="alternate" type="text/html" title="android navigation drawer - kotlin" /><published>2020-10-14T00:00:00+09:00</published><updated>2020-10-14T00:00:00+09:00</updated><id>http://localhost:4000/android-kotlin/android-navigation-drawer-kotlin-mvvm</id><content type="html" xml:base="http://localhost:4000/android-kotlin/android-navigation-drawer-kotlin-mvvm/">&lt;p&gt;참고자료 &lt;br /&gt;
 &lt;a href=&quot;https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin&quot;&gt;https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&quot;script&quot;&gt;Script&lt;/h2&gt;
 &lt;h4 id=&quot;kotlin&quot;&gt;Kotlin&lt;/h4&gt;
@@ -107,4 +438,4 @@ menu &lt;br /&gt;
     &lt;p&gt;Android Emulator Test &lt;br /&gt;
   &lt;img src=&quot;/assets/images/gif/2020-10-1500-07.gif&quot; alt=&quot;&quot; width=&quot;80%&quot; height=&quot;80%&quot; class=&quot;center&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Hun</name></author><category term="android-kotlin" /><category term="Kotlin" /><category term="AndroidUI" /><category term="Android" /><summary type="html">참고자료 https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin Script Kotlin home ㄴ HomeActivity.kt note ㄴ NoteActivity.kt notice ㄴ NoticeActivity.kt util ㄴ AppcompatActivityExt.kt Resource (xml) layout ㄴ home_act.xml ㄴ note_act.xml ㄴ notice_act.xml ㄴ nav_header.xml menu ㄴ drawer_actions.xml</summary></entry></feed>
+&lt;/ul&gt;</content><author><name>Hun</name></author><category term="android-kotlin" /><category term="Kotlin" /><category term="AndroidUI" /><category term="Android" /><category term="MVVM" /><summary type="html">참고자료 https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin Script Kotlin home ㄴ HomeActivity.kt note ㄴ NoteActivity.kt notice ㄴ NoticeActivity.kt util ㄴ AppcompatActivityExt.kt Resource (xml) layout ㄴ home_act.xml ㄴ note_act.xml ㄴ notice_act.xml ㄴ nav_header.xml menu ㄴ drawer_actions.xml</summary></entry></feed>
