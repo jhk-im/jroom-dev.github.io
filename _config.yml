@@ -18,7 +18,7 @@ minimal_mistakes_skin    : "air" # "air", "aqua", "contrast", "dark", "dirt", "n
 locale                   : "en-US"
 title                    : "Hun development blog"
 title_separator          : "$#124;"
-subtitle                 : "Steadlily growing developer" 
+subtitle                 : "Android & Flutter & Fullstack" 
 name                     : "Jeong Hun Kim"
 description              : "Android & Flutter & Fullstack"
 url                      : "https://ll0301.github.io/"
@@ -95,7 +95,7 @@ analytics:
 author:
   name             : "Hun"
   avatar           : "/assets/images/profile/hun.png"
-  bio              : "Android & Flutter & FullStack"
+  bio              : "Steadlily growing developer"
   location         : "Republic of Korea"
   links:
     - label: "GitHub"
