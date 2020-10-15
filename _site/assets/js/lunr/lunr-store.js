@@ -16,4 +16,10 @@ var store = [{
         "tags": ["Kotlin","Android","Database","MVVM"],
         "url": "http://localhost:4000/android-kotlin/android-room-local-database-kotlin/",
         "teaser": "http://localhost:4000/assets/images/background/teaser1.jpg"
+      },{
+        "title": "How to format date time in room database - kotlin",
+        "excerpt":"참고자료 https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin https://medium.com/androiddevelopers/room-time-2b4cf9672b98 https://developer.android.com/training/data-storage/room/referencing-data?hl=ko home/HomeFilterType.kt enum class HomeFilterType { RECENT_BOOKMARKS, CATEGORY_BOOKMARKS, } 위처럼 Bookmark를 보여줄 home activity에 Recent와 Category로 나누어 데이터를 뿌려줄 계획임 Recent의 경우 최근에 북마크를 생성 or 클릭 한 순서대로 뿌려줄 계획이라 Date Type의 컬럼이 필요함 data/source/Bookmark.kt @Entity(tableName = \"bookmarks\") data class Bookmark @JvmOverloads constructor( @NonNull @ColumnInfo(name =...","categories": ["android-kotlin"],
+        "tags": ["Kotlin","MVVM","Android","Database"],
+        "url": "http://localhost:4000/android-kotlin/how-to-format-date-time-in-room-database-kotlin/",
+        "teaser": "http://localhost:4000/assets/images/background/teaser1.jpg"
       }]

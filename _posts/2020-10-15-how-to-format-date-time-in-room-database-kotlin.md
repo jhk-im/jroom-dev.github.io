@@ -1,0 +1,125 @@
+---
+title: How to format date time in room database - kotlin
+category: android-kotlin
+tags:
+- Kotlin
+- MVVM
+- Android
+- Database
+---
+
+참고자료   
+[https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin](https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin)   
+[https://medium.com/androiddevelopers/room-time-2b4cf9672b98](https://medium.com/androiddevelopers/room-time-2b4cf9672b98)   
+[https://developer.android.com/training/data-storage/room/referencing-data?hl=ko](https://developer.android.com/training/data-storage/room/referencing-data?hl=ko)   
+
+---
+---
+## home/HomeFilterType.kt
+```
+enum class HomeFilterType {
+
+    RECENT_BOOKMARKS,
+
+    CATEGORY_BOOKMARKS,
+}
+```
+* 위처럼 Bookmark를 보여줄 home activity에 Recent와 Category로 나누어 데이터를 뿌려줄 계획임   
+	* Recent의 경우 최근에 북마크를 생성 or 클릭 한 순서대로 뿌려줄 계획이라 Date Type의 컬럼이 필요함   
+
+## data/source/Bookmark.kt
+```
+@Entity(tableName = "bookmarks")
+data class Bookmark @JvmOverloads constructor(
+    @NonNull @ColumnInfo(name = "title") var title: String = "",
+    @NonNull @ColumnInfo(name = "url") var url: String = "",
+    @NonNull @ColumnInfo(name = "category") var category: String = "",
+    @ColumnInfo(name = "selectedAt") var selectedAt: Date?,
+    @PrimaryKey @ColumnInfo(name = "id") var id: String = UUID.randomUUID().toString()
+) {
+	. . .
+}
+```
+* @ColumnInfo(name = "selectedAt") var selectedAt: Date?,
+	* 위처럼 등록하여 사용하면 될것이라 생각했지만 동작하지 않았음   
+* [https://developer.android.com/training/data-storage/room/referencing-data?hl=ko](https://developer.android.com/training/data-storage/room/referencing-data?hl=ko)   
+	* 공식 홈페이지에 Date to Long and Long to Date 로 convert하는 방법이 나와있음   
+
+## data/source/local/Converts.kt
+```
+class Converters {
+    @TypeConverter
+    fun fromTimestamp(value: Long?): Date? {
+        return value?.let { Date(it) }
+    }
+
+    @TypeConverter
+    fun dateToTimestamp(date: Date?): Long? {
+        return date?.time
+    }
+}
+```
+* Long to Date / Date to Long 각각의 메소드를 작성   
+	* 메소드 위에 @TypeConvert annotaion을 기입하면 Room에 convert 메소드가 등록 됨   
+	
+## 	data/source/local/BookmarkDatabase.kt
+```
+@Database(entities = [Bookmark::class], version = 1)
+@TypeConverters(Converters::class)
+abstract class BookmarkDatabase : RoomDatabase() {
+	
+	abstract fun bookmarkDao(): BookmarkDao
+	. . .
+}
+```
+* 로컬 데이터베이스 파일을 만드는 BookmarkDatabase 추상 클래스 위에 위에서 생성한 Convert를 입력 (@TypeConverters)   
+	* 이제 Data Model (Bookmark.kt) 과 Query (BookmarkDao) 에서 Date 타입을 기입할 수 있음   
+
+## home/HomeActivity.kt
+```
+private fun testLocalDatabase() {
+    bookmarkRepository = Injection.provideBookmarksRepository(this)
+
+    val localDate = Date()
+    val newBookmark = Bookmark("Google", "https://www.google.com", "Portal", localDate)
+    bookmarkRepository.saveBookmark(newBookmark)
+
+    val localDate2 = Date()
+    val newBookmark2 = Bookmark("Naver", "https://www.naver.com", "Portal", localDate2)
+    bookmarkRepository.saveBookmark(newBookmark2)
+
+    val localDate3 = Date()
+    val newBookmark3 = Bookmark("Daum", "https://www.daum.com", "Portal", localDate3)
+    bookmarkRepository.saveBookmark(newBookmark3)
+
+    val sd = SimpleDateFormat("HH:mm:ss.SSS")
+
+    bookmarkRepository.getBookmarks(object : BookmarkDataSource.LoadBookmarksCallback {
+        override fun onBookmarksLoaded(bookmarks: List<Bookmark>) {
+            for (bookmark in bookmarks) {
+                Log.e(
+                    "bookmark",
+                    bookmark.id + "\n" +
+                            bookmark.title + "\n" +
+                            bookmark.url + "\n" +
+                            sd.format(bookmark.selectedAt)
+                )
+            }
+        }
+
+        override fun onDataNotAvailable() {
+            //
+        }
+    })
+
+    bookmarkRepository.deleteAllBookmarks()
+}
+```
+* bookmark 객체를 임의로 3개씩 생성하고 Date() 메소드를 통해 Date를 입력   
+	* bookmarkRepository 의 saveBookmark() 메소드로 로컬 데이터베이스에 저장   
+* bookmarkRepository 의 getBookmarks() 메소드로 저장된 데이터를 가져옴   
+	* SimpleDataFormat 을 활용하여 출력되는 정보를 커스텀    
+		* id , title , url, selectAt(클릭 or 생성 시간) 순으로 로그 찍기   
+## 결과
+
+ <img src="/assets/images/screenshot/2020-10-1520-48-37.png" width="500" />

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-15T14:45:50+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hun development blog</title><subtitle>Android &amp; Flutter &amp; Fullstack</subtitle><author><name>Hun</name></author><entry><title type="html">android local &amp;amp; remote data source - kotlin</title><link href="http://localhost:4000/android-kotlin/android-local-remote-data-source-kotlin/" rel="alternate" type="text/html" title="android local &amp;amp; remote data source - kotlin" /><published>2020-10-15T00:00:00+09:00</published><updated>2020-10-15T00:00:00+09:00</updated><id>http://localhost:4000/android-kotlin/android-local-remote-data-source-kotlin</id><content type="html" xml:base="http://localhost:4000/android-kotlin/android-local-remote-data-source-kotlin/">&lt;p&gt;참고자료 &lt;br /&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-15T20:52:28+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hun development blog</title><subtitle>Android &amp; Flutter &amp; Fullstack</subtitle><author><name>Hun</name></author><entry><title type="html">android local &amp;amp; remote data source - kotlin</title><link href="http://localhost:4000/android-kotlin/android-local-remote-data-source-kotlin/" rel="alternate" type="text/html" title="android local &amp;amp; remote data source - kotlin" /><published>2020-10-15T00:00:00+09:00</published><updated>2020-10-15T00:00:00+09:00</updated><id>http://localhost:4000/android-kotlin/android-local-remote-data-source-kotlin</id><content type="html" xml:base="http://localhost:4000/android-kotlin/android-local-remote-data-source-kotlin/">&lt;p&gt;참고자료 &lt;br /&gt;
 &lt;a href=&quot;https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin&quot;&gt;https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin&lt;/a&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
@@ -586,7 +586,151 @@ interface BookmarkDao {
     override fun execute(command: Runnable?) { diskIO.execute(command) }
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;-&amp;gt; local database crud 할 때 사용할 thread 를 생성함&lt;/p&gt;</content><author><name>Hun</name></author><category term="android-kotlin" /><category term="Kotlin" /><category term="Android" /><category term="Database" /><category term="MVVM" /><summary type="html">참고자료 https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin</summary></entry><entry><title type="html">android navigation drawer - kotlin</title><link href="http://localhost:4000/android-kotlin/android-navigation-drawer-kotlin-mvvm/" rel="alternate" type="text/html" title="android navigation drawer - kotlin" /><published>2020-10-14T00:00:00+09:00</published><updated>2020-10-14T00:00:00+09:00</updated><id>http://localhost:4000/android-kotlin/android-navigation-drawer-kotlin-mvvm</id><content type="html" xml:base="http://localhost:4000/android-kotlin/android-navigation-drawer-kotlin-mvvm/">&lt;p&gt;참고자료 &lt;br /&gt;
+&lt;p&gt;-&amp;gt; local database crud 할 때 사용할 thread 를 생성함&lt;/p&gt;</content><author><name>Hun</name></author><category term="android-kotlin" /><category term="Kotlin" /><category term="Android" /><category term="Database" /><category term="MVVM" /><summary type="html">참고자료 https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin</summary></entry><entry><title type="html">How to format date time in room database - kotlin</title><link href="http://localhost:4000/android-kotlin/how-to-format-date-time-in-room-database-kotlin/" rel="alternate" type="text/html" title="How to format date time in room database - kotlin" /><published>2020-10-15T00:00:00+09:00</published><updated>2020-10-15T00:00:00+09:00</updated><id>http://localhost:4000/android-kotlin/how-to-format-date-time-in-room-database-kotlin</id><content type="html" xml:base="http://localhost:4000/android-kotlin/how-to-format-date-time-in-room-database-kotlin/">&lt;p&gt;참고자료 &lt;br /&gt;
+&lt;a href=&quot;https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin&quot;&gt;https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin&lt;/a&gt; &lt;br /&gt;
+&lt;a href=&quot;https://medium.com/androiddevelopers/room-time-2b4cf9672b98&quot;&gt;https://medium.com/androiddevelopers/room-time-2b4cf9672b98&lt;/a&gt; &lt;br /&gt;
+&lt;a href=&quot;https://developer.android.com/training/data-storage/room/referencing-data?hl=ko&quot;&gt;https://developer.android.com/training/data-storage/room/referencing-data?hl=ko&lt;/a&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;hr /&gt;
+&lt;h2 id=&quot;homehomefiltertypekt&quot;&gt;home/HomeFilterType.kt&lt;/h2&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;enum class HomeFilterType {
+
+    RECENT_BOOKMARKS,
+
+    CATEGORY_BOOKMARKS,
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;위처럼 Bookmark를 보여줄 home activity에 Recent와 Category로 나누어 데이터를 뿌려줄 계획임
+    &lt;ul&gt;
+      &lt;li&gt;Recent의 경우 최근에 북마크를 생성 or 클릭 한 순서대로 뿌려줄 계획이라 Date Type의 컬럼이 필요함&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;datasourcebookmarkkt&quot;&gt;data/source/Bookmark.kt&lt;/h2&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@Entity(tableName = &quot;bookmarks&quot;)
+data class Bookmark @JvmOverloads constructor(
+    @NonNull @ColumnInfo(name = &quot;title&quot;) var title: String = &quot;&quot;,
+    @NonNull @ColumnInfo(name = &quot;url&quot;) var url: String = &quot;&quot;,
+    @NonNull @ColumnInfo(name = &quot;category&quot;) var category: String = &quot;&quot;,
+    @ColumnInfo(name = &quot;selectedAt&quot;) var selectedAt: Date?,
+    @PrimaryKey @ColumnInfo(name = &quot;id&quot;) var id: String = UUID.randomUUID().toString()
+) {
+	. . .
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;@ColumnInfo(name = “selectedAt”) var selectedAt: Date?,
+    &lt;ul&gt;
+      &lt;li&gt;위처럼 등록하여 사용하면 될것이라 생각했지만 동작하지 않았음&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://developer.android.com/training/data-storage/room/referencing-data?hl=ko&quot;&gt;https://developer.android.com/training/data-storage/room/referencing-data?hl=ko&lt;/a&gt;
+    &lt;ul&gt;
+      &lt;li&gt;공식 홈페이지에 Date to Long and Long to Date 로 convert하는 방법이 나와있음&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;datasourcelocalconvertskt&quot;&gt;data/source/local/Converts.kt&lt;/h2&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class Converters {
+    @TypeConverter
+    fun fromTimestamp(value: Long?): Date? {
+        return value?.let { Date(it) }
+    }
+
+    @TypeConverter
+    fun dateToTimestamp(date: Date?): Long? {
+        return date?.time
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;Long to Date / Date to Long 각각의 메소드를 작성
+    &lt;ul&gt;
+      &lt;li&gt;메소드 위에 @TypeConvert annotaion을 기입하면 Room에 convert 메소드가 등록 됨&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;datasourcelocalbookmarkdatabasekt&quot;&gt;data/source/local/BookmarkDatabase.kt&lt;/h2&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@Database(entities = [Bookmark::class], version = 1)
+@TypeConverters(Converters::class)
+abstract class BookmarkDatabase : RoomDatabase() {
+	
+	abstract fun bookmarkDao(): BookmarkDao
+	. . .
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;로컬 데이터베이스 파일을 만드는 BookmarkDatabase 추상 클래스 위에 위에서 생성한 Convert를 입력 (@TypeConverters)
+    &lt;ul&gt;
+      &lt;li&gt;이제 Data Model (Bookmark.kt) 과 Query (BookmarkDao) 에서 Date 타입을 기입할 수 있음&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;homehomeactivitykt&quot;&gt;home/HomeActivity.kt&lt;/h2&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;private fun testLocalDatabase() {
+    bookmarkRepository = Injection.provideBookmarksRepository(this)
+
+    val localDate = Date()
+    val newBookmark = Bookmark(&quot;Google&quot;, &quot;https://www.google.com&quot;, &quot;Portal&quot;, localDate)
+    bookmarkRepository.saveBookmark(newBookmark)
+
+    val localDate2 = Date()
+    val newBookmark2 = Bookmark(&quot;Naver&quot;, &quot;https://www.naver.com&quot;, &quot;Portal&quot;, localDate2)
+    bookmarkRepository.saveBookmark(newBookmark2)
+
+    val localDate3 = Date()
+    val newBookmark3 = Bookmark(&quot;Daum&quot;, &quot;https://www.daum.com&quot;, &quot;Portal&quot;, localDate3)
+    bookmarkRepository.saveBookmark(newBookmark3)
+
+    val sd = SimpleDateFormat(&quot;HH:mm:ss.SSS&quot;)
+
+    bookmarkRepository.getBookmarks(object : BookmarkDataSource.LoadBookmarksCallback {
+        override fun onBookmarksLoaded(bookmarks: List&amp;lt;Bookmark&amp;gt;) {
+            for (bookmark in bookmarks) {
+                Log.e(
+                    &quot;bookmark&quot;,
+                    bookmark.id + &quot;\n&quot; +
+                            bookmark.title + &quot;\n&quot; +
+                            bookmark.url + &quot;\n&quot; +
+                            sd.format(bookmark.selectedAt)
+                )
+            }
+        }
+
+        override fun onDataNotAvailable() {
+            //
+        }
+    })
+
+    bookmarkRepository.deleteAllBookmarks()
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;bookmark 객체를 임의로 3개씩 생성하고 Date() 메소드를 통해 Date를 입력
+    &lt;ul&gt;
+      &lt;li&gt;bookmarkRepository 의 saveBookmark() 메소드로 로컬 데이터베이스에 저장&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;bookmarkRepository 의 getBookmarks() 메소드로 저장된 데이터를 가져옴
+    &lt;ul&gt;
+      &lt;li&gt;SimpleDataFormat 을 활용하여 출력되는 정보를 커스텀
+        &lt;ul&gt;
+          &lt;li&gt;id , title , url, selectAt(클릭 or 생성 시간) 순으로 로그 찍기
+            &lt;h2 id=&quot;결과&quot;&gt;결과&lt;/h2&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/screenshot/2020-10-1520-48-37.png&quot; width=&quot;500&quot; /&gt;&lt;/p&gt;</content><author><name>Hun</name></author><category term="android-kotlin" /><category term="Kotlin" /><category term="MVVM" /><category term="Android" /><category term="Database" /><summary type="html">참고자료 https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin https://medium.com/androiddevelopers/room-time-2b4cf9672b98 https://developer.android.com/training/data-storage/room/referencing-data?hl=ko</summary></entry><entry><title type="html">android navigation drawer - kotlin</title><link href="http://localhost:4000/android-kotlin/android-navigation-drawer-kotlin-mvvm/" rel="alternate" type="text/html" title="android navigation drawer - kotlin" /><published>2020-10-14T00:00:00+09:00</published><updated>2020-10-14T00:00:00+09:00</updated><id>http://localhost:4000/android-kotlin/android-navigation-drawer-kotlin-mvvm</id><content type="html" xml:base="http://localhost:4000/android-kotlin/android-navigation-drawer-kotlin-mvvm/">&lt;p&gt;참고자료 &lt;br /&gt;
 &lt;a href=&quot;https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin&quot;&gt;https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&quot;script&quot;&gt;Script&lt;/h2&gt;
 &lt;h4 id=&quot;kotlin&quot;&gt;Kotlin&lt;/h4&gt;

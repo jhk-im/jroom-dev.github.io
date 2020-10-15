@@ -1,0 +1,62 @@
+I"*
+<p>참고자료 <br />
+<a href="https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin">https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin</a> <br />
+<a href="https://medium.com/androiddevelopers/room-time-2b4cf9672b98">https://medium.com/androiddevelopers/room-time-2b4cf9672b98</a> <br />
+<a href="https://developer.android.com/training/data-storage/room/referencing-data?hl=ko">https://developer.android.com/training/data-storage/room/referencing-data?hl=ko</a></p>
+
+<hr />
+<hr />
+<h2 id="homehomefiltertypekt">home/HomeFilterType.kt</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>enum class HomeFilterType {
+
+    RECENT_BOOKMARKS,
+
+    CATEGORY_BOOKMARKS,
+}
+</code></pre></div></div>
+<ul>
+  <li>위처럼 Bookmark를 보여줄 home activity에 Recent와 Category로 나누어 데이터를 뿌려줄 계획임
+    <ul>
+      <li>Recent의 경우 최근에 북마크를 생성 or 클릭 한 순서대로 뿌려줄 계획이라 Date Type의 컬럼이 필요함</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="datasourcebookmarkkt">data/source/Bookmark.kt</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@Entity(tableName = "bookmarks")
+data class Bookmark @JvmOverloads constructor(
+    @NonNull @ColumnInfo(name = "title") var title: String = "",
+    @NonNull @ColumnInfo(name = "url") var url: String = "",
+    @NonNull @ColumnInfo(name = "category") var category: String = "",
+    @ColumnInfo(name = "selectedAt") var selectedAt: Date?,
+    @PrimaryKey @ColumnInfo(name = "id") var id: String = UUID.randomUUID().toString()
+) {
+	. . .
+}
+</code></pre></div></div>
+<ul>
+  <li>@ColumnInfo(name = “selectedAt”) var selectedAt: Date?,
+    <ul>
+      <li>위처럼 등록하여 사용하면 될것이라 생각했지만 동작하지 않았음</li>
+    </ul>
+  </li>
+  <li><a href="https://developer.android.com/training/data-storage/room/referencing-data?hl=ko">https://developer.android.com/training/data-storage/room/referencing-data?hl=ko</a>
+    <ul>
+      <li>
+        <table>
+          <tbody>
+            <tr>
+              <td>공식 홈페이지에 Date -&gt; Long</td>
+              <td>Long -&gt; Date 로 convert하는 방법이 나와있음</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="datasourcelocalconvertskt">data/source/local/Converts.kt</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+</code></pre></div></div>
+:ET
