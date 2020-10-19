@@ -1,0 +1,60 @@
+I"�<p>참고자료 <br />
+<a href="https://www.tutorialspoint.com/data_structures_algorithms/index.htm">https://www.tutorialspoint.com/data_structures_algorithms/index.htm</a></p>
+
+<h2 id="kotlin-collections-overview">Kotlin Collections Overview</h2>
+<p>코틀린 표준 라이브러리는 항목 그룹으로 구성된 컬렉션 관리를 위한 포괄적 도구 세트를 제공하며, 이러한 툴은 해결된 문제에 대한 중요성을 공유하고 공통적으로 운영된다.</p>
+
+<p>컬렉션은 일반적으로 동일한 유형의 여러 객체를 포함한다.</p>
+
+<p>컬렉션안의 객체(object)를 요소(elements) 또는 items라고 한다.</p>
+
+<p>예를들어, 한 학과의 모든 학생들은 그들의 평균 나이를 계산하는 데 사용될 수 있는 컬렉션을 형성한다. 다음 컬렉션 유형은 kotlin과 관련있다.</p>
+
+<ul>
+  <li>List</li>
+</ul>
+
+<p>List는 지수(indices) - integer numbers(위치를 반영하는 정수)에 의해 요소(elements)에 접근할 수 있는 순서형 집합이다. elements는 list에서 두개 이상 존재할 수 있다. List의 예는 문장이다. 문장은 단어들의 그룹이며, 순서가 중요하며, 반복될 수 있다.</p>
+
+<ul>
+  <li>Set</li>
+</ul>
+
+<p>Set은 unique elements의 컬렉션이다. 집합(set)의 수학적(mathematical) 추상화(abstraction)를  반영(reflects) 한다.  반복없는 객체의 그룹.  일반적으로, 집합 요소(set elements)의 순서는 의미(significance)가 없다. 예를들면, 알파벳은 글자의 집합이다.  (set of letters)</p>
+
+<ul>
+  <li>Map(or dictionary)</li>
+</ul>
+
+<p>Map은 key-value 쌍(pairs)의 집합이다. key는 unique이며 각각은(each of them) 정확히 하나의 값에 maps한다. 값은 중복(duplicates)될수 있다. 객체 사이에서 논리적 연결을(logical connections) 저장하는데(storing) 유용하다(useful). 예를들면 종업원(employee)의 ID와 position처럼.</p>
+
+<p>코틀린은 컬랙션에 저장된 객체의 정확한 타입의 독립적 컬렉션을  다루도록 해준다.즉,  정수 혹은 사용자 정의(user-defined)같은 방법으로 문자열 목록에 추가한다. kotlin standard library는 모든 타입의 컬렉션을 만들고 채우고 관리하기 위한 일반적인 인터페이스, 클래스, 함수를 제공한다.</p>
+
+<p>컬렉션 인터페이스와 관련된(related) 함수는 kotlin.collections.package.에 위치한다.</p>
+
+<h2 id="collection-types">Collection types</h2>
+
+<p>코틀린 표준 라이브러리는 set, list, map과 같은 기본 컬렉션 타입의 구현(implementations)을 제공한다.</p>
+
+<ul>
+  <li>
+    <p>컬렉션 elements에 accessing하기 위한 작업을(operations) 제공하는 read-only interface.</p>
+  </li>
+  <li>
+    <p>해당(corresponding) read-only interface를 쓰기 작업으로 확장(extends)하는 변경가능한(mutable) interface.</p>
+  </li>
+</ul>
+
+<p>참고로 (Note that) mutable collection을 변경할 때 var이 요구되지 않는다. 쓰기 작업에서 동일한 mutable collection 객체를 수정(modify)하여 참조가 변경되지 않도록 해야한다.  val 컬렉션을 재할당(reassign) 하면 컴파일 에러가 발생한다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>val numbers = mutableListOf("one", "two", "three", "four")   
+numbers.add("five")   // this is OK    
+//numbers = mutableListOf("six", "seven")      // compilation error   
+</code></pre></div></div>
+<p>read-only 컬렉션 type은 공변한다. 이것의 의미는 만약 직사각형 클래스가 shape에서 상속(inherits)되면,  <code class="language-plaintext highlighter-rouge">List&lt;Shape&gt;</code>가 요구된 모든 곳에서 <code class="language-plaintext highlighter-rouge">List&lt;Rectangle&gt;</code> 을 사용할 수 있다는 것이다. 즉, 컬렉션 타입은  elements 타입과 같은 ‘subtyping(하위형식)’ 관계를 갖는다. map은 값 유형은 공변하지만 key 유형은 공변하지 않는다.</p>
+
+<p>다시 말하면(In turn), mutable collections 는 공변하지 않는다. 그렇지 않으면(otherwise), runtime failures로 이어질 수 있다. 만약  <code class="language-plaintext highlighter-rouge">MutableList&lt;Rectangle&gt;</code>가 <code class="language-plaintext highlighter-rouge">MutableList&lt;Shape&gt;</code> 의 subtype 이라면 다른 Shape 상속(예를들어 Circle)을 삽입하면 사각형 type의 argument를 (이와같이) 위반할 수 있다.</p>
+
+<h4 id="diagram-of-the-kotlin-collection-interface">Diagram of the Kotlin collection interface</h4>
+<p><img src="/assets/images/screenshot/collections-diagram.png" alt="collection diagram" /></p>
+:ET
