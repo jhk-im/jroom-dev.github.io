@@ -1,0 +1,28 @@
+I"*<p>참고자료 <br />
+<a href="https://opentutorials.org/course/743/6553">https://opentutorials.org/course/743/6553</a>
+<a href="https://wikidocs.net/214">https://wikidocs.net/214</a>
+<a href="https://kotlinlang.org/docs/reference/classes.html">https://kotlinlang.org/docs/reference/classes.html</a></p>
+
+<h2 id="class">Class</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// java
+class Car {}
+
+// kotlin 
+class Car {}
+</code></pre></div></div>
+<p>가장 간단한 형태의 클래스이다. 자바와 코틀린의 문법상의 차이는 없다. (현재까지는..) <br />
+클래스의 선언만 있고 내용은 없는 껍데기 클래스이다. 하지만 이러한 껍데기라도 중요한 기능을 가지고 있다.  객체를 생성하는 기능이다. <br />
+다음과 같이 만들 수 있다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//java
+Car car = new Car();
+
+//kotlin
+val car = Car() 
+</code></pre></div></div>
+<p>코틀린에선 new 키워드가 없다는 차이점이 있다.  또한 val 이란 키워드를 사용하고 이는 생성된 객체가 불변(immutable type)임을 명시하는 것인데 여기선 아직 중요하지 않으니 넘어가도록 하자.</p>
+
+<p>! 여기서 <code class="language-plaintext highlighter-rouge">Car()</code>는 class <code class="language-plaintext highlighter-rouge">car</code>는 instance 이다. 객체(object)와 instance는 흡사하지만 차이점이 있다. 위에서 생성된 <code class="language-plaintext highlighter-rouge">car</code>라는 객체는 <code class="language-plaintext highlighter-rouge">Car()</code> 클래스의 instance이다. instance는 특정 객체가 어떤 클래스의 객체인지를 설명할 때 사용된다.  <br />
+-&gt; <code class="language-plaintext highlighter-rouge">car</code>는 객체이다. <br />
+-&gt; <code class="language-plaintext highlighter-rouge">car</code>는 <code class="language-plaintext highlighter-rouge">Car()</code>의 instance이다.</p>
+:ET

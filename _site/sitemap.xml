@@ -17,8 +17,16 @@
 <lastmod>2020-10-15T00:00:00+09:00</lastmod>
 </url>
 <url>
-<loc>http://localhost:4000/programming-theory/data-structure-1-kotlins-data-structure/</loc>
+<loc>http://localhost:4000/programming-theory/data-structure-1-kotlin-data-structure/</loc>
 <lastmod>2020-10-19T00:00:00+09:00</lastmod>
+</url>
+<url>
+<loc>http://localhost:4000/data-structure-2-kotlin-constructing-collections/</loc>
+<lastmod>2020-10-20T00:00:00+09:00</lastmod>
+</url>
+<url>
+<loc>http://localhost:4000/javaandkotlin/java-kotlin-oop/</loc>
+<lastmod>2020-10-20T00:00:00+09:00</lastmod>
 </url>
 <url>
 <loc>http://localhost:4000/about/</loc>
@@ -37,5 +45,8 @@
 </url>
 <url>
 <loc>http://localhost:4000/tags/</loc>
+</url>
+<url>
+<loc>http://localhost:4000/page2/</loc>
 </url>
 </urlset>

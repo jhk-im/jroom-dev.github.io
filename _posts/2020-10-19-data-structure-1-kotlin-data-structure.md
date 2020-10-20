@@ -8,7 +8,7 @@ tags:
 ---
 
 참고자료   
-[https://www.tutorialspoint.com/data_structures_algorithms/index.htm](https://www.tutorialspoint.com/data_structures_algorithms/index.htm)
+[https://www.tutorialspoint.com/data_structures_algorithms/index.html](https://www.tutorialspoint.com/data_structures_algorithms/index.html)
 
 코틀린 학습 + 영어 공부를 위해 kotlin 가이드 문서를 번역함   
 

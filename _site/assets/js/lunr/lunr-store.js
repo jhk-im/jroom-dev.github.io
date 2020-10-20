@@ -24,8 +24,20 @@ var store = [{
         "teaser": "http://localhost:4000/assets/images/background/teaser1.jpg"
       },{
         "title": "Data structure 1 - Kotlin Collections Overview",
-        "excerpt":"참고자료 https://www.tutorialspoint.com/data_structures_algorithms/index.htm 코틀린 학습 + 영어 공부를 위해 kotlin 가이드 문서를 번역함 Kotlin Collections Overview 코틀린 표준 라이브러리는 항목 그룹으로 구성된 컬렉션 관리를 위한 포괄적 도구 세트를 제공하며, 이러한 툴은 해결된 문제에 대한 중요성을 공유하고 공통적으로 운영된다. 컬렉션은 일반적으로 동일한 유형의 여러 객체를 포함한다. 컬렉션안의 객체(object)를 요소(elements) 또는 items라고 한다....","categories": ["programming-theory"],
+        "excerpt":"참고자료 https://www.tutorialspoint.com/data_structures_algorithms/index.html 코틀린 학습 + 영어 공부를 위해 kotlin 가이드 문서를 번역함 Kotlin Collections Overview 코틀린 표준 라이브러리는 항목 그룹으로 구성된 컬렉션 관리를 위한 포괄적 도구 세트를 제공하며, 이러한 툴은 해결된 문제에 대한 중요성을 공유하고 공통적으로 운영된다. 컬렉션은 일반적으로 동일한 유형의 여러 객체를 포함한다. 컬렉션안의 객체(object)를 요소(elements) 또는 items라고 한다....","categories": ["programming-theory"],
         "tags": ["Kotlin","DataStructure","KotlinDocs"],
-        "url": "http://localhost:4000/programming-theory/data-structure-1-kotlins-data-structure/",
+        "url": "http://localhost:4000/programming-theory/data-structure-1-kotlin-data-structure/",
+        "teaser": "http://localhost:4000/assets/images/background/teaser1.jpg"
+      },{
+        "title": "Data structure 2 - Kotlin Constructing Collections",
+        "excerpt":"참고자료   https://kotlinlang.org/docs/reference/constructing-collections.html   코틀린 학습 + 영어 공부를 위해 kotlin 가이드 문서를 번역함   Kotlin Constructing Collections  ","categories": [],
+        "tags": [],
+        "url": "http://localhost:4000/data-structure-2-kotlin-constructing-collections/",
+        "teaser": "http://localhost:4000/assets/images/background/teaser1.jpg"
+      },{
+        "title": "Java와 Kotlin을 비교하면서 알아보는 객체지향 프로그래밍(OOP) 1 - Class",
+        "excerpt":"참고자료 https://opentutorials.org/course/743/6553 https://wikidocs.net/214 https://kotlinlang.org/docs/reference/classes.html https://gmlwjd9405.github.io/2018/09/17/class-object-instance.html Class // java class Car {} // kotlin class Car {} 가장 간단한 형태의 클래스이다. 자바와 코틀린의 문법상의 차이는 없다. (현재까지는..) 클래스의 선언만 있고 내용은 없는 껍데기 클래스이다. 하지만 이러한 껍데기라도 중요한 기능을 가지고 있다. 객체를 생성하는 기능이다. 다음과 같이 만들 수 있다. //java Car...","categories": ["JavaAndKotlin"],
+        "tags": ["OOP"],
+        "url": "http://localhost:4000/javaandkotlin/java-kotlin-oop/",
         "teaser": "http://localhost:4000/assets/images/background/teaser1.jpg"
       }]
