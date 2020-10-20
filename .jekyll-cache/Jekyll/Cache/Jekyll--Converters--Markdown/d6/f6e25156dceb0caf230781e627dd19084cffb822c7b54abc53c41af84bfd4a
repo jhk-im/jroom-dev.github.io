@@ -1,0 +1,178 @@
+I"Z!<p>참고자료 <br />
+<a href="https://www.journaldev.com/9481/android-animation-example">https://www.journaldev.com/9481/android-animation-example</a>
+<a href="https://developer.android.com/training/animation/reveal-or-hide-view?hl=ko">https://developer.android.com/training/animation/reveal-or-hide-view?hl=ko</a>
+<a href="https://woovictory.github.io/2020/06/12/Android-Font/">https://woovictory.github.io/2020/06/12/Android-Font/</a></p>
+
+<p float="center">
+  <img src="/assets/images/gif/2020-10-2021-28.gif" width="300" />
+</p>
+
+<ul>
+  <li>TextView를 추가하고 애니메이션 fade in 애니메이션 적용</li>
+  <li>custom font 다운받아 적용</li>
+  <li>Coroutine 맛보기</li>
+  <li>Activity 전환 애니메이션 적용</li>
+  <li>Ststus bar 크기를 구하고 로고의 위치 조정</li>
+</ul>
+
+<h2 id="resanimfadeinxml--fadeoutxml">res/anim/fadein.xml , fadeout.xml</h2>
+<p>fadein.xml</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fillAfter="true"&gt;
+
+    &lt;alpha
+        android:duration="1000"
+        android:fromAlpha="0.0"
+        android:interpolator="@android:anim/accelerate_interpolator"
+        android:toAlpha="1.0" /&gt;
+&lt;/set&gt;
+</code></pre></div></div>
+<p>fadeout.xml</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fillAfter="true" &gt;
+
+    &lt;alpha
+        android:duration="1000"
+        android:fromAlpha="1.0"
+        android:interpolator="@android:anim/accelerate_interpolator"
+        android:toAlpha="0.0" /&gt;
+&lt;/set&gt;
+</code></pre></div></div>
+<ul>
+  <li>res 디렉토리에 anim 디렉토리를 추가하고 fadein.xml, fadeout.xml을 추가한다.</li>
+  <li>alpah는 물체의 불투명도(opacity)를 참조한다. 낮으면 투명해지고 높을수록 불투명하다.
+    <ul>
+      <li>애니메이션에서 fade란 알파값을 0에서 1로 변경하는것에 불과하다.</li>
+      <li>fadeout은 정 반대로 지정하면 된다.</li>
+    </ul>
+  </li>
+  <li>interpolator(보간)는 시작지점과 종료시점까지의 변화 과정을 어떤 식으로 표현할 것인가를 애니메이션으로 정의한 것이다.
+    <ul>
+      <li>accelerate_interpolator는 시작지점 속도가 0으로 시작하여 점점 증가한다.</li>
+      <li>accelerate_decelerate_interpolaotr (0부터 시작하여 증가했다가 마지막에 0으로 감소)  .. 등등</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="introactivitykt-에-animation-구현">IntroActivity.kt 에 animation 구현</h2>
+<p>onCreate() 내부</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...
+        var statusBarHeight:Int = 0;
+        var resId = resources.getIdentifier("status_bar_height", "dimen", "android")
+        if (resId &gt; 0) {
+            statusBarHeight = resources.getDimensionPixelSize(resId)
+        }
+        Log.e("barHeight", statusBarHeight.toString()) // result : 63 -&gt; 디바이스에 따라 다를것으로 예상됨
+				
+				 val introLogo = findViewById&lt;TextView&gt;(R.id.intro_logo)
+        introLogo.setPadding(0,statusBarHeight,0,0)
+...
+</code></pre></div></div>
+<ul>
+  <li>IntroActivity는 statusBar(상태바)를 띄우지 않고 MainActivity에서는 띄우게 된다.
+    <ul>
+      <li>이로인해 정 중앙에 위치하는 TextView 로고가 activity 이동시 아래로 내려가는 것 처럼 보이게 된다.</li>
+      <li>위 코드는 앱 시작시 상태바의 높이를 구하고 TextView에 Padding Top 에 입력하여 다음 화면과 동일하게 로고의 위치를 고정하기 위함이다.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        val logoAnimation = AnimationUtils.loadAnimation(applicationContext,R.anim.fadein);
+        introLogo.startAnimation(logoAnimation)
+        
+       CoroutineScope(Dispatchers.Main).launch {
+           withContext(CoroutineScope(Dispatchers.Default).coroutineContext) {
+               delay(4000L)
+               val intent = Intent(this@IntroActivity, MainActivity::class.java)
+               startActivity(intent)
+               overridePendingTransition(R.anim.fadein, R.anim.fadeout)
+               finish()
+           }
+       }
+</code></pre></div></div>
+<ul>
+  <li>AnimationUtils.loadAnimation() 메소드로 위에서 생성한 fadein.xml 을 호출한다.</li>
+  <li>startAnimation() 메소드에 입력하여 애니메이션을 시작한다.</li>
+  <li>delay를 위해 코루틴이 활용되었다.   4초뒤 MainActivity로 넘어가는 로직이다.</li>
+  <li>startActivity() 뒤에 overridePendingTransition() 메소드를 활용하면 액티비티 전환 애니메이션을 컨트롤할 수 있다.
+    <ul>
+      <li>위 로직은 fadeout을 구현하였다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="resfontapp_fontxml">res/font/app_font.xml</h2>
+<p>인터넷 상에서 무료로 사용할 수 있는 폰트를 다운받아 res/font 폴더에 저장하고 다음 xml을 생성한다.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;font-family xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="UnusedAttribute,ResourceCycle"&gt;
+
+    &lt;font
+        android:font="@font/gong_gothic_light"
+        android:fontStyle="normal"
+        android:fontWeight="300"
+        app:font="@font/gong_gothic_light"
+        app:fontStyle="normal"
+        app:fontWeight="300" /&gt;
+
+    &lt;!--bold--&gt;
+    &lt;font
+        android:font="@font/gong_gothic_bold"
+        android:fontStyle="normal"
+        android:fontWeight="500"
+        app:font="@font/gong_gothic_bold"
+        app:fontStyle="normal"
+        app:fontWeight="500" /&gt;
+
+    &lt;!--medium--&gt;
+    &lt;font
+        android:font="@font/gong_gothic_medium"
+        android:fontStyle="normal"
+        android:fontWeight="1000"
+        app:font="@font/gong_gothic_medium"
+        app:fontStyle="normal"
+        app:fontWeight="1000" /&gt;
+
+&lt;/font-family&gt;
+</code></pre></div></div>
+<ul>
+  <li>모든 폰트에 적용하는 방법과 styles.xml에 등록하여 필요한 곳에서만 사용하는 방법이 있다.</li>
+</ul>
+
+<p>res/values/styles.xml에 다음과 같이 등록해서 사용한다.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    &lt;style name="Text.RankStyle" parent="android:TextAppearance"&gt;
+        &lt;item name="android:textStyle"&gt;normal&lt;/item&gt;
+        &lt;item name="android:textSize"&gt;14dp&lt;/item&gt;
+        &lt;item name="android:textColor"&gt;@color/light_grey&lt;/item&gt;
+        &lt;item name="android:fontFamily"&gt;@font/app_font&lt;/item&gt;
+        &lt;item name="android:includeFontPadding"&gt;false&lt;/item&gt;
+    &lt;/style&gt;
+
+    &lt;style name="Text.TitleStyle" parent="android:TextAppearance"&gt;
+        &lt;item name="android:textStyle"&gt;bold&lt;/item&gt;
+        &lt;item name="android:textSize"&gt;16dp&lt;/item&gt;
+        &lt;item name="android:textColor"&gt;@color/black&lt;/item&gt;
+        &lt;item name="android:fontFamily"&gt;@font/app_font&lt;/item&gt;
+        &lt;item name="android:includeFontPadding"&gt;false&lt;/item&gt;
+    &lt;/style&gt;
+</code></pre></div></div>
+
+<p>TextView 의 <code class="language-plaintext highlighter-rouge">JroomUI</code> 로고 텍스트에 폰트를 적용해보자.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    &lt;TextView
+        android:id="@+id/intro_logo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/app_name"
+        android:textSize="30sp"
+        style="@style/Text.TitleStyle"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/&gt;
+</code></pre></div></div>
+:ET

@@ -29,7 +29,13 @@ var store = [{
         "url": "http://localhost:4000/programming-theory/data-structure-1-kotlin-data-structure/",
         "teaser": "http://localhost:4000/assets/images/background/teaser1.jpg"
       },{
-        "title": "Android Intro Activity - animations using lottie",
+        "title": "Android Intro Activity 2 - font family / text animation",
+        "excerpt":"참고자료 https://www.journaldev.com/9481/android-animation-example https://developer.android.com/training/animation/reveal-or-hide-view?hl=ko https://woovictory.github.io/2020/06/12/Android-Font/ TextView를 추가하고 애니메이션 fade in 애니메이션 적용 custom font 다운받아 적용 Coroutine 맛보기 Activity 전환 애니메이션 적용 Ststus bar 크기를 구하고 로고의 위치 조정 res/anim/fadein.xml , fadeout.xml fadein.xml &lt;?xml version=\"1.0\" encoding=\"utf-8\"?&gt; &lt;set xmlns:android=\"http://schemas.android.com/apk/res/android\" android:fillAfter=\"true\"&gt; &lt;alpha android:duration=\"1000\" android:fromAlpha=\"0.0\" android:interpolator=\"@android:anim/accelerate_interpolator\" android:toAlpha=\"1.0\" /&gt; &lt;/set&gt; fadeout.xml &lt;?xml version=\"1.0\" encoding=\"utf-8\"?&gt; &lt;set...","categories": ["android-ui"],
+        "tags": ["AndroidUI","AnroidAnimation","Kotlin","Android"],
+        "url": "http://localhost:4000/android-ui/android-intro-activity-2-font-family-text-animation/",
+        "teaser": "http://localhost:4000/assets/images/background/teaser1.jpg"
+      },{
+        "title": "Android Intro Activity 1 - animations using lottie",
         "excerpt":"참고자료 https://www.youtube.com/watch?v=n7XTizCon0A https://developer.android.com/kotlin/coroutines?hl=ko https://lottiefiles.com/ build.gradle implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9' implementation 'com.airbnb.android:lottie:3.4.0' res/values/styles.xml &lt;style name=\"AppTheme\" parent=\"Theme.AppCompat.Light.NoActionBar\"&gt; ... &lt;/style&gt; &lt;style name=\"FullScreen\" parent=\"AppTheme\"&gt; &lt;item name=\"android:windowNoTitle\"&gt;true&lt;/item&gt; &lt;item name=\"android:windowActionBar\"&gt;false&lt;/item&gt; &lt;item name=\"android:windowFullscreen\"&gt;true&lt;/item&gt; &lt;item name=\"android:windowContentOverlay\"&gt;@null&lt;/item&gt; &lt;/style&gt; AppTheme은 안드로이드 프로젝트 생성 시 디폴트로 생성되는 테마이다. 이것을 NoActionBar로 지정한다. (추후 ActionBar는 필요시 toolbar를 추가해서 구현) 로 새로운 stype의 테마를 지정할 수...","categories": ["android-ui"],
         "tags": ["Kotlin","AndroidUI","AnroidAnimation"],
         "url": "http://localhost:4000/android-ui/android-intro-activity-animations-using-lottie/",

@@ -1,0 +1,61 @@
+I"�
+<p>참고자료 <br />
+<a href="https://www.journaldev.com/9481/android-animation-example">https://www.journaldev.com/9481/android-animation-example</a>
+<a href="https://developer.android.com/training/animation/reveal-or-hide-view?hl=ko">https://developer.android.com/training/animation/reveal-or-hide-view?hl=ko</a>
+<a href="https://woovictory.github.io/2020/06/12/Android-Font/">https://woovictory.github.io/2020/06/12/Android-Font/</a></p>
+
+<p float="center">
+  <img src="/assets/images/gif/2020-10-2021-28.gif" width="300" />
+</p>
+
+<ul>
+  <li>TextView를 추가하고 애니메이션 fade in 애니메이션 적용</li>
+  <li>custom font 다운받아 적용</li>
+  <li>Coroutine 맛보기</li>
+  <li>Activity 전환 애니메이션 적용</li>
+  <li>Ststus bar 크기를 구하고 로고의 위치 조정</li>
+</ul>
+
+<h2 id="resanimfadeinxml--fadeoutxml">res/anim/fadein.xml , fadeout.xml</h2>
+<p>fadein.xml</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fillAfter="true"&gt;
+
+    &lt;alpha
+        android:duration="1000"
+        android:fromAlpha="0.0"
+        android:interpolator="@android:anim/accelerate_interpolator"
+        android:toAlpha="1.0" /&gt;
+&lt;/set&gt;
+</code></pre></div></div>
+<p>fadeout.xml</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fillAfter="true" &gt;
+
+    &lt;alpha
+        android:duration="1000"
+        android:fromAlpha="1.0"
+        android:interpolator="@android:anim/accelerate_interpolator"
+        android:toAlpha="0.0" /&gt;
+&lt;/set&gt;
+</code></pre></div></div>
+<ul>
+  <li>res 디렉토리에 anim 디렉토리를 추가하고 fadein.xml, fadeout.xml을 추가한다.</li>
+  <li>alpah는 물체의 불투명도(opacity)를 참조한다. 낮으면 투명해지고 높을수록 불투명하다.
+    <ul>
+      <li>애니메이션에서 fade란 알파값을 0에서 1로 변경하는것에 불과하다.</li>
+      <li>fadeout은 정 반대로 지정하면 된다.</li>
+    </ul>
+  </li>
+  <li>interpolator(보간)는 시작지점과 종료시점까지의 변화 과정을 어떤 식으로 표현할 것인가를 애니메이션으로 정의한 것이다.
+    <ul>
+      <li>accelerate_interpolator는 시작지점 속도가 0으로 시작하여 점점 증가한다.</li>
+      <li>accelerate_decelerate_interpolaotr (0부터 시작하여 증가했다가 마지막에 0으로 감소)  .. 등등</li>
+    </ul>
+  </li>
+</ul>
+
+<p>##</p>
+:ET

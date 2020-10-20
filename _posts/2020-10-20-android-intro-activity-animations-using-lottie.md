@@ -1,5 +1,5 @@
 ---
-title: Android Intro Activity - animations using lottie
+title: Android Intro Activity 1 - animations using lottie
 category: android-ui
 tags:
 - Kotlin
