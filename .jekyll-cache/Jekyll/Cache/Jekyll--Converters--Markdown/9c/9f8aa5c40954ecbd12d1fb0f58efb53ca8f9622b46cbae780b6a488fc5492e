@@ -1,0 +1,104 @@
+I"?<p>참고자료
+<a href="https://www.youtube.com/watch?v=n7XTizCon0A">https://www.youtube.com/watch?v=n7XTizCon0A</a>
+<a href="https://developer.android.com/kotlin/coroutines?hl=ko">https://developer.android.com/kotlin/coroutines?hl=ko</a>
+<a href="https://lottiefiles.com/">https://lottiefiles.com/</a></p>
+
+<p float="center">
+  <img src="/assets/images/gif/2020-10-2017-03.gif" width="300" />
+</p>
+<h2 id="buildgradle">build.gradle</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9'
+implementation 'com.airbnb.android:lottie:3.4.0'
+</code></pre></div></div>
+
+<h2 id="resvaluesstylesxml">res/values/styles.xml</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar"&gt;
+...
+&lt;/style&gt;
+
+&lt;style name="FullScreen" parent="AppTheme"&gt;
+  &lt;item name="android:windowNoTitle"&gt;true&lt;/item&gt;
+  &lt;item name="android:windowActionBar"&gt;false&lt;/item&gt;
+  &lt;item name="android:windowFullscreen"&gt;true&lt;/item&gt;
+  &lt;item name="android:windowContentOverlay"&gt;@null&lt;/item&gt;
+&lt;/style&gt;
+</code></pre></div></div>
+<ul>
+  <li>AppTheme은 안드로이드 프로젝트 생성 시 디폴트로 생성되는 테마이다.
+    <ul>
+      <li>이것을 NoActionBar로 지정한다. (추후 ActionBar는 필요시 toolbar를 추가해서 구현)</li>
+      <li>로 새로운 stype의 테마를 지정할 수 있다.</li>
+      <li>기본 테마를 상속받는다.  (기본 컬러가 지정되어있으며 그것을 따르게 됨)</li>
+      <li>내부 item 설정</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="adroidmanifestxml">AdroidManifest.xml</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...
+&lt;activity android:name=".IntroActivity"
+  android:theme="@style/FullScreen"&gt;
+    &lt;intent-filter&gt;
+      &lt;action android:name="android.intent.action.MAIN" /&gt;
+      &lt;category android:name="android.intent.category.LAUNCHER" /&gt;
+    &lt;/intent-filter&gt;
+&lt;/activity&gt;
+...
+</code></pre></div></div>
+<ul>
+  <li>맨 처음으로 IntroActivity가 실행되도록 action.Main와 caegory.LAUNCHER를 변경</li>
+</ul>
+
+<h2 id="lottiefilescom">lottiefiles.com</h2>
+<ul>
+  <li>애니메이션을 선택하고 lottie.json 으로 다운로드</li>
+  <li>res 위치에 raw 디렉토리 생성하고 다운로드받은 json 파일 이동시킨다.</li>
+  <li>bulid.gradle에 추가한 lottie 라이브러리를 활용하여 xml에서 다운로드받은 json 파일을 랜더링 한다.</li>
+</ul>
+
+<h2 id="activity_introxml">activity_intro.xml</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".IntroActivity"&gt;
+
+    &lt;com.airbnb.lottie.LottieAnimationView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:lottie_rawRes="@raw/intro"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"/&gt;
+&lt;/LinearLayout&gt;
+</code></pre></div></div>
+
+<h2 id="introactivitykt">IntroActivity.kt</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class IntroActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_intro)
+        
+        // Coroutine
+       CoroutineScope(Dispatchers.Main).launch {
+           withContext(CoroutineScope(Dispatchers.Default).coroutineContext) {
+               delay(5000L)
+               val intent = Intent(this@IntroActivity, MainActivity::class.java)
+               startActivity(intent)
+               finish()
+           }
+       }
+    }
+}
+
+</code></pre></div></div>
+<ul>
+  <li>5초뒤 MainActivity로 이동하고 IntroActivity 는 finish()</li>
+</ul>
+
+<p>##</p>
+:ET

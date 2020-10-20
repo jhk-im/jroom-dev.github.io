@@ -9,8 +9,8 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Data structure 2 - Kotlin Constructing Collections $#124; Hun development blog</title>
-<meta name="description" content="참고자료  https://kotlinlang.org/docs/reference/constructing-collections.html">
+<!-- begin _includes/seo.html --><title>Android Intro Activity - animations using lottie $#124; Hun development blog</title>
+<meta name="description" content="참고자료 https://www.youtube.com/watch?v=n7XTizCon0A https://developer.android.com/kotlin/coroutines?hl=ko https://lottiefiles.com/">
 
 
   <meta name="author" content="Hun">
@@ -22,11 +22,11 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Hun development blog">
-<meta property="og:title" content="Data structure 2 - Kotlin Constructing Collections">
-<meta property="og:url" content="http://localhost:4000/data-structure-2-kotlin-constructing-collections/">
+<meta property="og:title" content="Android Intro Activity - animations using lottie">
+<meta property="og:url" content="http://localhost:4000/android-ui/android-intro-activity-animations-using-lottie/">
 
 
-  <meta property="og:description" content="참고자료  https://kotlinlang.org/docs/reference/constructing-collections.html">
+  <meta property="og:description" content="참고자료 https://www.youtube.com/watch?v=n7XTizCon0A https://developer.android.com/kotlin/coroutines?hl=ko https://lottiefiles.com/">
 
 
 
@@ -45,7 +45,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/data-structure-2-kotlin-constructing-collections/">
+<link rel="canonical" href="http://localhost:4000/android-ui/android-intro-activity-animations-using-lottie/">
 
 
 
@@ -173,7 +173,17 @@
         <span class="sep">/</span>
       
       
-        <li class="current">Data structure 2 - Kotlin Constructing Collections</li>
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#android-ui" itemprop="item"><span itemprop="name">Android ui</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Android Intro Activity - animations using lottie</li>
       
     
   </ol>
@@ -292,15 +302,15 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Data structure 2 - Kotlin Constructing Collections">
-    <meta itemprop="description" content="참고자료 https://kotlinlang.org/docs/reference/constructing-collections.html">
+    <meta itemprop="headline" content="Android Intro Activity - animations using lottie">
+    <meta itemprop="description" content="참고자료https://www.youtube.com/watch?v=n7XTizCon0Ahttps://developer.android.com/kotlin/coroutines?hl=kohttps://lottiefiles.com/">
     <meta itemprop="datePublished" content="2020-10-20T00:00:00+09:00">
     
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">Data structure 2 - Kotlin Constructing Collections
+          <h1 id="page-title" class="page__title" itemprop="headline">Android Intro Activity - animations using lottie
 </h1>
           
 
@@ -328,12 +338,109 @@
 
       <section class="page__content" itemprop="text">
         
-        <p>참고자료 <br />
-<a href="https://kotlinlang.org/docs/reference/constructing-collections.html">https://kotlinlang.org/docs/reference/constructing-collections.html</a></p>
+        <p>참고자료
+<a href="https://www.youtube.com/watch?v=n7XTizCon0A">https://www.youtube.com/watch?v=n7XTizCon0A</a>
+<a href="https://developer.android.com/kotlin/coroutines?hl=ko">https://developer.android.com/kotlin/coroutines?hl=ko</a>
+<a href="https://lottiefiles.com/">https://lottiefiles.com/</a></p>
 
-<p>코틀린 학습 + 영어 공부를 위해 kotlin 가이드 문서를 번역함</p>
+<p float="center">
+  <img src="/assets/images/gif/2020-10-2017-03.gif" width="300" />
+</p>
+<h2 id="buildgradle">build.gradle</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9'
+implementation 'com.airbnb.android:lottie:3.4.0'
+</code></pre></div></div>
 
-<h2 id="kotlin-constructing-collections">Kotlin Constructing Collections</h2>
+<h2 id="resvaluesstylesxml">res/values/styles.xml</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar"&gt;
+...
+&lt;/style&gt;
+
+&lt;style name="FullScreen" parent="AppTheme"&gt;
+  &lt;item name="android:windowNoTitle"&gt;true&lt;/item&gt;
+  &lt;item name="android:windowActionBar"&gt;false&lt;/item&gt;
+  &lt;item name="android:windowFullscreen"&gt;true&lt;/item&gt;
+  &lt;item name="android:windowContentOverlay"&gt;@null&lt;/item&gt;
+&lt;/style&gt;
+</code></pre></div></div>
+<ul>
+  <li>AppTheme은 안드로이드 프로젝트 생성 시 디폴트로 생성되는 테마이다.
+    <ul>
+      <li>이것을 NoActionBar로 지정한다. (추후 ActionBar는 필요시 toolbar를 추가해서 구현)</li>
+      <li>로 새로운 stype의 테마를 지정할 수 있다.</li>
+      <li>기본 테마를 상속받는다.  (기본 컬러가 지정되어있으며 그것을 따르게 됨)</li>
+      <li>내부 item 설정</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="adroidmanifestxml">AdroidManifest.xml</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...
+&lt;activity android:name=".IntroActivity"
+  android:theme="@style/FullScreen"&gt;
+    &lt;intent-filter&gt;
+      &lt;action android:name="android.intent.action.MAIN" /&gt;
+      &lt;category android:name="android.intent.category.LAUNCHER" /&gt;
+    &lt;/intent-filter&gt;
+&lt;/activity&gt;
+...
+</code></pre></div></div>
+<ul>
+  <li>맨 처음으로 IntroActivity가 실행되도록 action.Main와 caegory.LAUNCHER를 변경</li>
+</ul>
+
+<h2 id="lottiefilescom">lottiefiles.com</h2>
+<ul>
+  <li>애니메이션을 선택하고 lottie.json 으로 다운로드</li>
+  <li>res 위치에 raw 디렉토리 생성하고 다운로드받은 json 파일 이동시킨다.</li>
+  <li>bulid.gradle에 추가한 lottie 라이브러리를 활용하여 xml에서 다운로드받은 json 파일을 랜더링 한다.</li>
+</ul>
+
+<h2 id="activity_introxml">activity_intro.xml</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".IntroActivity"&gt;
+
+    &lt;com.airbnb.lottie.LottieAnimationView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:lottie_rawRes="@raw/intro"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"/&gt;
+&lt;/LinearLayout&gt;
+</code></pre></div></div>
+
+<h2 id="introactivitykt">IntroActivity.kt</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class IntroActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_intro)
+        
+        // Coroutine
+       CoroutineScope(Dispatchers.Main).launch {
+           withContext(CoroutineScope(Dispatchers.Default).coroutineContext) {
+               delay(5000L)
+               val intent = Intent(this@IntroActivity, MainActivity::class.java)
+               startActivity(intent)
+               finish()
+           }
+       }
+    }
+}
+
+</code></pre></div></div>
+<ul>
+  <li>5초뒤 MainActivity로 이동하고 IntroActivity 는 finish()</li>
+</ul>
+
+<p>##</p>
 
         
       </section>
@@ -341,6 +448,52 @@
       <footer class="page__meta">
         
         
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#androidui" class="page__taxonomy-item" rel="tag">AndroidUI</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#anroidanimation" class="page__taxonomy-item" rel="tag">AnroidAnimation</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#kotlin" class="page__taxonomy-item" rel="tag">Kotlin</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#android-ui" class="page__taxonomy-item" rel="tag">android-ui</a>
+    
+    </span>
+  </p>
 
 
         
@@ -354,22 +507,22 @@
     <h4 class="page__share-title">Share on</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=Data+structure+2+-+Kotlin+Constructing+Collections%20http%3A%2F%2Flocalhost%3A4000%2Fdata-structure-2-kotlin-constructing-collections%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=Android+Intro+Activity+-+animations+using+lottie%20http%3A%2F%2Flocalhost%3A4000%2Fandroid-ui%2Fandroid-intro-activity-animations-using-lottie%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fdata-structure-2-kotlin-constructing-collections%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fandroid-ui%2Fandroid-intro-activity-animations-using-lottie%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fdata-structure-2-kotlin-constructing-collections%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fandroid-ui%2Fandroid-intro-activity-animations-using-lottie%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
       
   <nav class="pagination">
     
-      <a href="/android-ui/android-intro-activity-animations-using-lottie/" class="pagination--pager" title="Android Intro Activity - animations using lottie
+      <a href="/programming-theory/data-structure-1-kotlin-data-structure/" class="pagination--pager" title="Data structure 1 - Kotlin Collections Overview
 ">Previous</a>
     
     
-      <a href="/javaandkotlin/java-kotlin-oop/" class="pagination--pager" title="Java와 Kotlin을 비교하면서 알아보는 객체지향 프로그래밍(OOP) 1 - Class
+      <a href="/data-structure-2-kotlin-constructing-collections/" class="pagination--pager" title="Data structure 2 - Kotlin Constructing Collections
 ">Next</a>
     
   </nav>
@@ -445,7 +598,7 @@ https://gmlwjd9405.github.io/2018...</p>
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/android-ui/android-intro-activity-animations-using-lottie/" rel="permalink">Android Intro Activity - animations using lottie
+        <a href="/data-structure-2-kotlin-constructing-collections/" rel="permalink">Data structure 2 - Kotlin Constructing Collections
 </a>
       
     </h2>
@@ -470,10 +623,8 @@ https://gmlwjd9405.github.io/2018...</p>
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">참고자료
-https://www.youtube.com/watch?v=n7XTizCon0A
-https://developer.android.com/kotlin/coroutines?hl=ko
-https://lottiefiles.com/
+    <p class="archive__item-excerpt" itemprop="description">참고자료 
+https://kotlinlang.org/docs/reference/constructing-collections.html
 </p>
   </article>
 </div>

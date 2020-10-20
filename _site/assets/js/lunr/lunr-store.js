@@ -29,6 +29,12 @@ var store = [{
         "url": "http://localhost:4000/programming-theory/data-structure-1-kotlin-data-structure/",
         "teaser": "http://localhost:4000/assets/images/background/teaser1.jpg"
       },{
+        "title": "Android Intro Activity - animations using lottie",
+        "excerpt":"참고자료 https://www.youtube.com/watch?v=n7XTizCon0A https://developer.android.com/kotlin/coroutines?hl=ko https://lottiefiles.com/ build.gradle implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9' implementation 'com.airbnb.android:lottie:3.4.0' res/values/styles.xml &lt;style name=\"AppTheme\" parent=\"Theme.AppCompat.Light.NoActionBar\"&gt; ... &lt;/style&gt; &lt;style name=\"FullScreen\" parent=\"AppTheme\"&gt; &lt;item name=\"android:windowNoTitle\"&gt;true&lt;/item&gt; &lt;item name=\"android:windowActionBar\"&gt;false&lt;/item&gt; &lt;item name=\"android:windowFullscreen\"&gt;true&lt;/item&gt; &lt;item name=\"android:windowContentOverlay\"&gt;@null&lt;/item&gt; &lt;/style&gt; AppTheme은 안드로이드 프로젝트 생성 시 디폴트로 생성되는 테마이다. 이것을 NoActionBar로 지정한다. (추후 ActionBar는 필요시 toolbar를 추가해서 구현) 로 새로운 stype의 테마를 지정할 수...","categories": ["android-ui"],
+        "tags": ["Kotlin","AndroidUI","AnroidAnimation"],
+        "url": "http://localhost:4000/android-ui/android-intro-activity-animations-using-lottie/",
+        "teaser": "http://localhost:4000/assets/images/background/teaser1.jpg"
+      },{
         "title": "Data structure 2 - Kotlin Constructing Collections",
         "excerpt":"참고자료   https://kotlinlang.org/docs/reference/constructing-collections.html   코틀린 학습 + 영어 공부를 위해 kotlin 가이드 문서를 번역함   Kotlin Constructing Collections  ","categories": [],
         "tags": [],
