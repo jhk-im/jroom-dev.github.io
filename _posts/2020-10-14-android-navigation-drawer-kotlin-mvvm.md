@@ -1,6 +1,6 @@
 ---
 title: android navigation drawer - kotlin
-category: android-kotlin
+category: android-ui
 tags:
 - Kotlin
 - AndroidUI

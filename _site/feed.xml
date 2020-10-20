@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-20T22:56:17+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hun development blog</title><subtitle>Android &amp; Flutter &amp; Fullstack</subtitle><author><name>Hun</name></author><entry><title type="html">Android Intro Activity 2 - font family / text animation</title><link href="http://localhost:4000/android-ui/android-intro-activity-2-font-family-text-animation/" rel="alternate" type="text/html" title="Android Intro Activity 2 - font family / text animation" /><published>2020-10-20T00:00:00+09:00</published><updated>2020-10-20T00:00:00+09:00</updated><id>http://localhost:4000/android-ui/android-intro-activity-2-font-family-text-animation</id><content type="html" xml:base="http://localhost:4000/android-ui/android-intro-activity-2-font-family-text-animation/">&lt;p&gt;참고자료 &lt;br /&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-21T01:37:31+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hun development blog</title><subtitle>Android &amp; Flutter &amp; Fullstack</subtitle><author><name>Hun</name></author><entry><title type="html">Android Intro Activity 2 - font family / text animation</title><link href="http://localhost:4000/android-ui/android-intro-activity-2-font-family-text-animation/" rel="alternate" type="text/html" title="Android Intro Activity 2 - font family / text animation" /><published>2020-10-20T00:00:00+09:00</published><updated>2020-10-20T00:00:00+09:00</updated><id>http://localhost:4000/android-ui/android-intro-activity-2-font-family-text-animation</id><content type="html" xml:base="http://localhost:4000/android-ui/android-intro-activity-2-font-family-text-animation/">&lt;p&gt;참고자료 &lt;br /&gt;
 &lt;a href=&quot;https://www.journaldev.com/9481/android-animation-example&quot;&gt;https://www.journaldev.com/9481/android-animation-example&lt;/a&gt;
 &lt;a href=&quot;https://developer.android.com/training/animation/reveal-or-hide-view?hl=ko&quot;&gt;https://developer.android.com/training/animation/reveal-or-hide-view?hl=ko&lt;/a&gt;
 &lt;a href=&quot;https://woovictory.github.io/2020/06/12/Android-Font/&quot;&gt;https://woovictory.github.io/2020/06/12/Android-Font/&lt;/a&gt;&lt;/p&gt;
@@ -418,7 +418,135 @@ println(tucsan.name)
 result : 
 Avante
 Tucsan
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Hun</name></author><category term="JavaAndKotlin" /><category term="OOP" /><summary type="html">참고자료 https://opentutorials.org/course/743/6553 https://wikidocs.net/214 https://kotlinlang.org/docs/reference/classes.html https://gmlwjd9405.github.io/2018/09/17/class-object-instance.html</summary></entry><entry><title type="html">Data structure 1 - Kotlin Collections Overview</title><link href="http://localhost:4000/programming-theory/data-structure-1-kotlin-data-structure/" rel="alternate" type="text/html" title="Data structure 1 - Kotlin Collections Overview" /><published>2020-10-19T00:00:00+09:00</published><updated>2020-10-19T00:00:00+09:00</updated><id>http://localhost:4000/programming-theory/data-structure-1-kotlin-data-structure</id><content type="html" xml:base="http://localhost:4000/programming-theory/data-structure-1-kotlin-data-structure/">&lt;p&gt;참고자료 &lt;br /&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Hun</name></author><category term="JavaAndKotlin" /><category term="OOP" /><summary type="html">참고자료 https://opentutorials.org/course/743/6553 https://wikidocs.net/214 https://kotlinlang.org/docs/reference/classes.html https://gmlwjd9405.github.io/2018/09/17/class-object-instance.html</summary></entry><entry><title type="html">Use espresso to android UI test</title><link href="http://localhost:4000/android-test/use-espresso-to-android-ui-test/" rel="alternate" type="text/html" title="Use espresso to android UI test" /><published>2020-10-20T00:00:00+09:00</published><updated>2020-10-20T00:00:00+09:00</updated><id>http://localhost:4000/android-test/use-espresso-to-android-ui-test</id><content type="html" xml:base="http://localhost:4000/android-test/use-espresso-to-android-ui-test/">&lt;p&gt;참고자료 &lt;br /&gt;
+&lt;a href=&quot;https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin&quot;&gt;https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin&lt;/a&gt;
+&lt;a href=&quot;https://two22.tistory.com/12&quot;&gt;https://two22.tistory.com/12&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;이전에 만들었던 introActivity를 test해보자.&lt;/p&gt;
+&lt;h2 id=&quot;buildgradlemoduleapp&quot;&gt;build.gradle(Module:app)&lt;/h2&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    // local unit test
+    testImplementation 'androidx.test.ext:junit:1.1.2'
+
+    // android unit test
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+
+    // android ui test
+    androidTestImplementation 'androidx.test:runner:1.3.0'
+    androidTestImplementation 'androidx.test:rules:1.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.3.0'
+    androidTestImplementation 'androidx.test.espresso.idling:idling-concurrent:3.3.0'
+    implementation 'androidx.test.espresso:espresso-idling-resource:3.3.0'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;각각에 대한 설명
+    &lt;h2 id=&quot;androidtestintroscreentestkt&quot;&gt;(androidTest)IntroScreenTest.kt&lt;/h2&gt;
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@RunWith(AndroidJUnit4::class)
+@LargeTest
+class IntroScreenTest {
+...
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;@RunWith(AndroidJUnit4::class)&lt;/li&gt;
+  &lt;li&gt;@LargeTest&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    @get: Rule
+    var activityScenarioRule: ActivityScenarioRule&amp;lt;IntroActivity&amp;gt; =
+        ActivityScenarioRule(
+            Intent(
+                ApplicationProvider.getApplicationContext(),
+                IntroActivity::class.java
+            ).apply { putExtra(&quot;MyArgs&quot;, &quot;Nothing&quot;) })
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;@get:Rule&lt;/li&gt;
+  &lt;li&gt;ActivityScenarioRule&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    @Before
+    fun setUp() {
+        activityScenarioRule.scenario.onActivity { it -&amp;gt;
+            (it.findViewById&amp;lt;ConstraintLayout&amp;gt;(R.id.intro_cl))?.let {
+            
+            }
+            (it.findViewById&amp;lt;TextView&amp;gt;(R.id.intro_logo))?.let {
+                // it.text = &quot;ChangeUI&quot;
+            }
+        }
+    }
+    
+    @After
+    fun close() {
+        activityScenarioRule.scenario.close()
+    }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;@Before&lt;/li&gt;
+  &lt;li&gt;@After&lt;/li&gt;
+  &lt;li&gt;ActivityScenarioRule.scenario&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    @Test
+    fun resultTest() {
+        activityScenarioRule.scenario.onActivity {
+            it.setResult(Activity.RESULT_OK, Intent().apply { putExtra(&quot;Result&quot;, &quot;Ok&quot;) })
+            it.finish()
+        }
+        Assert.assertEquals(activityScenarioRule.scenario.result.resultCode, Activity.RESULT_OK)
+        val result = activityScenarioRule.scenario.result.resultData?.extras?.getString(&quot;Result&quot;)
+        Assert.assertEquals(result, &quot;Ok&quot;)
+    }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;@Test&lt;/li&gt;
+  &lt;li&gt;ActivityScenarioRule.scenario.onActivity {}&lt;/li&gt;
+  &lt;li&gt;Assert&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    @Test
+    fun moveToStateTest() {
+        activityScenarioRule.scenario?.let {
+            it.moveToState(Lifecycle.State.STARTED)
+            Assert.assertEquals(it.state, Lifecycle.State.STARTED)
+            it.moveToState(Lifecycle.State.CREATED)
+            Assert.assertEquals(it.state, Lifecycle.State.CREATED)
+            it.moveToState(Lifecycle.State.RESUMED)
+            Assert.assertEquals(it.state, Lifecycle.State.RESUMED)
+            it.moveToState(Lifecycle.State.DESTROYED)
+            Assert.assertEquals(it.state, Lifecycle.State.DESTROYED)
+            // activityScenario.recreate()
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;moveToStae()&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;lateinit var activityScenario: ActivityScenario&amp;lt;IntroActivity&amp;gt;
+    
+    @Before
+    fun setUp() {
+        activityScenario = ActivityScenario.launch(
+            Intent(
+                ApplicationProvider.getApplicationContext(),
+                IntroActivity::class.java
+            ).apply {
+                putExtra(&quot;MyArgs&quot;, &quot;Nothing&quot;)
+            })
+        
+        activityScenario.onActivity {
+            (it.findViewById&amp;lt;ConstraintLayout&amp;gt;(R.id.intro_cl))?.let {
+            
+            }
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;ActivityScenario만 단독으로 사용 가능&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Hun</name></author><category term="android-test" /><category term="TDD" /><category term="AndroidUITest" /><summary type="html">참고자료 https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin https://two22.tistory.com/12</summary></entry><entry><title type="html">Data structure 1 - Kotlin Collections Overview</title><link href="http://localhost:4000/programming-theory/data-structure-1-kotlin-data-structure/" rel="alternate" type="text/html" title="Data structure 1 - Kotlin Collections Overview" /><published>2020-10-19T00:00:00+09:00</published><updated>2020-10-19T00:00:00+09:00</updated><id>http://localhost:4000/programming-theory/data-structure-1-kotlin-data-structure</id><content type="html" xml:base="http://localhost:4000/programming-theory/data-structure-1-kotlin-data-structure/">&lt;p&gt;참고자료 &lt;br /&gt;
 &lt;a href=&quot;https://www.tutorialspoint.com/data_structures_algorithms/index.html&quot;&gt;https://www.tutorialspoint.com/data_structures_algorithms/index.html&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;코틀린 학습 + 영어 공부를 위해 kotlin 가이드 문서를 번역함&lt;/p&gt;
@@ -1363,7 +1491,7 @@ abstract class BookmarkDatabase : RoomDatabase() {
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/images/screenshot/2020-10-1520-48-37.png&quot; width=&quot;500&quot; /&gt;&lt;/p&gt;</content><author><name>Hun</name></author><category term="android-kotlin" /><category term="Kotlin" /><category term="MVVM" /><category term="Android" /><category term="Database" /><summary type="html">참고자료 https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin https://medium.com/androiddevelopers/room-time-2b4cf9672b98 https://developer.android.com/training/data-storage/room/referencing-data?hl=ko</summary></entry><entry><title type="html">android navigation drawer - kotlin</title><link href="http://localhost:4000/android-kotlin/android-navigation-drawer-kotlin-mvvm/" rel="alternate" type="text/html" title="android navigation drawer - kotlin" /><published>2020-10-14T00:00:00+09:00</published><updated>2020-10-14T00:00:00+09:00</updated><id>http://localhost:4000/android-kotlin/android-navigation-drawer-kotlin-mvvm</id><content type="html" xml:base="http://localhost:4000/android-kotlin/android-navigation-drawer-kotlin-mvvm/">&lt;p&gt;참고자료 &lt;br /&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/screenshot/2020-10-1520-48-37.png&quot; width=&quot;500&quot; /&gt;&lt;/p&gt;</content><author><name>Hun</name></author><category term="android-kotlin" /><category term="Kotlin" /><category term="MVVM" /><category term="Android" /><category term="Database" /><summary type="html">참고자료 https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin https://medium.com/androiddevelopers/room-time-2b4cf9672b98 https://developer.android.com/training/data-storage/room/referencing-data?hl=ko</summary></entry><entry><title type="html">android navigation drawer - kotlin</title><link href="http://localhost:4000/android-ui/android-navigation-drawer-kotlin-mvvm/" rel="alternate" type="text/html" title="android navigation drawer - kotlin" /><published>2020-10-14T00:00:00+09:00</published><updated>2020-10-14T00:00:00+09:00</updated><id>http://localhost:4000/android-ui/android-navigation-drawer-kotlin-mvvm</id><content type="html" xml:base="http://localhost:4000/android-ui/android-navigation-drawer-kotlin-mvvm/">&lt;p&gt;참고자료 &lt;br /&gt;
 &lt;a href=&quot;https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin&quot;&gt;https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&quot;script&quot;&gt;Script&lt;/h2&gt;
 &lt;h4 id=&quot;kotlin&quot;&gt;Kotlin&lt;/h4&gt;
@@ -1472,4 +1600,4 @@ menu &lt;br /&gt;
     &lt;p&gt;Android Emulator Test &lt;br /&gt;
   &lt;img src=&quot;/assets/images/gif/2020-10-1500-07.gif&quot; alt=&quot;&quot; width=&quot;80%&quot; height=&quot;80%&quot; class=&quot;center&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Hun</name></author><category term="android-kotlin" /><category term="Kotlin" /><category term="AndroidUI" /><category term="Android" /><category term="MVVM" /><summary type="html">참고자료 https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin Script Kotlin home ㄴ HomeActivity.kt note ㄴ NoteActivity.kt notice ㄴ NoticeActivity.kt util ㄴ AppcompatActivityExt.kt Resource (xml) layout ㄴ home_act.xml ㄴ note_act.xml ㄴ notice_act.xml ㄴ nav_header.xml menu ㄴ drawer_actions.xml</summary></entry></feed>
+&lt;/ul&gt;</content><author><name>Hun</name></author><category term="android-ui" /><category term="Kotlin" /><category term="AndroidUI" /><category term="Android" /><category term="MVVM" /><summary type="html">참고자료 https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin Script Kotlin home ㄴ HomeActivity.kt note ㄴ NoteActivity.kt notice ㄴ NoticeActivity.kt util ㄴ AppcompatActivityExt.kt Resource (xml) layout ㄴ home_act.xml ㄴ note_act.xml ㄴ notice_act.xml ㄴ nav_header.xml menu ㄴ drawer_actions.xml</summary></entry></feed>

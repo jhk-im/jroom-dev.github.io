@@ -1,8 +1,8 @@
 var store = [{
         "title": "android navigation drawer - kotlin",
-        "excerpt":"참고자료 https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin Script Kotlin home ㄴ HomeActivity.kt note ㄴ NoteActivity.kt notice ㄴ NoticeActivity.kt util ㄴ AppcompatActivityExt.kt Resource (xml) layout ㄴ home_act.xml ㄴ note_act.xml ㄴ notice_act.xml ㄴ nav_header.xml menu ㄴ drawer_actions.xml HomeActivity in onCreate setupActionBar(R.id.toolbar) { setHomeAsUpIndicator(R.drawable.ic_menu) setDisplayHomeAsUpEnabled(true) } setupNavigationDrawer() setupActionBar() -&gt; util/AppcompatActivityExt.kt 에 선언되어 있음 -&gt; 거의 모든 액티비티에서 호출...","categories": ["android-kotlin"],
+        "excerpt":"참고자료 https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin Script Kotlin home ㄴ HomeActivity.kt note ㄴ NoteActivity.kt notice ㄴ NoticeActivity.kt util ㄴ AppcompatActivityExt.kt Resource (xml) layout ㄴ home_act.xml ㄴ note_act.xml ㄴ notice_act.xml ㄴ nav_header.xml menu ㄴ drawer_actions.xml HomeActivity in onCreate setupActionBar(R.id.toolbar) { setHomeAsUpIndicator(R.drawable.ic_menu) setDisplayHomeAsUpEnabled(true) } setupNavigationDrawer() setupActionBar() -&gt; util/AppcompatActivityExt.kt 에 선언되어 있음 -&gt; 거의 모든 액티비티에서 호출...","categories": ["android-ui"],
         "tags": ["Kotlin","AndroidUI","Android","MVVM"],
-        "url": "http://localhost:4000/android-kotlin/android-navigation-drawer-kotlin-mvvm/",
+        "url": "http://localhost:4000/android-ui/android-navigation-drawer-kotlin-mvvm/",
         "teaser": "http://localhost:4000/assets/images/background/teaser1.jpg"
       },{
         "title": "android local & remote data source - kotlin",
@@ -51,5 +51,11 @@ var store = [{
         "excerpt":"참고자료 https://opentutorials.org/course/743/6553 https://wikidocs.net/214 https://kotlinlang.org/docs/reference/classes.html https://gmlwjd9405.github.io/2018/09/17/class-object-instance.html Class // java class Car {} // kotlin class Car {} 가장 간단한 형태의 클래스이다. 자바와 코틀린의 문법상의 차이는 없다. (현재까지는..) 클래스의 선언만 있고 내용은 없는 껍데기 클래스이다. 하지만 이러한 껍데기라도 중요한 기능을 가지고 있다. 객체를 생성하는 기능이다. 다음과 같이 만들 수 있다. //java Car...","categories": ["JavaAndKotlin"],
         "tags": ["OOP"],
         "url": "http://localhost:4000/javaandkotlin/java-kotlin-oop/",
+        "teaser": "http://localhost:4000/assets/images/background/teaser1.jpg"
+      },{
+        "title": "Use espresso to android UI test",
+        "excerpt":"참고자료 https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin https://two22.tistory.com/12 이전에 만들었던 introActivity를 test해보자. build.gradle(Module:app) // local unit test testImplementation 'androidx.test.ext:junit:1.1.2' // android unit test androidTestImplementation 'androidx.test.ext:junit:1.1.2' // android ui test androidTestImplementation 'androidx.test:runner:1.3.0' androidTestImplementation 'androidx.test:rules:1.3.0' androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0' androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.3.0' androidTestImplementation 'androidx.test.espresso:espresso-intents:3.3.0' androidTestImplementation 'androidx.test.espresso.idling:idling-concurrent:3.3.0' implementation 'androidx.test.espresso:espresso-idling-resource:3.3.0' 각각에 대한 설명 (androidTest)IntroScreenTest.kt @RunWith(AndroidJUnit4::class) @LargeTest class IntroScreenTest { ... } @RunWith(AndroidJUnit4::class)...","categories": ["android-test"],
+        "tags": ["TDD","AndroidUITest"],
+        "url": "http://localhost:4000/android-test/use-espresso-to-android-ui-test/",
         "teaser": "http://localhost:4000/assets/images/background/teaser1.jpg"
       }]

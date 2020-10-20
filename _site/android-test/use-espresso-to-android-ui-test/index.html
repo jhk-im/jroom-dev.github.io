@@ -9,8 +9,8 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Data structure 2 - Kotlin Constructing Collections $#124; Hun development blog</title>
-<meta name="description" content="참고자료  https://kotlinlang.org/docs/reference/constructing-collections.html">
+<!-- begin _includes/seo.html --><title>Use espresso to android UI test $#124; Hun development blog</title>
+<meta name="description" content="참고자료  https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin https://two22.tistory.com/12">
 
 
   <meta name="author" content="Hun">
@@ -22,11 +22,11 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Hun development blog">
-<meta property="og:title" content="Data structure 2 - Kotlin Constructing Collections">
-<meta property="og:url" content="http://localhost:4000/data-structure-2-kotlin-constructing-collections/">
+<meta property="og:title" content="Use espresso to android UI test">
+<meta property="og:url" content="http://localhost:4000/android-test/use-espresso-to-android-ui-test/">
 
 
-  <meta property="og:description" content="참고자료  https://kotlinlang.org/docs/reference/constructing-collections.html">
+  <meta property="og:description" content="참고자료  https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin https://two22.tistory.com/12">
 
 
 
@@ -45,7 +45,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/data-structure-2-kotlin-constructing-collections/">
+<link rel="canonical" href="http://localhost:4000/android-test/use-espresso-to-android-ui-test/">
 
 
 
@@ -173,7 +173,17 @@
         <span class="sep">/</span>
       
       
-        <li class="current">Data structure 2 - Kotlin Constructing Collections</li>
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#android-test" itemprop="item"><span itemprop="name">Android test</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Use espresso to android UI test</li>
       
     
   </ol>
@@ -292,15 +302,15 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Data structure 2 - Kotlin Constructing Collections">
-    <meta itemprop="description" content="참고자료 https://kotlinlang.org/docs/reference/constructing-collections.html">
+    <meta itemprop="headline" content="Use espresso to android UI test">
+    <meta itemprop="description" content="참고자료 https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlinhttps://two22.tistory.com/12">
     <meta itemprop="datePublished" content="2020-10-20T00:00:00+09:00">
     
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">Data structure 2 - Kotlin Constructing Collections
+          <h1 id="page-title" class="page__title" itemprop="headline">Use espresso to android UI test
 </h1>
           
 
@@ -329,11 +339,134 @@
       <section class="page__content" itemprop="text">
         
         <p>참고자료 <br />
-<a href="https://kotlinlang.org/docs/reference/constructing-collections.html">https://kotlinlang.org/docs/reference/constructing-collections.html</a></p>
+<a href="https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin">https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin</a>
+<a href="https://two22.tistory.com/12">https://two22.tistory.com/12</a></p>
 
-<p>코틀린 학습 + 영어 공부를 위해 kotlin 가이드 문서를 번역함</p>
+<p>이전에 만들었던 introActivity를 test해보자.</p>
+<h2 id="buildgradlemoduleapp">build.gradle(Module:app)</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    // local unit test
+    testImplementation 'androidx.test.ext:junit:1.1.2'
 
-<h2 id="kotlin-constructing-collections">Kotlin Constructing Collections</h2>
+    // android unit test
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+
+    // android ui test
+    androidTestImplementation 'androidx.test:runner:1.3.0'
+    androidTestImplementation 'androidx.test:rules:1.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.3.0'
+    androidTestImplementation 'androidx.test.espresso.idling:idling-concurrent:3.3.0'
+    implementation 'androidx.test.espresso:espresso-idling-resource:3.3.0'
+</code></pre></div></div>
+<ul>
+  <li>각각에 대한 설명
+    <h2 id="androidtestintroscreentestkt">(androidTest)IntroScreenTest.kt</h2>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@RunWith(AndroidJUnit4::class)
+@LargeTest
+class IntroScreenTest {
+...
+}
+</code></pre></div>    </div>
+  </li>
+  <li>@RunWith(AndroidJUnit4::class)</li>
+  <li>@LargeTest</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    @get: Rule
+    var activityScenarioRule: ActivityScenarioRule&lt;IntroActivity&gt; =
+        ActivityScenarioRule(
+            Intent(
+                ApplicationProvider.getApplicationContext(),
+                IntroActivity::class.java
+            ).apply { putExtra("MyArgs", "Nothing") })
+</code></pre></div></div>
+<ul>
+  <li>@get:Rule</li>
+  <li>ActivityScenarioRule</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    @Before
+    fun setUp() {
+        activityScenarioRule.scenario.onActivity { it -&gt;
+            (it.findViewById&lt;ConstraintLayout&gt;(R.id.intro_cl))?.let {
+            
+            }
+            (it.findViewById&lt;TextView&gt;(R.id.intro_logo))?.let {
+                // it.text = "ChangeUI"
+            }
+        }
+    }
+    
+    @After
+    fun close() {
+        activityScenarioRule.scenario.close()
+    }
+</code></pre></div></div>
+<ul>
+  <li>@Before</li>
+  <li>@After</li>
+  <li>ActivityScenarioRule.scenario</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    @Test
+    fun resultTest() {
+        activityScenarioRule.scenario.onActivity {
+            it.setResult(Activity.RESULT_OK, Intent().apply { putExtra("Result", "Ok") })
+            it.finish()
+        }
+        Assert.assertEquals(activityScenarioRule.scenario.result.resultCode, Activity.RESULT_OK)
+        val result = activityScenarioRule.scenario.result.resultData?.extras?.getString("Result")
+        Assert.assertEquals(result, "Ok")
+    }
+</code></pre></div></div>
+<ul>
+  <li>@Test</li>
+  <li>ActivityScenarioRule.scenario.onActivity {}</li>
+  <li>Assert</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    @Test
+    fun moveToStateTest() {
+        activityScenarioRule.scenario?.let {
+            it.moveToState(Lifecycle.State.STARTED)
+            Assert.assertEquals(it.state, Lifecycle.State.STARTED)
+            it.moveToState(Lifecycle.State.CREATED)
+            Assert.assertEquals(it.state, Lifecycle.State.CREATED)
+            it.moveToState(Lifecycle.State.RESUMED)
+            Assert.assertEquals(it.state, Lifecycle.State.RESUMED)
+            it.moveToState(Lifecycle.State.DESTROYED)
+            Assert.assertEquals(it.state, Lifecycle.State.DESTROYED)
+            // activityScenario.recreate()
+        }
+    }
+</code></pre></div></div>
+<ul>
+  <li>moveToStae()</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lateinit var activityScenario: ActivityScenario&lt;IntroActivity&gt;
+    
+    @Before
+    fun setUp() {
+        activityScenario = ActivityScenario.launch(
+            Intent(
+                ApplicationProvider.getApplicationContext(),
+                IntroActivity::class.java
+            ).apply {
+                putExtra("MyArgs", "Nothing")
+            })
+        
+        activityScenario.onActivity {
+            (it.findViewById&lt;ConstraintLayout&gt;(R.id.intro_cl))?.let {
+            
+            }
+        }
+    }
+</code></pre></div></div>
+<ul>
+  <li>ActivityScenario만 단독으로 사용 가능</li>
+</ul>
 
         
       </section>
@@ -341,6 +474,48 @@
       <footer class="page__meta">
         
         
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#androiduitest" class="page__taxonomy-item" rel="tag">AndroidUITest</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#tdd" class="page__taxonomy-item" rel="tag">TDD</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#android-test" class="page__taxonomy-item" rel="tag">android-test</a>
+    
+    </span>
+  </p>
 
 
         
@@ -354,23 +529,22 @@
     <h4 class="page__share-title">Share on</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=Data+structure+2+-+Kotlin+Constructing+Collections%20http%3A%2F%2Flocalhost%3A4000%2Fdata-structure-2-kotlin-constructing-collections%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=Use+espresso+to+android+UI+test%20http%3A%2F%2Flocalhost%3A4000%2Fandroid-test%2Fuse-espresso-to-android-ui-test%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fdata-structure-2-kotlin-constructing-collections%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fandroid-test%2Fuse-espresso-to-android-ui-test%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fdata-structure-2-kotlin-constructing-collections%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fandroid-test%2Fuse-espresso-to-android-ui-test%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
       
   <nav class="pagination">
     
-      <a href="/android-ui/android-intro-activity-animations-using-lottie/" class="pagination--pager" title="Android Intro Activity 1 - animations using lottie
+      <a href="/javaandkotlin/java-kotlin-oop/" class="pagination--pager" title="Java와 Kotlin을 비교하면서 알아보는 객체지향 프로그래밍(OOP) 1 - Class
 ">Previous</a>
     
     
-      <a href="/javaandkotlin/java-kotlin-oop/" class="pagination--pager" title="Java와 Kotlin을 비교하면서 알아보는 객체지향 프로그래밍(OOP) 1 - Class
-">Next</a>
+      <a href="#" class="pagination--pager disabled">Next</a>
     
   </nav>
 
@@ -384,52 +558,6 @@
     <div class="page__related">
       <h4 class="page__related-title">You may also enjoy</h4>
       <div class="grid__wrapper">
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-      <div class="archive__item-teaser">
-        <img src="/assets/images/background/teaser1.jpg" alt="">
-      </div>
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/android-test/use-espresso-to-android-ui-test/" rel="permalink">Use espresso to android UI test
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">참고자료 
-https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin
-https://two22.tistory.com/12
-</p>
-  </article>
-</div>
-
         
           
 
@@ -474,6 +602,51 @@ https://opentutorials.org/course/743/6553
 https://wikidocs.net/214
 https://kotlinlang.org/docs/reference/classes.html
 https://gmlwjd9405.github.io/2018...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/background/teaser1.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/data-structure-2-kotlin-constructing-collections/" rel="permalink">Data structure 2 - Kotlin Constructing Collections
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">참고자료 
+https://kotlinlang.org/docs/reference/constructing-collections.html
+</p>
   </article>
 </div>
 
