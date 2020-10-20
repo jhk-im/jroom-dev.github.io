@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-21T01:37:31+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hun development blog</title><subtitle>Android &amp; Flutter &amp; Fullstack</subtitle><author><name>Hun</name></author><entry><title type="html">Android Intro Activity 2 - font family / text animation</title><link href="http://localhost:4000/android-ui/android-intro-activity-2-font-family-text-animation/" rel="alternate" type="text/html" title="Android Intro Activity 2 - font family / text animation" /><published>2020-10-20T00:00:00+09:00</published><updated>2020-10-20T00:00:00+09:00</updated><id>http://localhost:4000/android-ui/android-intro-activity-2-font-family-text-animation</id><content type="html" xml:base="http://localhost:4000/android-ui/android-intro-activity-2-font-family-text-animation/">&lt;p&gt;참고자료 &lt;br /&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-21T01:40:16+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hun development blog</title><subtitle>Android &amp; Flutter &amp; Fullstack</subtitle><author><name>Hun</name></author><entry><title type="html">Android Intro Activity 2 - font family / text animation</title><link href="http://localhost:4000/android-ui/android-intro-activity-2-font-family-text-animation/" rel="alternate" type="text/html" title="Android Intro Activity 2 - font family / text animation" /><published>2020-10-20T00:00:00+09:00</published><updated>2020-10-20T00:00:00+09:00</updated><id>http://localhost:4000/android-ui/android-intro-activity-2-font-family-text-animation</id><content type="html" xml:base="http://localhost:4000/android-ui/android-intro-activity-2-font-family-text-animation/">&lt;p&gt;참고자료 &lt;br /&gt;
 &lt;a href=&quot;https://www.journaldev.com/9481/android-animation-example&quot;&gt;https://www.journaldev.com/9481/android-animation-example&lt;/a&gt;
 &lt;a href=&quot;https://developer.android.com/training/animation/reveal-or-hide-view?hl=ko&quot;&gt;https://developer.android.com/training/animation/reveal-or-hide-view?hl=ko&lt;/a&gt;
 &lt;a href=&quot;https://woovictory.github.io/2020/06/12/Android-Font/&quot;&gt;https://woovictory.github.io/2020/06/12/Android-Font/&lt;/a&gt;&lt;/p&gt;
@@ -440,15 +440,17 @@ Tucsan
     implementation 'androidx.test.espresso:espresso-idling-resource:3.3.0'
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;ul&gt;
-  &lt;li&gt;각각에 대한 설명
-    &lt;h2 id=&quot;androidtestintroscreentestkt&quot;&gt;(androidTest)IntroScreenTest.kt&lt;/h2&gt;
-    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@RunWith(AndroidJUnit4::class)
+  &lt;li&gt;각각에 대한 설명&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;androidtestintroscreentestkt&quot;&gt;(androidTest)IntroScreenTest.kt&lt;/h2&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@RunWith(AndroidJUnit4::class)
 @LargeTest
 class IntroScreenTest {
 ...
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
   &lt;li&gt;@RunWith(AndroidJUnit4::class)&lt;/li&gt;
   &lt;li&gt;@LargeTest&lt;/li&gt;
 &lt;/ul&gt;

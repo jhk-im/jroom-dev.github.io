@@ -29,6 +29,8 @@ tags:
     implementation 'androidx.test.espresso:espresso-idling-resource:3.3.0'
 ```
 * 각각에 대한 설명    
+
+
 ## (androidTest)IntroScreenTest.kt
 ```
 @RunWith(AndroidJUnit4::class)
@@ -79,6 +81,7 @@ class IntroScreenTest {
 *  ActivityScenarioRule.scenario
 
 
+
 ```
     @Test
     fun resultTest() {
@@ -94,6 +97,8 @@ class IntroScreenTest {
 * @Test   
 * ActivityScenarioRule.scenario.onActivity {}   
 * Assert   
+
+
 
 ```
     @Test
