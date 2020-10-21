@@ -1,4 +1,313 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-21T01:40:16+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hun development blog</title><subtitle>Android &amp; Flutter &amp; Fullstack</subtitle><author><name>Hun</name></author><entry><title type="html">Android Intro Activity 2 - font family / text animation</title><link href="http://localhost:4000/android-ui/android-intro-activity-2-font-family-text-animation/" rel="alternate" type="text/html" title="Android Intro Activity 2 - font family / text animation" /><published>2020-10-20T00:00:00+09:00</published><updated>2020-10-20T00:00:00+09:00</updated><id>http://localhost:4000/android-ui/android-intro-activity-2-font-family-text-animation</id><content type="html" xml:base="http://localhost:4000/android-ui/android-intro-activity-2-font-family-text-animation/">&lt;p&gt;참고자료 &lt;br /&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-22T01:27:38+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hun development blog</title><subtitle>Android &amp; Flutter &amp; Fullstack</subtitle><author><name>Hun</name></author><entry><title type="html">android swipe - 터치 좌표를 따라서 view 이동하기</title><link href="http://localhost:4000/android-ui/android-swipe-view/" rel="alternate" type="text/html" title="android swipe - 터치 좌표를 따라서 view 이동하기" /><published>2020-10-21T00:00:00+09:00</published><updated>2020-10-21T00:00:00+09:00</updated><id>http://localhost:4000/android-ui/android-swipe-view</id><content type="html" xml:base="http://localhost:4000/android-ui/android-swipe-view/">&lt;p&gt;참고자료
+&lt;a href=&quot;https://sunghyun1038.tistory.com/24&quot;&gt;https://sunghyun1038.tistory.com/24&lt;/a&gt;
+&lt;a href=&quot;https://developer.android.com/training/gestures/viewgroup?hl=ko&quot;&gt;https://developer.android.com/training/gestures/viewgroup?hl=ko&lt;/a&gt;
+&lt;a href=&quot;https://developer.android.com/guide/topics/graphics/prop-animation?hl=ko&quot;&gt;https://developer.android.com/guide/topics/graphics/prop-animation?hl=ko&lt;/a&gt;&lt;/p&gt;
+
+&lt;p float=&quot;center&quot;&gt;
+  &lt;img src=&quot;/assets/images/gif/2020-10-2200-42.gif&quot; width=&quot;300&quot; /&gt;
+&lt;/p&gt;
+
+&lt;h2 id=&quot;fragment_main_swipexml&quot;&gt;fragment_main_swipe.xml&lt;/h2&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&amp;gt;
+&amp;lt;androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+    android:id=&quot;@+id/intro_cl&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;&amp;gt;
+
+    &amp;lt;TextView
+        style=&quot;@style/Text.RankStyle&quot;
+        android:id=&quot;@+id/intro_login_text&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;50dp&quot;
+        android:gravity=&quot;center&quot;
+        android:text=&quot;@string/login&quot;
+        android:textSize=&quot;20sp&quot;
+        android:visibility=&quot;gone&quot;
+        app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+        app:layout_constraintRight_toRightOf=&quot;parent&quot;
+        app:layout_constraintTop_toTopOf=&quot;parent&quot; /&amp;gt;
+
+    &amp;lt;com.airbnb.lottie.LottieAnimationView
+        android:id=&quot;@+id/intro_swipe_up&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_marginStart=&quot;10dp&quot;
+        app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+        app:layout_constraintRight_toRightOf=&quot;parent&quot;
+        app:layout_constraintTop_toTopOf=&quot;parent&quot;
+        app:layout_constraintBottom_toTopOf=&quot;@+id/intro_logo&quot;
+        app:lottie_autoPlay=&quot;true&quot;
+        app:lottie_loop=&quot;true&quot;
+        app:lottie_rawRes=&quot;@raw/main_swipe_up&quot;/&amp;gt;
+
+    &amp;lt;com.airbnb.lottie.LottieAnimationView
+        android:id=&quot;@+id/intro_cursor&quot;
+        android:layout_width=&quot;200dp&quot;
+        android:layout_height=&quot;200dp&quot;
+        android:layout_marginTop=&quot;30dp&quot;
+        app:layout_constraintBottom_toBottomOf=&quot;@id/intro_logo&quot;
+        app:layout_constraintLeft_toLeftOf=&quot;@id/intro_logo&quot;
+        app:layout_constraintRight_toRightOf=&quot;@id/intro_logo&quot;
+        app:layout_constraintTop_toTopOf=&quot;@id/intro_logo&quot;
+        app:lottie_autoPlay=&quot;true&quot;
+        app:lottie_loop=&quot;true&quot;
+        app:lottie_rawRes=&quot;@raw/main_cursor&quot; /&amp;gt;
+
+    &amp;lt;TextView
+        android:id=&quot;@+id/intro_logo&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:gravity=&quot;center&quot;
+        android:text=&quot;@string/app_name&quot;
+        android:textSize=&quot;30sp&quot;
+        app:layout_constraintBottom_toBottomOf=&quot;parent&quot;
+        app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+        app:layout_constraintRight_toRightOf=&quot;parent&quot;
+        app:layout_constraintTop_toTopOf=&quot;parent&quot;
+        style=&quot;@style/Text.TitleStyle&quot;/&amp;gt;
+
+    &amp;lt;com.airbnb.lottie.LottieAnimationView
+        android:id=&quot;@+id/intro_swipe_down&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_marginEnd=&quot;10dp&quot;
+        app:layout_constraintBottom_toBottomOf=&quot;parent&quot;
+        app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+        app:layout_constraintRight_toRightOf=&quot;parent&quot;
+        app:layout_constraintTop_toBottomOf=&quot;@+id/intro_logo&quot;
+        app:lottie_autoPlay=&quot;true&quot;
+        app:lottie_loop=&quot;true&quot;
+        app:lottie_rawRes=&quot;@raw/main_swipe_down&quot;/&amp;gt;
+
+    &amp;lt;TextView
+        style=&quot;@style/Text.RankStyle&quot;
+        android:id=&quot;@+id/intro_guest_text&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;50dp&quot;
+        android:gravity=&quot;center&quot;
+        android:text=&quot;@string/guest&quot;
+        android:textSize=&quot;20sp&quot;
+        android:visibility=&quot;gone&quot;
+        app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+        app:layout_constraintRight_toRightOf=&quot;parent&quot;
+        app:layout_constraintBottom_toBottomOf=&quot;parent&quot; /&amp;gt;
+&amp;lt;/androidx.constraintlayout.widget.ConstraintLayout&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Constraintlayout =&amp;gt; parent layout
+    &lt;ul&gt;
+      &lt;li&gt;intro_login_text: TextView =&amp;gt; &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LOGIN&lt;/code&gt; text
+        &lt;ul&gt;
+          &lt;li&gt;visibility=gone  =&amp;gt; 처음엔 렌더링되지 않음&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;intro_swipe_up: LottieAnimation =&amp;gt; 중앙로고 클릭 시 위로 향하는 화살표 애니메이션&lt;/li&gt;
+      &lt;li&gt;intro_cursr: LottieAnimation =&amp;gt; 로고 아래에 클릭을 유도하는 손모양 애니메이션&lt;/li&gt;
+      &lt;li&gt;intro_logo : Textview =&amp;gt; 중앙로고&lt;/li&gt;
+      &lt;li&gt;intro_swipe_down: LottieAnimation =&amp;gt; 중앙 로고 클릭 시 아래로 향하는 화살표 애니메이션&lt;/li&gt;
+      &lt;li&gt;intro_guest_text: TextView =&amp;gt; &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;GUEST&lt;/code&gt; text&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;mainswipefragmentkt&quot;&gt;MainSwipeFragment.kt&lt;/h2&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        
+        return inflater.inflate(R.layout.fragment_main_swipe, container, false)
+    }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;Fragment override 함수&lt;/li&gt;
+  &lt;li&gt;inflater를 통해 위에서 생성한 xml 프래그먼트를 입력한다.&lt;/li&gt;
+  &lt;li&gt;container는 activity에서 fragment 생성 시 입력받는다.
+    &lt;ul&gt;
+      &lt;li&gt;container =&amp;gt; 프래그먼트가 표시 될 액티비티&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    private lateinit var parentView: ConstraintLayout
+    private lateinit var logoSwipeButton: TextView
+    private lateinit var loginTextView: TextView
+    private lateinit var guestTextView: TextView
+    
+    private lateinit var cursorAnimation: LottieAnimationView
+    private lateinit var swipeUpAnimation: LottieAnimationView
+    private lateinit var swipeDownAnimation: LottieAnimationView
+		
+		...
+		
+		    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        
+        logoSwipeButton = view.findViewById(R.id.intro_logo)
+        cursorAnimation = view.findViewById(R.id.intro_cursor)
+        
+        swipeUpAnimation = view.findViewById(R.id.intro_swipe_up)
+        swipeDownAnimation = view.findViewById(R.id.intro_swipe_down)
+        swipeDownAnimation.visibility = View.GONE
+        swipeUpAnimation.visibility = View.GONE
+        
+        parentView = view.findViewById(R.id.intro_cl)
+        
+        loginTextView = view.findViewById(R.id.intro_login_text)
+        guestTextView = view.findViewById(R.id.intro_guest_text)
+        
+        var statusBarHeight: Int = 0
+        var resId = resources.getIdentifier(&quot;status_bar_height&quot;, &quot;dimen&quot;, &quot;android&quot;)
+        if (resId &amp;gt; 0) {
+            statusBarHeight = resources.getDimensionPixelSize(resId)
+        }
+        
+        setOnTouchListener(statusBarHeight)
+    }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;lateinit var로 위에서 생성한 각각의 뷰의 타입을 지정한다.
+    &lt;ul&gt;
+      &lt;li&gt;onView() 함수를 사용하여 view를 넘겨받아 findViewById로 xml내부의 뷰들과 연결한다.&lt;/li&gt;
+      &lt;li&gt;swipedown, swipeup 애니메이션은 클릭 시 보여지기 때문에 visibility = gone 으로 설정한다.&lt;/li&gt;
+      &lt;li&gt;상태바 크기를 구하는 이유는 중앙 로고를 스와이프로 이동하고 다시 원위치로 돌아갈 때 필요하기 때문이다.
+        &lt;ul&gt;
+          &lt;li&gt;중앙정렬에서 약간 빗나감&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;setOnTouchListener() 내부에 중앙로고인 logoSwipeButton에 리스너를 연결하여 구현&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    @SuppressLint(&quot;ClickableViewAccessibility&quot;, &quot;Recycle&quot;, &quot;ResourceAsColor&quot;)
+    private fun setOnTouchListener(status: Int) {
+        logoSwipeButton.setOnTouchListener { button, event -&amp;gt;
+            //var parentWidth = parentView.width
+            var parentHeight = parentView.height
+            
+						when (event!!.action) {
+                MotionEvent.ACTION_DOWN -&amp;gt; {
+                    cursorAnimation.visibility = View.GONE
+                    guestTextView.visibility = View.VISIBLE
+                    loginTextView.visibility = View.VISIBLE
+                    swipeDownAnimation.visibility = View.VISIBLE
+                    swipeUpAnimation.visibility = View.VISIBLE
+                    swipeDownAnimation.playAnimation()
+                    swipeUpAnimation.playAnimation()
+                }
+    
+                MotionEvent.ACTION_UP -&amp;gt; {
+                    button.y = ((parentHeight * 0.5f) - status)
+                    button.visibility = View.VISIBLE
+                    cursorAnimation.visibility = View.VISIBLE
+                    swipeDownAnimation.visibility = View.GONE
+                    swipeUpAnimation.visibility = View.GONE
+                    guestTextView.visibility = View.GONE
+                    loginTextView.visibility = View.GONE
+                    guestTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
+                    loginTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
+                }
+    
+                MotionEvent.ACTION_MOVE -&amp;gt; {
+                    button.y = button.y + (event.y - (button.height * 0.5f))
+                    button.visibility = View.VISIBLE
+                    guestTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
+                    loginTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
+                    when {
+                        button.y &amp;lt; (parentHeight * 0.1f) - status -&amp;gt; {
+                            button.visibility = View.GONE
+                            loginTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f)
+                        }
+            
+                        button.y &amp;gt; (parentHeight * 0.9f) - status -&amp;gt; {
+                            button.visibility = View.GONE
+                            guestTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f)
+                        }
+            
+                        button.y &amp;lt; (parentHeight * 0.45f) - status ||
+                                button.y &amp;gt; (parentHeight * 0.55f) - status  -&amp;gt; {
+                            swipeUpAnimation.visibility = View.GONE
+                            swipeDownAnimation.visibility = View.GONE
+                        }
+                    }
+                }
+            }
+            true
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;MotionEvent.ACTION_DOWN
+    &lt;ul&gt;
+      &lt;li&gt;화면에 손가락이 닿는 순간을 의미함&lt;/li&gt;
+      &lt;li&gt;눌려지는 순간 보여져야 할 상황이 구현되어 있음&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;MotionEvent.ACTION_UP
+    &lt;ul&gt;
+      &lt;li&gt;화면에서 손가락이 뗴어지는 순가을 의미함&lt;/li&gt;
+      &lt;li&gt;변경된 사항들이 원래 위치로 reset 되도록 구현되어 있음&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;MotionEvent.ACTION_MOVE
+    &lt;ul&gt;
+      &lt;li&gt;터치 되어진 상태에서 움직임을 감지하는 모든 순간을 의미함&lt;/li&gt;
+      &lt;li&gt;var parentHeight = parentView.height
+        &lt;ul&gt;
+          &lt;li&gt;현재 최상단 레이아웃의 실제 높이를 구현하고 좌표값을 구함&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;button.y = button.y + (event.y - (button.height * 0.5f))
+        &lt;ul&gt;
+          &lt;li&gt;y축에서 터치된 손가락의 실제 좌표를 구함&lt;/li&gt;
+          &lt;li&gt;y축만 구현되어있음&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;button.y &amp;lt; (parentHeight * 0.1f) - status
+        &lt;ul&gt;
+          &lt;li&gt;터치된 손가락이 최상단 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LOGIN&lt;/code&gt; text 범위에 닿는 순간을 의미함&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;button.y &amp;gt; (parentHeight * 0.9f) - status
+        &lt;ul&gt;
+          &lt;li&gt;터치된 손가락이 최하단 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;GUEST&lt;/code&gt; text 범위에 닿는 순간을 의미함&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;table&gt;
+          &lt;tbody&gt;
+            &lt;tr&gt;
+              &lt;td&gt;button.y &amp;lt; (parentHeight * 0.45f) - status&lt;/td&gt;
+              &lt;td&gt; &lt;/td&gt;
+              &lt;td&gt;button.y &amp;gt; (parentHeight * 0.55f) - status&lt;/td&gt;
+            &lt;/tr&gt;
+          &lt;/tbody&gt;
+        &lt;/table&gt;
+      &lt;/li&gt;
+      &lt;li&gt;중앙 로고를 기준으로 위 아래로 조금씩 움직였을 때의 범위를 의미함&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;mainactivitykt&quot;&gt;MainActivity.kt&lt;/h2&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.contentFrame, MainSwipeFragment())
+            .commit()
+    }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;supportFragmentManager =&amp;gt; 프래그먼트 생성&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Hun</name></author><category term="android-ui" /><category term="AndroidUI" /><category term="AnroidAnimation" /><summary type="html">참고자료 https://sunghyun1038.tistory.com/24 https://developer.android.com/training/gestures/viewgroup?hl=ko https://developer.android.com/guide/topics/graphics/prop-animation?hl=ko</summary></entry><entry><title type="html">Android Intro Activity 2 - font family / text animation</title><link href="http://localhost:4000/android-ui/android-intro-activity-2-font-family-text-animation/" rel="alternate" type="text/html" title="Android Intro Activity 2 - font family / text animation" /><published>2020-10-20T00:00:00+09:00</published><updated>2020-10-20T00:00:00+09:00</updated><id>http://localhost:4000/android-ui/android-intro-activity-2-font-family-text-animation</id><content type="html" xml:base="http://localhost:4000/android-ui/android-intro-activity-2-font-family-text-animation/">&lt;p&gt;참고자료 &lt;br /&gt;
 &lt;a href=&quot;https://www.journaldev.com/9481/android-animation-example&quot;&gt;https://www.journaldev.com/9481/android-animation-example&lt;/a&gt;
 &lt;a href=&quot;https://developer.android.com/training/animation/reveal-or-hide-view?hl=ko&quot;&gt;https://developer.android.com/training/animation/reveal-or-hide-view?hl=ko&lt;/a&gt;
 &lt;a href=&quot;https://woovictory.github.io/2020/06/12/Android-Font/&quot;&gt;https://woovictory.github.io/2020/06/12/Android-Font/&lt;/a&gt;&lt;/p&gt;
@@ -1493,113 +1802,4 @@ abstract class BookmarkDatabase : RoomDatabase() {
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/images/screenshot/2020-10-1520-48-37.png&quot; width=&quot;500&quot; /&gt;&lt;/p&gt;</content><author><name>Hun</name></author><category term="android-kotlin" /><category term="Kotlin" /><category term="MVVM" /><category term="Android" /><category term="Database" /><summary type="html">참고자료 https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin https://medium.com/androiddevelopers/room-time-2b4cf9672b98 https://developer.android.com/training/data-storage/room/referencing-data?hl=ko</summary></entry><entry><title type="html">android navigation drawer - kotlin</title><link href="http://localhost:4000/android-ui/android-navigation-drawer-kotlin-mvvm/" rel="alternate" type="text/html" title="android navigation drawer - kotlin" /><published>2020-10-14T00:00:00+09:00</published><updated>2020-10-14T00:00:00+09:00</updated><id>http://localhost:4000/android-ui/android-navigation-drawer-kotlin-mvvm</id><content type="html" xml:base="http://localhost:4000/android-ui/android-navigation-drawer-kotlin-mvvm/">&lt;p&gt;참고자료 &lt;br /&gt;
-&lt;a href=&quot;https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin&quot;&gt;https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&quot;script&quot;&gt;Script&lt;/h2&gt;
-&lt;h4 id=&quot;kotlin&quot;&gt;Kotlin&lt;/h4&gt;
-&lt;p&gt;home &lt;br /&gt;
-ㄴ HomeActivity.kt &lt;br /&gt;
-note &lt;br /&gt;
-ㄴ NoteActivity.kt &lt;br /&gt;
-notice &lt;br /&gt;
-ㄴ NoticeActivity.kt &lt;br /&gt;
-util &lt;br /&gt;
-ㄴ AppcompatActivityExt.kt&lt;/p&gt;
-&lt;h4 id=&quot;resource-xml&quot;&gt;Resource (xml)&lt;/h4&gt;
-&lt;p&gt;layout &lt;br /&gt;
-ㄴ home_act.xml &lt;br /&gt;
-ㄴ note_act.xml &lt;br /&gt;
-ㄴ notice_act.xml &lt;br /&gt;
-ㄴ nav_header.xml &lt;br /&gt;
-menu &lt;br /&gt;
-ㄴ drawer_actions.xml&lt;/p&gt;
-
-&lt;h2 id=&quot;homeactivity&quot;&gt;HomeActivity&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;in onCreate&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;setupActionBar(R.id.toolbar) {
-	setHomeAsUpIndicator(R.drawable.ic_menu)
-	setDisplayHomeAsUpEnabled(true)
-}
-
- setupNavigationDrawer()
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;setupActionBar() &lt;br /&gt;
--&amp;gt; util/AppcompatActivityExt.kt 에 선언되어 있음 &lt;br /&gt;
--&amp;gt; 거의 모든 액티비티에서 호출 될 가능성이 높은 메소드이기 때문에 util에 선언 후 손쉽게 가져다 사용함 &lt;br /&gt;
--&amp;gt; 입력 값으로 main_act.xml에 선언된 appcompat.widget.Toolbar 를 입력값으로 받음 &lt;br /&gt;
-      -&amp;gt; toolbar는 material.appbar.AppBarLayout으로 감싸고 있음 &lt;br /&gt;
--&amp;gt; setHomeAsUpIndicator()는 AppBar 왼쪽 상단에 버튼 이미지 커스텀 &lt;br /&gt;
--&amp;gt; setDisPlayHomeAsUpEnabled(true)  왼쪽 상단 버튼 활성화
-    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;fun AppCompatActivity.setupActionBar(@IdRes toolbarId: Int, action: ActionBar.() -&amp;gt; Unit) {
-  setSupportActionBar(findViewById(toolbarId))
-  supportActionBar?.run {
-      action()
-  }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;setActionBar()
--&amp;gt; @IdRes 는 ui 리소스의 id값만을 입력받도록 강제    &lt;br /&gt;
--&amp;gt; ActionBar.() -&amp;gt; Unit &lt;br /&gt;
-  -&amp;gt; Unit은 java의 void와 같은 역할 &lt;br /&gt;
-  -&amp;gt; unit type은 인자로도 사용할 수 있음 &lt;br /&gt;
-  -&amp;gt; return 없이 사용할 수 있음 &lt;br /&gt;
--&amp;gt; toolbarid 를 입력하여 생성 &lt;br /&gt;
-  -&amp;gt; actionBar가 deprecated 되면서 등장한 새로운 릴리즈가 toolbar &lt;br /&gt;
-  -&amp;gt; toolbar를 셋팅하는 방법&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;setupNavigationDrawer
-    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;private fun setupNavigationDrawer() {
-  mDrawerLayout = (findViewById&amp;lt;DrawerLayout&amp;gt;(R.id.drawer_layout)).apply {
-      // 상태바의 색상을 지정함 
-      setStatusBarBackground(R.color.colorPrimaryDark)
-  }
-  // main_act.xml 에 선언된 navagationView를 content로 셋팅
-  setupDrawerContent(findViewById(R.id.navigation_view))
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-    &lt;p&gt;-&amp;gt; apply 는 T의 확장 함수이며 블럭안에서 프로퍼티를 호출할 때 it 이나 this를 사용할 필요가 없음 &lt;br /&gt;
-  -&amp;gt; run과 유사하지만 블럭에서 return값을 받지 않으며 자기 자신인 T를 반환&lt;/p&gt;
-    &lt;ul&gt;
-      &lt;li&gt;setupDrawerContent()
-        &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  private fun setupDrawerContent(navigationView: NavigationView) {
-  navigationView.setNavigationItemSelectedListener { menuItem -&amp;gt;
-  when (menuItem.itemId) {
-      R.id.navigation_menu_home -&amp;gt; {
-          //
-      }
-      R.id.navigation_menu_notice -&amp;gt; {
-          val intent = Intent(this@HomeActivity, NoticeActivity::class.java).apply {
-              addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-          }
-          startActivity(intent)
-      }
-      R.id.navigation_menu_note -&amp;gt; {
-          val intent = Intent(this@HomeActivity, NoteActivity::class.java).apply {
-              addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-          }
-          startActivity(intent)
-      }
-  }
-  menuItem.isChecked = true
-  mDrawerLayout.closeDrawers()
-  true
-  }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
-        &lt;p&gt;-&amp;gt; 3가지 버튼을 셋팅 home, notice, note &lt;br /&gt;
-  -&amp;gt; notice, note 도 home 과 동일하게 셋팅  &lt;br /&gt;
-  -&amp;gt; intent를 활용한 activity 이동&lt;/p&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-
-    &lt;p&gt;Android Emulator Test &lt;br /&gt;
-  &lt;img src=&quot;/assets/images/gif/2020-10-1500-07.gif&quot; alt=&quot;&quot; width=&quot;80%&quot; height=&quot;80%&quot; class=&quot;center&quot; /&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Hun</name></author><category term="android-ui" /><category term="Kotlin" /><category term="AndroidUI" /><category term="Android" /><category term="MVVM" /><summary type="html">참고자료 https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin Script Kotlin home ㄴ HomeActivity.kt note ㄴ NoteActivity.kt notice ㄴ NoticeActivity.kt util ㄴ AppcompatActivityExt.kt Resource (xml) layout ㄴ home_act.xml ㄴ note_act.xml ㄴ notice_act.xml ㄴ nav_header.xml menu ㄴ drawer_actions.xml</summary></entry></feed>
+&lt;p&gt;&lt;img src=&quot;/assets/images/screenshot/2020-10-1520-48-37.png&quot; width=&quot;500&quot; /&gt;&lt;/p&gt;</content><author><name>Hun</name></author><category term="android-kotlin" /><category term="Kotlin" /><category term="MVVM" /><category term="Android" /><category term="Database" /><summary type="html">참고자료 https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin https://medium.com/androiddevelopers/room-time-2b4cf9672b98 https://developer.android.com/training/data-storage/room/referencing-data?hl=ko</summary></entry></feed>

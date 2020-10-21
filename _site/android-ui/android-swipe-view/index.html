@@ -1,0 +1,979 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.20.2 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>android swipe - 터치 좌표를 따라서 view 이동하기 $#124; Hun development blog</title>
+<meta name="description" content="참고자료 https://sunghyun1038.tistory.com/24 https://developer.android.com/training/gestures/viewgroup?hl=ko https://developer.android.com/guide/topics/graphics/prop-animation?hl=ko">
+
+
+  <meta name="author" content="Hun">
+  
+  <meta property="article:author" content="Hun">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Hun development blog">
+<meta property="og:title" content="android swipe - 터치 좌표를 따라서 view 이동하기">
+<meta property="og:url" content="http://localhost:4000/android-ui/android-swipe-view/">
+
+
+  <meta property="og:description" content="참고자료 https://sunghyun1038.tistory.com/24 https://developer.android.com/training/gestures/viewgroup?hl=ko https://developer.android.com/guide/topics/graphics/prop-animation?hl=ko">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2020-10-21T00:00:00+09:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/android-ui/android-swipe-view/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Jeong Hun Kim",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Hun development blog Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Daily development record
+          <span class="site-subtitle">Android & Flutter & Fullstack</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/">Home</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tags</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="http://localhost:4000/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#android-ui" itemprop="item"><span itemprop="name">Android ui</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">android swipe - 터치 좌표를 따라서 view 이동하기</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/profile/hun.png" alt="Hun" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Hun</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Steadlily growing developer</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Republic of Korea</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/ll0301" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="android swipe - 터치 좌표를 따라서 view 이동하기">
+    <meta itemprop="description" content="참고자료https://sunghyun1038.tistory.com/24https://developer.android.com/training/gestures/viewgroup?hl=kohttps://developer.android.com/guide/topics/graphics/prop-animation?hl=ko">
+    <meta itemprop="datePublished" content="2020-10-21T00:00:00+09:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">android swipe - 터치 좌표를 따라서 view 이동하기
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <p>참고자료
+<a href="https://sunghyun1038.tistory.com/24">https://sunghyun1038.tistory.com/24</a>
+<a href="https://developer.android.com/training/gestures/viewgroup?hl=ko">https://developer.android.com/training/gestures/viewgroup?hl=ko</a>
+<a href="https://developer.android.com/guide/topics/graphics/prop-animation?hl=ko">https://developer.android.com/guide/topics/graphics/prop-animation?hl=ko</a></p>
+
+<p float="center">
+  <img src="/assets/images/gif/2020-10-2200-42.gif" width="300" />
+</p>
+
+<h2 id="fragment_main_swipexml">fragment_main_swipe.xml</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/intro_cl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"&gt;
+
+    &lt;TextView
+        style="@style/Text.RankStyle"
+        android:id="@+id/intro_login_text"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="@string/login"
+        android:textSize="20sp"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" /&gt;
+
+    &lt;com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/intro_swipe_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/intro_logo"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/main_swipe_up"/&gt;
+
+    &lt;com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/intro_cursor"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintBottom_toBottomOf="@id/intro_logo"
+        app:layout_constraintLeft_toLeftOf="@id/intro_logo"
+        app:layout_constraintRight_toRightOf="@id/intro_logo"
+        app:layout_constraintTop_toTopOf="@id/intro_logo"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/main_cursor" /&gt;
+
+    &lt;TextView
+        android:id="@+id/intro_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/app_name"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/Text.TitleStyle"/&gt;
+
+    &lt;com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/intro_swipe_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/intro_logo"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/main_swipe_down"/&gt;
+
+    &lt;TextView
+        style="@style/Text.RankStyle"
+        android:id="@+id/intro_guest_text"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="@string/guest"
+        android:textSize="20sp"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" /&gt;
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;
+</code></pre></div></div>
+
+<ul>
+  <li>Constraintlayout =&gt; parent layout
+    <ul>
+      <li>intro_login_text: TextView =&gt; <code class="language-plaintext highlighter-rouge">LOGIN</code> text
+        <ul>
+          <li>visibility=gone  =&gt; 처음엔 렌더링되지 않음</li>
+        </ul>
+      </li>
+      <li>intro_swipe_up: LottieAnimation =&gt; 중앙로고 클릭 시 위로 향하는 화살표 애니메이션</li>
+      <li>intro_cursr: LottieAnimation =&gt; 로고 아래에 클릭을 유도하는 손모양 애니메이션</li>
+      <li>intro_logo : Textview =&gt; 중앙로고</li>
+      <li>intro_swipe_down: LottieAnimation =&gt; 중앙 로고 클릭 시 아래로 향하는 화살표 애니메이션</li>
+      <li>intro_guest_text: TextView =&gt; <code class="language-plaintext highlighter-rouge">GUEST</code> text</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="mainswipefragmentkt">MainSwipeFragment.kt</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        
+        return inflater.inflate(R.layout.fragment_main_swipe, container, false)
+    }
+</code></pre></div></div>
+<ul>
+  <li>Fragment override 함수</li>
+  <li>inflater를 통해 위에서 생성한 xml 프래그먼트를 입력한다.</li>
+  <li>container는 activity에서 fragment 생성 시 입력받는다.
+    <ul>
+      <li>container =&gt; 프래그먼트가 표시 될 액티비티</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    private lateinit var parentView: ConstraintLayout
+    private lateinit var logoSwipeButton: TextView
+    private lateinit var loginTextView: TextView
+    private lateinit var guestTextView: TextView
+    
+    private lateinit var cursorAnimation: LottieAnimationView
+    private lateinit var swipeUpAnimation: LottieAnimationView
+    private lateinit var swipeDownAnimation: LottieAnimationView
+		
+		...
+		
+		    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        
+        logoSwipeButton = view.findViewById(R.id.intro_logo)
+        cursorAnimation = view.findViewById(R.id.intro_cursor)
+        
+        swipeUpAnimation = view.findViewById(R.id.intro_swipe_up)
+        swipeDownAnimation = view.findViewById(R.id.intro_swipe_down)
+        swipeDownAnimation.visibility = View.GONE
+        swipeUpAnimation.visibility = View.GONE
+        
+        parentView = view.findViewById(R.id.intro_cl)
+        
+        loginTextView = view.findViewById(R.id.intro_login_text)
+        guestTextView = view.findViewById(R.id.intro_guest_text)
+        
+        var statusBarHeight: Int = 0
+        var resId = resources.getIdentifier("status_bar_height", "dimen", "android")
+        if (resId &gt; 0) {
+            statusBarHeight = resources.getDimensionPixelSize(resId)
+        }
+        
+        setOnTouchListener(statusBarHeight)
+    }
+</code></pre></div></div>
+<ul>
+  <li>lateinit var로 위에서 생성한 각각의 뷰의 타입을 지정한다.
+    <ul>
+      <li>onView() 함수를 사용하여 view를 넘겨받아 findViewById로 xml내부의 뷰들과 연결한다.</li>
+      <li>swipedown, swipeup 애니메이션은 클릭 시 보여지기 때문에 visibility = gone 으로 설정한다.</li>
+      <li>상태바 크기를 구하는 이유는 중앙 로고를 스와이프로 이동하고 다시 원위치로 돌아갈 때 필요하기 때문이다.
+        <ul>
+          <li>중앙정렬에서 약간 빗나감</li>
+        </ul>
+      </li>
+      <li>setOnTouchListener() 내부에 중앙로고인 logoSwipeButton에 리스너를 연결하여 구현</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    @SuppressLint("ClickableViewAccessibility", "Recycle", "ResourceAsColor")
+    private fun setOnTouchListener(status: Int) {
+        logoSwipeButton.setOnTouchListener { button, event -&gt;
+            //var parentWidth = parentView.width
+            var parentHeight = parentView.height
+            
+						when (event!!.action) {
+                MotionEvent.ACTION_DOWN -&gt; {
+                    cursorAnimation.visibility = View.GONE
+                    guestTextView.visibility = View.VISIBLE
+                    loginTextView.visibility = View.VISIBLE
+                    swipeDownAnimation.visibility = View.VISIBLE
+                    swipeUpAnimation.visibility = View.VISIBLE
+                    swipeDownAnimation.playAnimation()
+                    swipeUpAnimation.playAnimation()
+                }
+    
+                MotionEvent.ACTION_UP -&gt; {
+                    button.y = ((parentHeight * 0.5f) - status)
+                    button.visibility = View.VISIBLE
+                    cursorAnimation.visibility = View.VISIBLE
+                    swipeDownAnimation.visibility = View.GONE
+                    swipeUpAnimation.visibility = View.GONE
+                    guestTextView.visibility = View.GONE
+                    loginTextView.visibility = View.GONE
+                    guestTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
+                    loginTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
+                }
+    
+                MotionEvent.ACTION_MOVE -&gt; {
+                    button.y = button.y + (event.y - (button.height * 0.5f))
+                    button.visibility = View.VISIBLE
+                    guestTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
+                    loginTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
+                    when {
+                        button.y &lt; (parentHeight * 0.1f) - status -&gt; {
+                            button.visibility = View.GONE
+                            loginTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f)
+                        }
+            
+                        button.y &gt; (parentHeight * 0.9f) - status -&gt; {
+                            button.visibility = View.GONE
+                            guestTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f)
+                        }
+            
+                        button.y &lt; (parentHeight * 0.45f) - status ||
+                                button.y &gt; (parentHeight * 0.55f) - status  -&gt; {
+                            swipeUpAnimation.visibility = View.GONE
+                            swipeDownAnimation.visibility = View.GONE
+                        }
+                    }
+                }
+            }
+            true
+        }
+    }
+</code></pre></div></div>
+<ul>
+  <li>MotionEvent.ACTION_DOWN
+    <ul>
+      <li>화면에 손가락이 닿는 순간을 의미함</li>
+      <li>눌려지는 순간 보여져야 할 상황이 구현되어 있음</li>
+    </ul>
+  </li>
+  <li>MotionEvent.ACTION_UP
+    <ul>
+      <li>화면에서 손가락이 뗴어지는 순가을 의미함</li>
+      <li>변경된 사항들이 원래 위치로 reset 되도록 구현되어 있음</li>
+    </ul>
+  </li>
+  <li>MotionEvent.ACTION_MOVE
+    <ul>
+      <li>터치 되어진 상태에서 움직임을 감지하는 모든 순간을 의미함</li>
+      <li>var parentHeight = parentView.height
+        <ul>
+          <li>현재 최상단 레이아웃의 실제 높이를 구현하고 좌표값을 구함</li>
+        </ul>
+      </li>
+      <li>button.y = button.y + (event.y - (button.height * 0.5f))
+        <ul>
+          <li>y축에서 터치된 손가락의 실제 좌표를 구함</li>
+          <li>y축만 구현되어있음</li>
+        </ul>
+      </li>
+      <li>button.y &lt; (parentHeight * 0.1f) - status
+        <ul>
+          <li>터치된 손가락이 최상단 <code class="language-plaintext highlighter-rouge">LOGIN</code> text 범위에 닿는 순간을 의미함</li>
+        </ul>
+      </li>
+      <li>button.y &gt; (parentHeight * 0.9f) - status
+        <ul>
+          <li>터치된 손가락이 최하단 <code class="language-plaintext highlighter-rouge">GUEST</code> text 범위에 닿는 순간을 의미함</li>
+        </ul>
+      </li>
+      <li>
+        <table>
+          <tbody>
+            <tr>
+              <td>button.y &lt; (parentHeight * 0.45f) - status</td>
+              <td> </td>
+              <td>button.y &gt; (parentHeight * 0.55f) - status</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+      <li>중앙 로고를 기준으로 위 아래로 조금씩 움직였을 때의 범위를 의미함</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="mainactivitykt">MainActivity.kt</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.contentFrame, MainSwipeFragment())
+            .commit()
+    }
+</code></pre></div></div>
+<ul>
+  <li>supportFragmentManager =&gt; 프래그먼트 생성</li>
+</ul>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#androidui" class="page__taxonomy-item" rel="tag">AndroidUI</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#anroidanimation" class="page__taxonomy-item" rel="tag">AnroidAnimation</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#android-ui" class="page__taxonomy-item" rel="tag">android-ui</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2020-10-21T00:00:00+09:00">October 21, 2020</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=android+swipe+-+%ED%84%B0%EC%B9%98+%EC%A2%8C%ED%91%9C%EB%A5%BC+%EB%94%B0%EB%9D%BC%EC%84%9C+view+%EC%9D%B4%EB%8F%99%ED%95%98%EA%B8%B0%20http%3A%2F%2Flocalhost%3A4000%2Fandroid-ui%2Fandroid-swipe-view%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fandroid-ui%2Fandroid-swipe-view%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fandroid-ui%2Fandroid-swipe-view%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/android-test/use-espresso-to-android-ui-test/" class="pagination--pager" title="Use espresso to android UI test
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You may also enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/background/teaser1.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/android-test/use-espresso-to-android-ui-test/" rel="permalink">Use espresso to android UI test
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">참고자료 
+https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin
+https://two22.tistory.com/12
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/background/teaser1.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/javaandkotlin/java-kotlin-oop/" rel="permalink">Java와 Kotlin을 비교하면서 알아보는 객체지향 프로그래밍(OOP) 1 - Class
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">참고자료 
+https://opentutorials.org/course/743/6553
+https://wikidocs.net/214
+https://kotlinlang.org/docs/reference/classes.html
+https://gmlwjd9405.github.io/2018...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/background/teaser1.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/data-structure-2-kotlin-constructing-collections/" rel="permalink">Data structure 2 - Kotlin Constructing Collections
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">참고자료 
+https://kotlinlang.org/docs/reference/constructing-collections.html
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/background/teaser1.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/android-ui/android-intro-activity-animations-using-lottie/" rel="permalink">Android Intro Activity 1 - animations using lottie
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">참고자료
+https://www.youtube.com/watch?v=n7XTizCon0A
+https://developer.android.com/kotlin/coroutines?hl=ko
+https://lottiefiles.com/
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+          <li><a href="https://github.com/ll0301" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2020 Jeong Hun Kim. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>
