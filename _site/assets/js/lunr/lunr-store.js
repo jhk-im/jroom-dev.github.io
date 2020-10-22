@@ -66,8 +66,8 @@ var store = [{
         "teaser": "http://localhost:4000/assets/images/background/teaser1.jpg"
       },{
         "title": "android snackbar & move to activity in fragment",
-        "excerpt":"참고자료 https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin https://developer.android.com/training/snackbar/action?hl=ko util/ViewExt.kt fun View.showSnackbar(snackbarText: String, timeLength: Int) { Snackbar.make(this, snackbarText, timeLength).run { addCallback(object : Snackbar.Callback() { override fun onShown(sb: Snackbar?) { EspressoIdlingResource.increment() } override fun onDismissed(transientBottomBar: Snackbar?, event: Int) { EspressoIdlingResource.decrement() } }) show() } } snackbar는 위 예제 gif에서 login 선택 시 아래에 등장하는 메시지 이다. Toast와...","categories": [],
-        "tags": [],
-        "url": "http://localhost:4000/android-snackbar-move-to-activity-in-fragment/",
+        "excerpt":"참고자료 https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin https://developer.android.com/training/snackbar/action?hl=ko util/ViewExt.kt fun View.showSnackbar(snackbarText: String, timeLength: Int) { Snackbar.make(this, snackbarText, timeLength).run { addCallback(object : Snackbar.Callback() { override fun onShown(sb: Snackbar?) { EspressoIdlingResource.increment() } override fun onDismissed(transientBottomBar: Snackbar?, event: Int) { EspressoIdlingResource.decrement() } }) show() } } snackbar는 위 예제 gif에서 login 선택 시 아래에 등장하는 메시지 이다. Toast와...","categories": ["android-ui"],
+        "tags": ["AndroidUI","Kotlin"],
+        "url": "http://localhost:4000/android-ui/android-snackbar-move-to-activity-in-fragment/",
         "teaser": "http://localhost:4000/assets/images/background/teaser1.jpg"
       }]

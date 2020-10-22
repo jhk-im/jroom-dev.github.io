@@ -1,5 +1,9 @@
 ---
 title: android snackbar & move to activity in fragment
+category: android-ui
+tags:
+- AndroidUI
+- Kotlin
 ---
 
 참고자료   
