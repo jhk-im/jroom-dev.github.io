@@ -1,0 +1,79 @@
+I"K<p>참고자료 <br />
+<a href="https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin">https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin</a>
+<a href="https://developer.android.com/training/snackbar/action?hl=ko">https://developer.android.com/training/snackbar/action?hl=ko</a></p>
+
+<p float="center">
+  <img src="/assets/images/gif/2020-10-2216-28.gif" width="300" />
+</p>
+
+<h2 id="utilviewextkt">util/ViewExt.kt</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fun View.showSnackbar(snackbarText: String, timeLength: Int) {
+    Snackbar.make(this, snackbarText, timeLength).run {
+        addCallback(object : Snackbar.Callback() {
+            override fun onShown(sb: Snackbar?) {
+                EspressoIdlingResource.increment()
+            }
+    
+            override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                EspressoIdlingResource.decrement()
+            }
+        })
+        show()
+    }
+}
+</code></pre></div></div>
+<ul>
+  <li>snackbar는 위 예제 gif에서 login 선택 시 아래에 등장하는 메시지 이다.</li>
+  <li>Toast와 함께 안드로이드에서 제공하는 기능이다 .</li>
+  <li>매번 Snackbar.make()로 필요한 곳에서 구현해도 문제는 없다.
+    <ul>
+      <li>ui test를 위한 EspressoIdlingResource 를 셋팅해야 하기 때문에 코드가 길어진다.
+        <ul>
+          <li>프로젝트 전역에서 손쉽게 사용하기 위해 ViewExt.kt 를 만들고 그안에 함수만 구현해 두는 방식이다.</li>
+          <li>showSnackbar(“Hello”, Snackbar.LENGTH_SHORT) 처럼 메시지와 표시될 시간만 지정해 두어 코드 길이를 줄일 수 있다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>View.showSnackbar 로 등록되기 때문에 어느곳에서든 view를 가지고있다면 호출하여 사용 가능하다.
+    <h2 id="introswipefragmentkt">IntroSwipeFragment.kt</h2>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...
+
+ MotionEvent.ACTION_UP -&gt; {
+                  when {
+                      button.y &lt; (parentHeight * 0.1f) - status -&gt; {
+                          button.visibility = View.GONE
+                          view?.showSnackbar("Coming soon ...", Snackbar.LENGTH_SHORT)
+                      }
+            
+                      button.y &gt; (parentHeight * 0.9f) - status -&gt; {
+                          val intent = Intent(activity, MainActivity::class.java)
+                          startActivity(intent)
+                          activity?.overridePendingTransition(R.anim.fadein, R.anim.fadeout)
+                          activity?.supportFragmentManager?.beginTransaction()?.remove(this)
+                              ?.commit()
+                          activity?.finish()
+                      }
+                  }
+...
+</code></pre></div>    </div>
+  </li>
+  <li>표시되는 순간이 중앙 로고를 스와이프 하여 Login 텍스트에 가져다 놯을때이다.
+    <ul>
+      <li>위에 선언한 메소드를 fragment 내부의 view를 통해 호출하여 사용가능하다.</li>
+      <li><code class="language-plaintext highlighter-rouge">view?.showSnackbar("Comming soon ...", Snackbar.LENGTH_SHORT)</code> 와 같이 한줄로 snackbar 구현이 가능하다.</li>
+    </ul>
+  </li>
+  <li>activity가 전환되는 부분은 로고를 스와이프 하여 GUEST 텍스트에 가져다 놯을 때이다.
+    <ul>
+      <li>Intent를 사용해 activity 전환 로직을 구현한다.</li>
+      <li><code class="language-plaintext highlighter-rouge">activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()</code>
+        <ul>
+          <li>guset text에 중앙로고를 가져돠 놓고 액티비티가 전환되는 과정에서 애니메이션 효과를 넣었다.</li>
+          <li>약간의 딜레이가 생기기 때문에 중앙로고가 다시 표시되기 때문에 activity를 통해 현재 프래그먼트 자체를 없애는 로직이다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+:ET
