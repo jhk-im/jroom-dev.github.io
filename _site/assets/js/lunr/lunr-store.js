@@ -23,38 +23,38 @@ var store = [{
         "url": "http://localhost:4000/android-kotlin/how-to-format-date-time-in-room-database-kotlin/",
         "teaser": "http://localhost:4000/assets/images/background/teaser1.jpg"
       },{
-        "title": "Data structure 1 - Kotlin Collections Overview",
+        "title": "Data structure - Kotlin Collections Overview",
         "excerpt":"참고자료 https://www.tutorialspoint.com/data_structures_algorithms/index.html 코틀린 학습 + 영어 공부를 위해 kotlin 가이드 문서를 번역함 Kotlin Collections Overview 코틀린 표준 라이브러리는 항목 그룹으로 구성된 컬렉션 관리를 위한 포괄적 도구 세트를 제공하며, 이러한 툴은 해결된 문제에 대한 중요성을 공유하고 공통적으로 운영된다. 컬렉션은 일반적으로 동일한 유형의 여러 객체를 포함한다. 컬렉션안의 객체(object)를 요소(elements) 또는 items라고 한다....","categories": ["programming-theory"],
         "tags": ["Kotlin","DataStructure","KotlinDocs"],
         "url": "http://localhost:4000/programming-theory/data-structure-1-kotlin-data-structure/",
         "teaser": "http://localhost:4000/assets/images/background/teaser1.jpg"
       },{
-        "title": "Android Intro Activity 2 - font family / text animation",
+        "title": "Android Intro Activity - font family / text animation",
         "excerpt":"참고자료 https://www.journaldev.com/9481/android-animation-example https://developer.android.com/training/animation/reveal-or-hide-view?hl=ko https://woovictory.github.io/2020/06/12/Android-Font/ TextView를 추가하고 애니메이션 fade in 애니메이션 적용 custom font 다운받아 적용 Coroutine 맛보기 Activity 전환 애니메이션 적용 Ststus bar 크기를 구하고 로고의 위치 조정 res/anim/fadein.xml , fadeout.xml fadein.xml &lt;?xml version=\"1.0\" encoding=\"utf-8\"?&gt; &lt;set xmlns:android=\"http://schemas.android.com/apk/res/android\" android:fillAfter=\"true\"&gt; &lt;alpha android:duration=\"1000\" android:fromAlpha=\"0.0\" android:interpolator=\"@android:anim/accelerate_interpolator\" android:toAlpha=\"1.0\" /&gt; &lt;/set&gt; fadeout.xml &lt;?xml version=\"1.0\" encoding=\"utf-8\"?&gt; &lt;set...","categories": ["android-ui"],
         "tags": ["AndroidUI","AnroidAnimation","Kotlin","Android"],
         "url": "http://localhost:4000/android-ui/android-intro-activity-2-font-family-text-animation/",
         "teaser": "http://localhost:4000/assets/images/background/teaser1.jpg"
       },{
-        "title": "Android Intro Activity 1 - animations using lottie",
+        "title": "Android Intro Activity - animations using lottie",
         "excerpt":"참고자료 https://www.youtube.com/watch?v=n7XTizCon0A https://developer.android.com/kotlin/coroutines?hl=ko https://lottiefiles.com/ build.gradle implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9' implementation 'com.airbnb.android:lottie:3.4.0' res/values/styles.xml &lt;style name=\"AppTheme\" parent=\"Theme.AppCompat.Light.NoActionBar\"&gt; ... &lt;/style&gt; &lt;style name=\"FullScreen\" parent=\"AppTheme\"&gt; &lt;item name=\"android:windowNoTitle\"&gt;true&lt;/item&gt; &lt;item name=\"android:windowActionBar\"&gt;false&lt;/item&gt; &lt;item name=\"android:windowFullscreen\"&gt;true&lt;/item&gt; &lt;item name=\"android:windowContentOverlay\"&gt;@null&lt;/item&gt; &lt;/style&gt; AppTheme은 안드로이드 프로젝트 생성 시 디폴트로 생성되는 테마이다. 이것을 NoActionBar로 지정한다. (추후 ActionBar는 필요시 toolbar를 추가해서 구현) 로 새로운 stype의 테마를 지정할 수...","categories": ["android-ui"],
         "tags": ["Kotlin","AndroidUI","AnroidAnimation"],
         "url": "http://localhost:4000/android-ui/android-intro-activity-animations-using-lottie/",
         "teaser": "http://localhost:4000/assets/images/background/teaser1.jpg"
       },{
-        "title": "Data structure 2 - Kotlin Constructing Collections",
+        "title": "Data structure - Kotlin Constructing Collections",
         "excerpt":"참고자료   https://kotlinlang.org/docs/reference/constructing-collections.html   코틀린 학습 + 영어 공부를 위해 kotlin 가이드 문서를 번역함   Kotlin Constructing Collections  ","categories": [],
         "tags": [],
         "url": "http://localhost:4000/data-structure-2-kotlin-constructing-collections/",
         "teaser": "http://localhost:4000/assets/images/background/teaser1.jpg"
       },{
-        "title": "Java와 Kotlin을 비교하면서 알아보는 객체지향 프로그래밍(OOP) 1 - Class",
+        "title": "Java와 Kotlin을 비교하면서 알아보는 객체지향 프로그래밍(OOP) - Class",
         "excerpt":"참고자료 https://opentutorials.org/course/743/6553 https://wikidocs.net/214 https://kotlinlang.org/docs/reference/classes.html https://gmlwjd9405.github.io/2018/09/17/class-object-instance.html Class // java class Car {} // kotlin class Car {} 가장 간단한 형태의 클래스이다. 자바와 코틀린의 문법상의 차이는 없다. (현재까지는..) 클래스의 선언만 있고 내용은 없는 껍데기 클래스이다. 하지만 이러한 껍데기라도 중요한 기능을 가지고 있다. 객체를 생성하는 기능이다. 다음과 같이 만들 수 있다. //java Car...","categories": ["JavaAndKotlin"],
         "tags": ["OOP"],
         "url": "http://localhost:4000/javaandkotlin/java-kotlin-oop/",
         "teaser": "http://localhost:4000/assets/images/background/teaser1.jpg"
       },{
         "title": "Use espresso to android UI test",
-        "excerpt":"참고자료 https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin https://two22.tistory.com/12 이전에 만들었던 introActivity를 test해보자. build.gradle(Module:app) // local unit test testImplementation 'androidx.test.ext:junit:1.1.2' // android unit test androidTestImplementation 'androidx.test.ext:junit:1.1.2' // android ui test androidTestImplementation 'androidx.test:runner:1.3.0' androidTestImplementation 'androidx.test:rules:1.3.0' androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0' androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.3.0' androidTestImplementation 'androidx.test.espresso:espresso-intents:3.3.0' androidTestImplementation 'androidx.test.espresso.idling:idling-concurrent:3.3.0' implementation 'androidx.test.espresso:espresso-idling-resource:3.3.0' 각각에 대한 설명 (androidTest)IntroScreenTest.kt @RunWith(AndroidJUnit4::class) @LargeTest class IntroScreenTest { ... } @RunWith(AndroidJUnit4::class)...","categories": ["android-test"],
+        "excerpt":"참고자료 https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin https://two22.tistory.com/12 이전에 만들었던 introActivity를 test해보자. build.gradle(Module:app) // local unit test testImplementation 'androidx.test.ext:junit:1.1.2' // android unit test androidTestImplementation 'androidx.test.ext:junit:1.1.2' // android ui test androidTestImplementation 'androidx.test:runner:1.3.0' androidTestImplementation 'androidx.test:rules:1.3.0' androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0' androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.3.0' androidTestImplementation 'androidx.test.espresso:espresso-intents:3.3.0' androidTestImplementation 'androidx.test.espresso.idling:idling-concurrent:3.3.0' implementation 'androidx.test.espresso:espresso-idling-resource:3.3.0' Junit =&gt; Java의 대표적인 Testing Framework java 이외에도 각각의 언어에 테스트 프레임워크가...","categories": ["android-test"],
         "tags": ["TDD","AndroidUITest"],
         "url": "http://localhost:4000/android-test/use-espresso-to-android-ui-test/",
         "teaser": "http://localhost:4000/assets/images/background/teaser1.jpg"

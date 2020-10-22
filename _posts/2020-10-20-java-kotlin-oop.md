@@ -1,5 +1,5 @@
 ---
-title: Java와 Kotlin을 비교하면서 알아보는 객체지향 프로그래밍(OOP) 1 - Class
+title: Java와 Kotlin을 비교하면서 알아보는 객체지향 프로그래밍(OOP) - Class
 category: JavaAndKotlin
 tags:
 - OOP

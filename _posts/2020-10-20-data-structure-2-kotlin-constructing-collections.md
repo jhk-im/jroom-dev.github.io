@@ -1,5 +1,5 @@
 ---
-title: Data structure 2 - Kotlin Constructing Collections
+title: Data structure - Kotlin Constructing Collections
 ---
 
 참고자료   

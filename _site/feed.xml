@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-22T01:27:38+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hun development blog</title><subtitle>Android &amp; Flutter &amp; Fullstack</subtitle><author><name>Hun</name></author><entry><title type="html">android swipe - 터치 좌표를 따라서 view 이동하기</title><link href="http://localhost:4000/android-ui/android-swipe-view/" rel="alternate" type="text/html" title="android swipe - 터치 좌표를 따라서 view 이동하기" /><published>2020-10-21T00:00:00+09:00</published><updated>2020-10-21T00:00:00+09:00</updated><id>http://localhost:4000/android-ui/android-swipe-view</id><content type="html" xml:base="http://localhost:4000/android-ui/android-swipe-view/">&lt;p&gt;참고자료
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-22T16:20:23+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hun development blog</title><subtitle>Android &amp; Flutter &amp; Fullstack</subtitle><author><name>Hun</name></author><entry><title type="html">android swipe - 터치 좌표를 따라서 view 이동하기</title><link href="http://localhost:4000/android-ui/android-swipe-view/" rel="alternate" type="text/html" title="android swipe - 터치 좌표를 따라서 view 이동하기" /><published>2020-10-21T00:00:00+09:00</published><updated>2020-10-21T00:00:00+09:00</updated><id>http://localhost:4000/android-ui/android-swipe-view</id><content type="html" xml:base="http://localhost:4000/android-ui/android-swipe-view/">&lt;p&gt;참고자료
 &lt;a href=&quot;https://sunghyun1038.tistory.com/24&quot;&gt;https://sunghyun1038.tistory.com/24&lt;/a&gt;
 &lt;a href=&quot;https://developer.android.com/training/gestures/viewgroup?hl=ko&quot;&gt;https://developer.android.com/training/gestures/viewgroup?hl=ko&lt;/a&gt;
 &lt;a href=&quot;https://developer.android.com/guide/topics/graphics/prop-animation?hl=ko&quot;&gt;https://developer.android.com/guide/topics/graphics/prop-animation?hl=ko&lt;/a&gt;&lt;/p&gt;
@@ -307,7 +307,7 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;ul&gt;
   &lt;li&gt;supportFragmentManager =&amp;gt; 프래그먼트 생성&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Hun</name></author><category term="android-ui" /><category term="AndroidUI" /><category term="AnroidAnimation" /><summary type="html">참고자료 https://sunghyun1038.tistory.com/24 https://developer.android.com/training/gestures/viewgroup?hl=ko https://developer.android.com/guide/topics/graphics/prop-animation?hl=ko</summary></entry><entry><title type="html">Android Intro Activity 2 - font family / text animation</title><link href="http://localhost:4000/android-ui/android-intro-activity-2-font-family-text-animation/" rel="alternate" type="text/html" title="Android Intro Activity 2 - font family / text animation" /><published>2020-10-20T00:00:00+09:00</published><updated>2020-10-20T00:00:00+09:00</updated><id>http://localhost:4000/android-ui/android-intro-activity-2-font-family-text-animation</id><content type="html" xml:base="http://localhost:4000/android-ui/android-intro-activity-2-font-family-text-animation/">&lt;p&gt;참고자료 &lt;br /&gt;
+&lt;/ul&gt;</content><author><name>Hun</name></author><category term="android-ui" /><category term="AndroidUI" /><category term="AnroidAnimation" /><summary type="html">참고자료 https://sunghyun1038.tistory.com/24 https://developer.android.com/training/gestures/viewgroup?hl=ko https://developer.android.com/guide/topics/graphics/prop-animation?hl=ko</summary></entry><entry><title type="html">Android Intro Activity - font family / text animation</title><link href="http://localhost:4000/android-ui/android-intro-activity-2-font-family-text-animation/" rel="alternate" type="text/html" title="Android Intro Activity - font family / text animation" /><published>2020-10-20T00:00:00+09:00</published><updated>2020-10-20T00:00:00+09:00</updated><id>http://localhost:4000/android-ui/android-intro-activity-2-font-family-text-animation</id><content type="html" xml:base="http://localhost:4000/android-ui/android-intro-activity-2-font-family-text-animation/">&lt;p&gt;참고자료 &lt;br /&gt;
 &lt;a href=&quot;https://www.journaldev.com/9481/android-animation-example&quot;&gt;https://www.journaldev.com/9481/android-animation-example&lt;/a&gt;
 &lt;a href=&quot;https://developer.android.com/training/animation/reveal-or-hide-view?hl=ko&quot;&gt;https://developer.android.com/training/animation/reveal-or-hide-view?hl=ko&lt;/a&gt;
 &lt;a href=&quot;https://woovictory.github.io/2020/06/12/Android-Font/&quot;&gt;https://woovictory.github.io/2020/06/12/Android-Font/&lt;/a&gt;&lt;/p&gt;
@@ -488,7 +488,7 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;ul&gt;
   &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;style=&quot;@style/Text.TitleStyle&quot;&lt;/code&gt; 처럼 적용하여 사용한다.&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Hun</name></author><category term="android-ui" /><category term="AndroidUI" /><category term="AnroidAnimation" /><category term="Kotlin" /><category term="Android" /><summary type="html">참고자료 https://www.journaldev.com/9481/android-animation-example https://developer.android.com/training/animation/reveal-or-hide-view?hl=ko https://woovictory.github.io/2020/06/12/Android-Font/</summary></entry><entry><title type="html">Android Intro Activity 1 - animations using lottie</title><link href="http://localhost:4000/android-ui/android-intro-activity-animations-using-lottie/" rel="alternate" type="text/html" title="Android Intro Activity 1 - animations using lottie" /><published>2020-10-20T00:00:00+09:00</published><updated>2020-10-20T00:00:00+09:00</updated><id>http://localhost:4000/android-ui/android-intro-activity-animations-using-lottie</id><content type="html" xml:base="http://localhost:4000/android-ui/android-intro-activity-animations-using-lottie/">&lt;p&gt;참고자료
+&lt;/ul&gt;</content><author><name>Hun</name></author><category term="android-ui" /><category term="AndroidUI" /><category term="AnroidAnimation" /><category term="Kotlin" /><category term="Android" /><summary type="html">참고자료 https://www.journaldev.com/9481/android-animation-example https://developer.android.com/training/animation/reveal-or-hide-view?hl=ko https://woovictory.github.io/2020/06/12/Android-Font/</summary></entry><entry><title type="html">Android Intro Activity - animations using lottie</title><link href="http://localhost:4000/android-ui/android-intro-activity-animations-using-lottie/" rel="alternate" type="text/html" title="Android Intro Activity - animations using lottie" /><published>2020-10-20T00:00:00+09:00</published><updated>2020-10-20T00:00:00+09:00</updated><id>http://localhost:4000/android-ui/android-intro-activity-animations-using-lottie</id><content type="html" xml:base="http://localhost:4000/android-ui/android-intro-activity-animations-using-lottie/">&lt;p&gt;참고자료
 &lt;a href=&quot;https://www.youtube.com/watch?v=n7XTizCon0A&quot;&gt;https://www.youtube.com/watch?v=n7XTizCon0A&lt;/a&gt;
 &lt;a href=&quot;https://developer.android.com/kotlin/coroutines?hl=ko&quot;&gt;https://developer.android.com/kotlin/coroutines?hl=ko&lt;/a&gt;
 &lt;a href=&quot;https://lottiefiles.com/&quot;&gt;https://lottiefiles.com/&lt;/a&gt;&lt;/p&gt;
@@ -590,12 +590,12 @@ implementation 'com.airbnb.android:lottie:3.4.0'
   &lt;li&gt;5초뒤 MainActivity로 이동하고 IntroActivity 는 finish()&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;##&lt;/p&gt;</content><author><name>Hun</name></author><category term="android-ui" /><category term="Kotlin" /><category term="AndroidUI" /><category term="AnroidAnimation" /><summary type="html">참고자료 https://www.youtube.com/watch?v=n7XTizCon0A https://developer.android.com/kotlin/coroutines?hl=ko https://lottiefiles.com/</summary></entry><entry><title type="html">Data structure 2 - Kotlin Constructing Collections</title><link href="http://localhost:4000/data-structure-2-kotlin-constructing-collections/" rel="alternate" type="text/html" title="Data structure 2 - Kotlin Constructing Collections" /><published>2020-10-20T00:00:00+09:00</published><updated>2020-10-20T00:00:00+09:00</updated><id>http://localhost:4000/data-structure-2-kotlin-constructing-collections</id><content type="html" xml:base="http://localhost:4000/data-structure-2-kotlin-constructing-collections/">&lt;p&gt;참고자료 &lt;br /&gt;
+&lt;p&gt;##&lt;/p&gt;</content><author><name>Hun</name></author><category term="android-ui" /><category term="Kotlin" /><category term="AndroidUI" /><category term="AnroidAnimation" /><summary type="html">참고자료 https://www.youtube.com/watch?v=n7XTizCon0A https://developer.android.com/kotlin/coroutines?hl=ko https://lottiefiles.com/</summary></entry><entry><title type="html">Data structure - Kotlin Constructing Collections</title><link href="http://localhost:4000/data-structure-2-kotlin-constructing-collections/" rel="alternate" type="text/html" title="Data structure - Kotlin Constructing Collections" /><published>2020-10-20T00:00:00+09:00</published><updated>2020-10-20T00:00:00+09:00</updated><id>http://localhost:4000/data-structure-2-kotlin-constructing-collections</id><content type="html" xml:base="http://localhost:4000/data-structure-2-kotlin-constructing-collections/">&lt;p&gt;참고자료 &lt;br /&gt;
 &lt;a href=&quot;https://kotlinlang.org/docs/reference/constructing-collections.html&quot;&gt;https://kotlinlang.org/docs/reference/constructing-collections.html&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;코틀린 학습 + 영어 공부를 위해 kotlin 가이드 문서를 번역함&lt;/p&gt;
 
-&lt;h2 id=&quot;kotlin-constructing-collections&quot;&gt;Kotlin Constructing Collections&lt;/h2&gt;</content><author><name>Hun</name></author><summary type="html">참고자료 https://kotlinlang.org/docs/reference/constructing-collections.html</summary></entry><entry><title type="html">Java와 Kotlin을 비교하면서 알아보는 객체지향 프로그래밍(OOP) 1 - Class</title><link href="http://localhost:4000/javaandkotlin/java-kotlin-oop/" rel="alternate" type="text/html" title="Java와 Kotlin을 비교하면서 알아보는 객체지향 프로그래밍(OOP) 1 - Class" /><published>2020-10-20T00:00:00+09:00</published><updated>2020-10-20T00:00:00+09:00</updated><id>http://localhost:4000/javaandkotlin/java-kotlin-oop</id><content type="html" xml:base="http://localhost:4000/javaandkotlin/java-kotlin-oop/">&lt;p&gt;참고자료 &lt;br /&gt;
+&lt;h2 id=&quot;kotlin-constructing-collections&quot;&gt;Kotlin Constructing Collections&lt;/h2&gt;</content><author><name>Hun</name></author><summary type="html">참고자료 https://kotlinlang.org/docs/reference/constructing-collections.html</summary></entry><entry><title type="html">Java와 Kotlin을 비교하면서 알아보는 객체지향 프로그래밍(OOP) - Class</title><link href="http://localhost:4000/javaandkotlin/java-kotlin-oop/" rel="alternate" type="text/html" title="Java와 Kotlin을 비교하면서 알아보는 객체지향 프로그래밍(OOP) - Class" /><published>2020-10-20T00:00:00+09:00</published><updated>2020-10-20T00:00:00+09:00</updated><id>http://localhost:4000/javaandkotlin/java-kotlin-oop</id><content type="html" xml:base="http://localhost:4000/javaandkotlin/java-kotlin-oop/">&lt;p&gt;참고자료 &lt;br /&gt;
 &lt;a href=&quot;https://opentutorials.org/course/743/6553&quot;&gt;https://opentutorials.org/course/743/6553&lt;/a&gt;
 &lt;a href=&quot;https://wikidocs.net/214&quot;&gt;https://wikidocs.net/214&lt;/a&gt;
 &lt;a href=&quot;https://kotlinlang.org/docs/reference/classes.html&quot;&gt;https://kotlinlang.org/docs/reference/classes.html&lt;/a&gt;
@@ -749,7 +749,53 @@ Tucsan
     implementation 'androidx.test.espresso:espresso-idling-resource:3.3.0'
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;ul&gt;
-  &lt;li&gt;각각에 대한 설명&lt;/li&gt;
+  &lt;li&gt;Junit =&amp;gt; Java의 대표적인 Testing Framework
+    &lt;ul&gt;
+      &lt;li&gt;java 이외에도 각각의 언어에 테스트 프레임워크가 있다. (CUnit, PyUnit …)&lt;/li&gt;
+      &lt;li&gt;똑같은 junit이 testImplementation과 androidTestImplementation으로 추가되어 있는 이유
+        &lt;ul&gt;
+          &lt;li&gt;app/src에는 main / test / androidTest 패키지로 나뉘어져 있다.
+            &lt;ul&gt;
+              &lt;li&gt;main =&amp;gt; 실제 동작하는 코드&lt;/li&gt;
+              &lt;li&gt;test =&amp;gt; unit test를 구현한 코드&lt;/li&gt;
+              &lt;li&gt;androidTest =&amp;gt; ui test를 구현한 코드 (화면터치, 표시내용 등 )
+                &lt;ul&gt;
+                  &lt;li&gt;testImplementation =&amp;gt; test 소스 세트에 대한 종속성 추가&lt;/li&gt;
+                  &lt;li&gt;androidTestImplementation =&amp;gt; androidTest 소스 세트에 대한 종속성 추가&lt;/li&gt;
+                &lt;/ul&gt;
+              &lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;runner
+    &lt;ul&gt;
+      &lt;li&gt;ui test 관련된 espresso 및 ui automator 프레임워크를 실행&lt;/li&gt;
+      &lt;li&gt;Junit 테스트 클래스를 실행&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;rules
+    &lt;ul&gt;
+      &lt;li&gt;Junit 규칙 셋&lt;/li&gt;
+      &lt;li&gt;테스트에 필요한 상용구 코드를 줄이고 유연성을 높임&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;espresso-core   / epresso-contrib / espresso-intents  / idling-concurrent / idling-resource
+    &lt;ul&gt;
+      &lt;li&gt;안드로이드에서 ui test를 위해 대표적으로 사용하는 라이브러리&lt;/li&gt;
+      &lt;li&gt;core =&amp;gt; espresso의 기본 메소드가 담긴 패키지&lt;/li&gt;
+      &lt;li&gt;contrilb =&amp;gt; DatePicker, RecyclerView, Drawer 등을 지원 하는 패키지&lt;/li&gt;
+      &lt;li&gt;intents =&amp;gt; 폐쇄적 테스트를 위한 인턴트 확장이 담긴 패키지&lt;/li&gt;
+      &lt;li&gt;idling
+        &lt;ul&gt;
+          &lt;li&gt;어떠한 ui의 동작을 테스트할 때 특정 동작의 완료를 기다려야하는 상황에서 Espresso는 해당 작업의 종료를 기다리는 방법을 모름&lt;/li&gt;
+          &lt;li&gt;idling을 작성하여 Espresso가 대기할 수 있도록 함&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&quot;androidtestintroscreentestkt&quot;&gt;(androidTest)IntroScreenTest.kt&lt;/h2&gt;
@@ -760,8 +806,18 @@ class IntroScreenTest {
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;ul&gt;
-  &lt;li&gt;@RunWith(AndroidJUnit4::class)&lt;/li&gt;
-  &lt;li&gt;@LargeTest&lt;/li&gt;
+  &lt;li&gt;@RunWith(AndroidJUnit4::class)
+    &lt;ul&gt;
+      &lt;li&gt;해당 클래스가 Test 클래스임을 명시&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;@LargeTest
+    &lt;ul&gt;
+      &lt;li&gt;외부 파일 시스템, 네트워크 등에 액세스할 수 있음&lt;/li&gt;
+      &lt;li&gt;@SmallTest =&amp;gt; 파일시스템이나 네트워크와 상호작용하지 않음&lt;/li&gt;
+      &lt;li&gt;@Medium =&amp;gt; localhost만 액세스&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    @get: Rule
@@ -773,8 +829,12 @@ class IntroScreenTest {
             ).apply { putExtra(&quot;MyArgs&quot;, &quot;Nothing&quot;) })
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;ul&gt;
-  &lt;li&gt;@get:Rule&lt;/li&gt;
-  &lt;li&gt;ActivityScenarioRule&lt;/li&gt;
+  &lt;li&gt;@get:Rule
+    &lt;ul&gt;
+      &lt;li&gt;ActivityScenarioRule을 사용하기 위함&lt;/li&gt;
+      &lt;li&gt;Testing  진행할 activity를 연결&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    @Before
@@ -795,9 +855,24 @@ class IntroScreenTest {
     }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;ul&gt;
-  &lt;li&gt;@Before&lt;/li&gt;
-  &lt;li&gt;@After&lt;/li&gt;
-  &lt;li&gt;ActivityScenarioRule.scenario&lt;/li&gt;
+  &lt;li&gt;@Before
+    &lt;ul&gt;
+      &lt;li&gt;테스트 이전에 실행 됨&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;@After
+    &lt;ul&gt;
+      &lt;li&gt;테스트 이후에 실행 됨&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;ActivityScenarioRule.scenario
+    &lt;ul&gt;
+      &lt;li&gt;로컬 단위 테스트 및 기기 내 통합 테스트에서 모두 사용할 수 있는 크로스 플랫폼 API 이다.&lt;/li&gt;
+      &lt;li&gt;테스트 계측 스레드와 테스트실행 스레드를 동기화한다.&lt;/li&gt;
+      &lt;li&gt;onActivity { } 내부에 연결된 activity의 xml view 들을 찾아서 연결할 수 있다.&lt;/li&gt;
+      &lt;li&gt;테스트에서 글자입력 혹은 클릭등이 필요한경우 셋팅할 수 있음&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    @Test
@@ -812,9 +887,26 @@ class IntroScreenTest {
     }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;ul&gt;
-  &lt;li&gt;@Test&lt;/li&gt;
-  &lt;li&gt;ActivityScenarioRule.scenario.onActivity {}&lt;/li&gt;
-  &lt;li&gt;Assert&lt;/li&gt;
+  &lt;li&gt;@Test
+    &lt;ul&gt;
+      &lt;li&gt;해당 함수가 테스트용 함수임을 나타냄&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;ActivityScenarioRule.scenario.onActivity {}
+    &lt;ul&gt;
+      &lt;li&gt;테스트 시 체크할 사항들을 구현할 수 있음&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Assert
+    &lt;ul&gt;
+      &lt;li&gt;테스트의 수행결과를 판별하는데 사용한다.&lt;/li&gt;
+      &lt;li&gt;assertEquals(a,b) =&amp;gt; 입력된 a,b 가 일치하는지 확인
+        &lt;ul&gt;
+          &lt;li&gt;이 외에도 assertFalse() , assertNotNull(), assertFail() 등의 메소드가 있음&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    @Test
@@ -833,7 +925,13 @@ class IntroScreenTest {
     }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;ul&gt;
-  &lt;li&gt;moveToStae()&lt;/li&gt;
+  &lt;li&gt;moveToStae()
+    &lt;ul&gt;
+      &lt;li&gt;액티비티의 라이프 사이클을 임의로 변경할 수 있음&lt;/li&gt;
+      &lt;li&gt;현재상태를 Lifecycle.State 변수를 통해 확인가능&lt;/li&gt;
+      &lt;li&gt;recreate 메소드를 이용하면 앱을 onSaveInstanceState와 함께 재실행할 수 있음&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;lateinit var activityScenario: ActivityScenario&amp;lt;IntroActivity&amp;gt;
@@ -857,7 +955,7 @@ class IntroScreenTest {
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;ul&gt;
   &lt;li&gt;ActivityScenario만 단독으로 사용 가능&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Hun</name></author><category term="android-test" /><category term="TDD" /><category term="AndroidUITest" /><summary type="html">참고자료 https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin https://two22.tistory.com/12</summary></entry><entry><title type="html">Data structure 1 - Kotlin Collections Overview</title><link href="http://localhost:4000/programming-theory/data-structure-1-kotlin-data-structure/" rel="alternate" type="text/html" title="Data structure 1 - Kotlin Collections Overview" /><published>2020-10-19T00:00:00+09:00</published><updated>2020-10-19T00:00:00+09:00</updated><id>http://localhost:4000/programming-theory/data-structure-1-kotlin-data-structure</id><content type="html" xml:base="http://localhost:4000/programming-theory/data-structure-1-kotlin-data-structure/">&lt;p&gt;참고자료 &lt;br /&gt;
+&lt;/ul&gt;</content><author><name>Hun</name></author><category term="android-test" /><category term="TDD" /><category term="AndroidUITest" /><summary type="html">참고자료 https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin https://two22.tistory.com/12</summary></entry><entry><title type="html">Data structure - Kotlin Collections Overview</title><link href="http://localhost:4000/programming-theory/data-structure-1-kotlin-data-structure/" rel="alternate" type="text/html" title="Data structure - Kotlin Collections Overview" /><published>2020-10-19T00:00:00+09:00</published><updated>2020-10-19T00:00:00+09:00</updated><id>http://localhost:4000/programming-theory/data-structure-1-kotlin-data-structure</id><content type="html" xml:base="http://localhost:4000/programming-theory/data-structure-1-kotlin-data-structure/">&lt;p&gt;참고자료 &lt;br /&gt;
 &lt;a href=&quot;https://www.tutorialspoint.com/data_structures_algorithms/index.html&quot;&gt;https://www.tutorialspoint.com/data_structures_algorithms/index.html&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;코틀린 학습 + 영어 공부를 위해 kotlin 가이드 문서를 번역함&lt;/p&gt;

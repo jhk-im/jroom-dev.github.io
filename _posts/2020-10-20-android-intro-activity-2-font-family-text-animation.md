@@ -1,5 +1,5 @@
 ---
-title: Android Intro Activity 2 - font family / text animation
+title: Android Intro Activity - font family / text animation
 category: android-ui
 tags:
 - AndroidUI

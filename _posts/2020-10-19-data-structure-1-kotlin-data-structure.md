@@ -1,5 +1,5 @@
 ---
-title: Data structure 1 - Kotlin Collections Overview
+title: Data structure - Kotlin Collections Overview
 category: programming-theory
 tags:
 - Kotlin

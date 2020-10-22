@@ -1,0 +1,192 @@
+I"�<p>참고자료 <br />
+<a href="https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin">https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin</a>
+<a href="https://two22.tistory.com/12">https://two22.tistory.com/12</a></p>
+
+<p>이전에 만들었던 introActivity를 test해보자.</p>
+<h2 id="buildgradlemoduleapp">build.gradle(Module:app)</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    // local unit test
+    testImplementation 'androidx.test.ext:junit:1.1.2'
+
+    // android unit test
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+
+    // android ui test
+    androidTestImplementation 'androidx.test:runner:1.3.0'
+    androidTestImplementation 'androidx.test:rules:1.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.3.0'
+    androidTestImplementation 'androidx.test.espresso.idling:idling-concurrent:3.3.0'
+    implementation 'androidx.test.espresso:espresso-idling-resource:3.3.0'
+</code></pre></div></div>
+<ul>
+  <li>Junit =&gt; Java의 대표적인 Testing Framework
+    <ul>
+      <li>java 이외에도 각각의 언어에 테스트 프레임워크가 있다. (CUnit, PyUnit …)</li>
+      <li>똑같은 junit이 testImplementation과 androidTestImplementation으로 추가되어 있는 이유
+        <ul>
+          <li>app/src에는 main / test / androidTest 패키지로 나뉘어져 있다.
+            <ul>
+              <li>main =&gt; 실제 동작하는 코드</li>
+              <li>test =&gt; unit test를 구현한 코드</li>
+              <li>androidTest =&gt; ui test를 구현한 코드 (화면터치, 표시내용 등 )
+                <ul>
+                  <li>testImplementation =&gt; test 소스 세트에 대한 종속성 추가</li>
+                  <li>androidTestImplementation =&gt; androidTest 소스 세트에 대한 종속성 추가</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>runner
+    <ul>
+      <li>ui test 관련된 espresso 및 ui automator 프레임워크를 실행</li>
+      <li>Junit 테스트 클래스를 실행</li>
+    </ul>
+  </li>
+  <li>rules
+    <ul>
+      <li>Junit 규칙 셋</li>
+      <li>테스트에 필요한 상용구 코드를 줄이고 유연성을 높임</li>
+    </ul>
+  </li>
+  <li>espresso-core   / epresso-contrib / espresso-intents  / idling-concurrent / idling-resource
+    <ul>
+      <li>안드로이드에서 ui test를 위해 대표적으로 사용하는 라이브러리</li>
+      <li>core =&gt; espresso의 기본 메소드가 담긴 패키지</li>
+      <li>contrilb =&gt; DatePicker, RecyclerView, Drawer 등을 지원 하는 패키지</li>
+      <li>intents =&gt; 폐쇄적 테스트를 위한 인턴트 확장이 담긴 패키지</li>
+      <li>idling
+        <ul>
+          <li>어떠한 ui의 동작을 테스트할 때 특정 동작의 완료를 기다려야하는 상황에서 Espresso는 해당 작업의 종료를 기다리는 방법을 모름</li>
+          <li>idling을 작성하여 Espresso가 대기할 수 있도록 함</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="androidtestintroscreentestkt">(androidTest)IntroScreenTest.kt</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@RunWith(AndroidJUnit4::class)
+@LargeTest
+class IntroScreenTest {
+...
+}
+</code></pre></div></div>
+<ul>
+  <li>@RunWith(AndroidJUnit4::class)
+    <ul>
+      <li>해당 클래스가 Test 클래스임을 명시</li>
+    </ul>
+  </li>
+  <li>@LargeTest
+    <ul>
+      <li>외부 파일 시스템, 네트워크 등에 액세스할 수 있음</li>
+      <li>@SmallTest =&gt; 파일시스템이나 네트워크와 상호작용하지 않음</li>
+      <li>@Medium =&gt; localhost만 액세스</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    @get: Rule
+    var activityScenarioRule: ActivityScenarioRule&lt;IntroActivity&gt; =
+        ActivityScenarioRule(
+            Intent(
+                ApplicationProvider.getApplicationContext(),
+                IntroActivity::class.java
+            ).apply { putExtra("MyArgs", "Nothing") })
+</code></pre></div></div>
+<ul>
+  <li>@get:Rule
+    <ul>
+      <li></li>
+    </ul>
+  </li>
+  <li>ActivityScenarioRule</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    @Before
+    fun setUp() {
+        activityScenarioRule.scenario.onActivity { it -&gt;
+            (it.findViewById&lt;ConstraintLayout&gt;(R.id.intro_cl))?.let {
+            
+            }
+            (it.findViewById&lt;TextView&gt;(R.id.intro_logo))?.let {
+                // it.text = "ChangeUI"
+            }
+        }
+    }
+    
+    @After
+    fun close() {
+        activityScenarioRule.scenario.close()
+    }
+</code></pre></div></div>
+<ul>
+  <li>@Before</li>
+  <li>@After</li>
+  <li>ActivityScenarioRule.scenario</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    @Test
+    fun resultTest() {
+        activityScenarioRule.scenario.onActivity {
+            it.setResult(Activity.RESULT_OK, Intent().apply { putExtra("Result", "Ok") })
+            it.finish()
+        }
+        Assert.assertEquals(activityScenarioRule.scenario.result.resultCode, Activity.RESULT_OK)
+        val result = activityScenarioRule.scenario.result.resultData?.extras?.getString("Result")
+        Assert.assertEquals(result, "Ok")
+    }
+</code></pre></div></div>
+<ul>
+  <li>@Test</li>
+  <li>ActivityScenarioRule.scenario.onActivity {}</li>
+  <li>Assert</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    @Test
+    fun moveToStateTest() {
+        activityScenarioRule.scenario?.let {
+            it.moveToState(Lifecycle.State.STARTED)
+            Assert.assertEquals(it.state, Lifecycle.State.STARTED)
+            it.moveToState(Lifecycle.State.CREATED)
+            Assert.assertEquals(it.state, Lifecycle.State.CREATED)
+            it.moveToState(Lifecycle.State.RESUMED)
+            Assert.assertEquals(it.state, Lifecycle.State.RESUMED)
+            it.moveToState(Lifecycle.State.DESTROYED)
+            Assert.assertEquals(it.state, Lifecycle.State.DESTROYED)
+            // activityScenario.recreate()
+        }
+    }
+</code></pre></div></div>
+<ul>
+  <li>moveToStae()</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lateinit var activityScenario: ActivityScenario&lt;IntroActivity&gt;
+    
+    @Before
+    fun setUp() {
+        activityScenario = ActivityScenario.launch(
+            Intent(
+                ApplicationProvider.getApplicationContext(),
+                IntroActivity::class.java
+            ).apply {
+                putExtra("MyArgs", "Nothing")
+            })
+        
+        activityScenario.onActivity {
+            (it.findViewById&lt;ConstraintLayout&gt;(R.id.intro_cl))?.let {
+            
+            }
+        }
+    }
+</code></pre></div></div>
+<ul>
+  <li>ActivityScenario만 단독으로 사용 가능</li>
+</ul>
+:ET
