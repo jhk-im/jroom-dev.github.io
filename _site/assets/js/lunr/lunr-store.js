@@ -70,4 +70,10 @@ var store = [{
         "tags": ["AndroidUI","Kotlin"],
         "url": "http://localhost:4000/android-ui/android-snackbar-move-to-activity-in-fragment/",
         "teaser": "http://localhost:4000/assets/images/background/teaser1.jpg"
+      },{
+        "title": "Architecture Components Example - Room, LiveData, ViewModel",
+        "excerpt":"Architecture Component Architecture Component 예제를 공부하면서 주요 기능으로 자리잡고 있는 Room, LiveData, Repository , ViewModel, 에 대하여 정리한 글이다. 이미지 출처 및 참고자료 https://codelabs.developers.google.com/codelabs/android-room-with-a-view-kotlin?hl=ko#1 공식문서 Room LiveData ViewModel Room? Room은 SQLite 추상화 레이어를 제공하여 SQLite를 완벽히 활용하면서 더 견고한 데이터 베이스 액세스를 가능하게 한다. SQLite 데이터베이스 위에 있는 데이터베이스 계층이다....","categories": ["android-kotlin"],
+        "tags": ["Kotlin","MVVM"],
+        "url": "http://localhost:4000/android-kotlin/implementing-mvvm-android-livedata/",
+        "teaser": "http://localhost:4000/assets/images/background/teaser1.jpg"
       }]

@@ -1,0 +1,266 @@
+I"x?<h2 id="architecture-component">Architecture Component</h2>
+<p>Architecture Component 예제를 공부하면서 주요 기능으로 자리잡고 있는 <code class="language-plaintext highlighter-rouge">Room</code>, <code class="language-plaintext highlighter-rouge">LiveData</code>, <code class="language-plaintext highlighter-rouge">Repository</code> , <code class="language-plaintext highlighter-rouge">ViewModel</code>, 에 대하여 정리한 글이다.</p>
+
+<p float="center">
+<img src="/assets/images/png/architectureComponent.png" width="100%" />
+</p>
+<p>이미지 출처 및 참고자료 <br />
+<a href="https://codelabs.developers.google.com/codelabs/android-room-with-a-view-kotlin?hl=ko#1">https://codelabs.developers.google.com/codelabs/android-room-with-a-view-kotlin?hl=ko#1</a></p>
+
+<p>공식문서
+<a href="import androidx.lifecycle.viewModelScope">Room</a>
+<a href="https://developer.android.com/topic/libraries/architecture/livedata?hl=ko">LiveData</a></p>
+
+<h2 id="room"><code class="language-plaintext highlighter-rouge">Room</code>?</h2>
+<p><code class="language-plaintext highlighter-rouge">Room</code>은 <code class="language-plaintext highlighter-rouge">SQLite</code> 추상화 레이어를 제공하여 <code class="language-plaintext highlighter-rouge">SQLite</code>를 완벽히 활용하면서 더 견고한 데이터 베이스 액세스를 가능하게 한다.</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">SQLite</code> 데이터베이스 위에 있는 데이터베이스 계층이다.</li>
+  <li>SQLiteOpenHelper로 처리하던 작업을 처리한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">DAO</code>를 사용하여 데이터베이스에 쿼리를 발급한다.</li>
+  <li>성능저하를 피하기 위해 main thread 에서 Query를 사용하는 것을 허용하지 않는다.</li>
+  <li><code class="language-plaintext highlighter-rouge">Room</code>에서 LiveData를 반환하면 백그라운드 스레드에서 Query 비동기로 자동실행된다.</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//bulid.gradle
+
+implementation "androidx.room:room-runtime:$rootProject.roomVersion"
+kapt "androidx.room:room-compiler:$rootProject.roomVersion"
+implementation "androidx.room:room-ktx:$rootProject.roomVersion"
+androidTestImplementation "androidx.room:room-testing:$rootProject.roomVersion"
+</code></pre></div></div>
+<h4 id="entity"><code class="language-plaintext highlighter-rouge">Entity</code></h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Word.kt
+
+@Entity(tableName = "word_table")
+data class Word(@PrimaryKey @ColumnInfo(name = "word") val word: String)
+</code></pre></div></div>
+<ul>
+  <li>@Entity(tableName =””)
+    <ul>
+      <li>SQLite table</li>
+      <li>table name을 설정한다.</li>
+    </ul>
+  </li>
+  <li>@PrimaryKey
+    <ul>
+      <li>모든 entity 는 primary key가 있어야한다.</li>
+    </ul>
+  </li>
+  <li>@ColumnInfo -&gt; column 이름을 설정하고 유형을 지정한다.</li>
+  <li>데이터베이스에 저장된 모든 속성은 public 이며 kotlin의 기본 설정이다.</li>
+</ul>
+
+<h4 id="dao"><code class="language-plaintext highlighter-rouge">DAO</code></h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//WordDao.kt
+
+@Dao
+interface WordDao {
+
+    @Query("SELECT * from word_table ORDER BY word ASC")
+    fun getAlphabetizedWords(): LiveData&lt;List&lt;Word&gt;&gt;
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insert(word: Word)
+
+    @Query("DELETE FROM word_table")
+    suspend fun deleteAll()
+}
+</code></pre></div></div>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Dao</code>는 interface혹은 abstract 클래스로 설정해야 한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">@Dao</code>
+    <ul>
+      <li>Room을 위한 DAO 클래스로 식별한다.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">@Insert</code>
+    <ul>
+      <li>SQL 문법이 필요없는 특별한 DAO 메소드 anottation이다.</li>
+      <li>테이블에 데이터를 추가하는 용도</li>
+      <li>동일하게 <code class="language-plaintext highlighter-rouge">@Update</code>, <code class="language-plaintext highlighter-rouge">@Delete</code>도 제공된다.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">OnConflictStrategy.IGNORE</code>
+    <ul>
+      <li>입력된 값이 테이블에 있는 값과 동일하면 작업을 무시한다.</li>
+    </ul>
+  </li>
+  <li>deleteAll()
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">@Delete</code>는 여러개의 entitiy 삭제할 수 없기 때문에 <code class="language-plaintext highlighter-rouge">@Query</code>로 직접 구현해야 한다.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">@Query</code>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">@Query</code>는 string parameter로 되어있는 SQL을 입력받고 실행하는 annotation이다.</li>
+      <li>구현을 위해 SQLite 문법을 이해하고 있어야 한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="roomdatabase"><code class="language-plaintext highlighter-rouge">RoomDatabase</code></h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//WordRoomDatabase.kt
+
+
+@Database(entities = [Word::class], version = 1, exportSchema = false)
+abstract class WordRoomDatabase : RoomDatabase() {
+
+    // The database exposes DAOs through an abstract 'getter' method for each @Dao.
+    abstract fun wordDao(): WordDao
+		
+		. . .
+}
+
+</code></pre></div></div>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Room</code>클래스는 abstract로 선언해야 하며 <code class="language-plaintext highlighter-rouge">RoomDatabase</code>객체를 상속받아야 한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">@Database</code>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">Entity</code>와 version을 입력받아 데이터베이스를 셋팅한다.</li>
+      <li>각각의 <code class="language-plaintext highlighter-rouge">Entity</code>는 데이터베이스에 작성 될 테이블에 해당한다.</li>
+      <li><code class="language-plaintext highlighter-rouge">exportSchema</code>
+        <ul>
+          <li>데이터베이스 마이그레이션은 코드의 범위를 벗어나므로 빌드 경고를 피하기 위해 여기서 exportSchema를 false로 설정해야한다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>database schema가 변경될 경우 version number를 업데이트하고 migration을 관리해야 한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">wordDao()</code>
+    <ul>
+      <li>데이터베이스는 각각의 <code class="language-plaintext highlighter-rouge">DAO</code>에 대해 abstract getter 방법으로 제공한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>. . .
+abstract fun wordDao(): WordDao
+
+private class WordDatabaseCallback(
+    private val scope: CoroutineScope
+) : RoomDatabase.Callback() {
+
+    override fun onOpen(db: SupportSQLiteDatabase) {
+        super.onOpen(db)
+        WordRoomDatabase.INSTANCE?.let { database -&gt;
+            scope.launch {
+                var wordDao = database.wordDao()
+
+                // Delete all content here.
+                wordDao.deleteAll()
+
+                // Add sample words.
+                var word = Word("Hello")
+                wordDao.insert(word)
+                word = Word("World!")
+                wordDao.insert(word)
+
+                // TODO: Add your own words!
+                word = Word("TODO!")
+                wordDao.insert(word)
+            }
+        }
+    }
+}
+. . .
+</code></pre></div></div>
+<ul>
+  <li>WordDatabase 인스턴스가 생성될 때 실행될 callback 함수이다.</li>
+  <li>
+    <h2 id="livedata"><code class="language-plaintext highlighter-rouge">LiveData</code>?</h2>
+    <p>데이터가 변경될 때 반응하는 <code class="language-plaintext highlighter-rouge">View</code>가 있다고 가정했을 때 데이터가 어떻게 저장되느냐에 따라 이것이 까다로울 수 있다. 앱의 여러가지 <code class="language-plaintext highlighter-rouge">View</code>에서 데이터 변경을 관찰하다 보면 코드줄이 길어지고 찾기 힘들어지면서 Test와 디버깅을 어렵게 만든다. <code class="language-plaintext highlighter-rouge">LiveData</code>는 이러한 문제를 해결한다.</p>
+  </li>
+  <li>식별 가능한 데이터 홀더 클래스</li>
+  <li>일반 클래스와 달리 수명주기를 인식함</li>
+  <li>activity, fragment, service등의 앱 구성요소 수명주기를 고려함</li>
+  <li>수명주기 인식을 통해 활성상태에 있는 앱 구성요소의 관찰자만 업데이트 함</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>참고:
+LiveData를 Room과 독립적으로 사용할 경우 데이터 업데이트를 관리해야한다. 
+LiveData에는 저장된 데이터를 업데이트하는 데에 대한 공식적은 방법이 없다. 
+
+LiveData 저장된 데이터를 업데이트 하려면 MutableLiveData를 사용해야한다. 
+method -&gt; setValue(T), postValue(T)
+일반적으로 MutableLiveData는 ViewModel 내에서 사용된다.
+ViewModel은 immutable LiveData 객체만 Observers에게 노출시킨다. 
+</code></pre></div></div>
+<p>다음은 안드로이드 공식문서에 나와있는 LiveData의 장점이다.</p>
+<h4 id="livedata의-장점"><code class="language-plaintext highlighter-rouge">LiveData</code>의 장점</h4>
+<ul>
+  <li>UI와 데이터 상태의 일치 보장
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">LiveData</code>는 수명주기 상태가 변경될 때 <code class="language-plaintext highlighter-rouge">Observer</code> 객체에 알림</li>
+      <li>코드를 통합하여 <code class="language-plaintext highlighter-rouge">Observer</code>객체에 UI를 업데이트</li>
+      <li>데이터가 변경될 때마다 관찰자가 UI를 업데이트 함</li>
+    </ul>
+  </li>
+  <li>메모리누출 없음
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">Lifecylce</code> 객체와 관찰자가 결합되어 있고 수명주기가 끝나면 자동 삭제됨</li>
+    </ul>
+  </li>
+  <li>중지된 activity로 인한 비정상 종료가 없음
+    <ul>
+      <li>관찰자의 수명주기가 비활성 상태이면 관찰자는 <code class="language-plaintext highlighter-rouge">LiveData</code> 이벤트를 수신하지 않음</li>
+    </ul>
+  </li>
+  <li>수명주기를 수동으로 처리하지 않음
+    <ul>
+      <li>UI 구성요소는 관련 데이터를 관찰하기만 할 뿐 관찰을 중지하거나 다시 시작하지 않음</li>
+      <li><code class="language-plaintext highlighter-rouge">LiveData</code>는 관찰하는 동안 관련 수명주기 상태의 변경을 인식하여 자동으로 관리</li>
+    </ul>
+  </li>
+  <li>최신 데이터 유지
+    <ul>
+      <li>수명 주기가 비활성화 되고 다시 활성화 될 때 최신 데이터를 수신</li>
+      <li>ex) 백그라운드에 있던 activity가 포그라운드로 돌아온 직후 최신 데이터 수신</li>
+    </ul>
+  </li>
+  <li>적절한 구성 변경
+    <ul>
+      <li>구성 변경(ex-&gt;기기회전)으로 인해 activity, fragment 등이 다시 생성되면 사용할 수 있는 최신정보 를 즉시수신</li>
+    </ul>
+  </li>
+  <li>리소스 공유
+    <ul>
+      <li>맵에서 시스템 서비스를 공유할 수 있도록 싱글톤 패턴을 사용하는 <code class="language-plaintext highlighter-rouge">LiveData</code> 객체를 확장하여 시스템 서비스를 래핑</li>
+      <li><code class="language-plaintext highlighter-rouge">LiveData</code> 객체가 시스템 서비스에 한 번 연결되면 리소스가 필요한 모든 관찰자가 <code class="language-plaintext highlighter-rouge">LiveData</code> 객체를 볼 수 있음</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="repository-"><code class="language-plaintext highlighter-rouge">Repository</code> ?</h2>
+<p>리포지토리 클래스는 여러 데이터 소스에 대한 액세스를 추상화한다. 리포지토리는 아키텍처 구성요소 라이브러리에 속하지 않지만 코드 분리 및 아키텍처를 위한 권장 모범 사례다. Repository 클래스는 애플리케이션의 나머지 부분에 대한 데이터 액세스를 위한 깨끗한 API를 제공한다.</p>
+
+<p>리포지토리를 사용하는 이유
+리포지토리는 쿼리를 관리하고 여러 백엔드를 사용할 수 있도록 허용한다. 가장 일반적인 예에서 리포지토리는 네트워크에서 데이터를 가져올지 또는 로컬 데이터베이스에 캐시된 결과를 사용할지를 결정하기 위한 논리를 구현한다.</p>
+
+<p>DAO는 전체 데이터베이스가 아닌 리포지토리 생성자로 전달된다.
+DAO는 데이터베이스에 대한 모든 읽기/쓰기 방법을 포함하므로 DAO에 대한 액세스만 필요하기 때문이다. 
+전체 데이터베이스를 리포지토리에 노출할 필요는 없다.
+words list는 public property이다. 
+LiveData의 단어 목록을 Room에서 얻음으로써 초기화된다. 
+우리는 “The LiveData class” 단계에서 LiveData를 반환하기 위해 getAlphabetizedWords 방법을 정의했기 때문에 이것을 할 수 있다.
+룸은 별도의 스레드에 대한 모든 쿼리를 실행한다.
+그런 다음 관찰된 LiveData는 데이터가 변경되면 메인 스레드에 있는 관찰자에게 통지한다.
+일시 중단 수정자는 컴파일러에게 코루틴 또는 다른 일시 중단 함수에서 호출할 필요가 있음을 알려준다.</p>
+
+<h2 id="viewmodel"><code class="language-plaintext highlighter-rouge">ViewModel</code>?</h2>
+<p>ViewModel의 역할은 UI에 데이터를 제공하고 구성 변경에서 살아남는 것이다. ViewModel은 리포지토리와 UI 사이의 통신 센터 역할을 한다. ViewModel을 사용하여 조각 간에 데이터를 공유할 수도 있다. ViewModel은 라이프사이클 라이브러리의 일부다.</p>
+
+<p>ViewModel은 라이프사이클을 고려하여 애플리케이션의 UI 데이터를 저장하여 구성 변경에서도 그대로 유지하십시오. 활동 및 조각 클래스에서 앱의 UI 데이터를 분리하면 다음과 같은 단일 책임 원칙을 더 잘 준수할 수 있다. 당신의 활동과 단편들은 화면에 데이터를 그리는 것을 책임지고, 당신의 ViewModel은 UI에 필요한 모든 데이터를 보관하고 처리할 수 있다.</p>
+
+<p>ViewModel에서 UI가 사용하거나 표시할 변경 가능한 데이터에 대해 LiveData를 사용하십시오. LiveData를 사용하면 다음과 같은 몇 가지 이점이 있다</p>
+
+<p>데이터(대신 변화를 위해 투표의)에서 언제는 실제로 데이터 변화가 UI를 업데이트한 관찰자가 올릴 수 있다.
+그 기록관고 UI은 완전히 ViewModel로 분리되어 있다.
+그 ViewModel(이 모든 게 기록관에서 처리됩니다)로부터 데이터베이스 호출 코드가 더 가능하고 있다.</p>
+
+<p>ViewmodelScope
+코틀린에서는 모든 코루틴이 코루틴스코프 안에서 작동한다. 범위는 그 일을 통해 코루틴의 수명을 조절한다. 스코프의 작업을 취소하면 해당 스코프에서 시작된 모든 코루틴이 취소된다.</p>
+
+<p>AndroidX 라이프사이클-뷰모델-ktx 라이브러리는 ViewModelScope를 ViewModel 클래스의 확장 기능으로 추가하여 스코프로 작업할 수 있다.</p>
+
+<p>ViewModel에서 Coroutine 작업에 대한 자세한 내용은 Android App codelab의 Use Kotlin Coroutines 또는 Android의 Easy Coroutines: ViewModelScope 블로그 게시물을 참조하십시오.</p>
+:ET

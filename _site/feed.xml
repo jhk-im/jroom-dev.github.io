@@ -1,4 +1,491 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-22T16:49:55+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hun development blog</title><subtitle>Android &amp; Flutter &amp; Fullstack</subtitle><author><name>Hun</name></author><entry><title type="html">android snackbar &amp;amp; move to activity in fragment</title><link href="http://localhost:4000/android-ui/android-snackbar-move-to-activity-in-fragment/" rel="alternate" type="text/html" title="android snackbar &amp;amp; move to activity in fragment" /><published>2020-10-22T00:00:00+09:00</published><updated>2020-10-22T00:00:00+09:00</updated><id>http://localhost:4000/android-ui/android-snackbar-move-to-activity-in-fragment</id><content type="html" xml:base="http://localhost:4000/android-ui/android-snackbar-move-to-activity-in-fragment/">&lt;p&gt;참고자료 &lt;br /&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-23T20:32:07+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hun development blog</title><subtitle>Android &amp; Flutter &amp; Fullstack</subtitle><author><name>Hun</name></author><entry><title type="html">Architecture Components Example - Room, LiveData, ViewModel</title><link href="http://localhost:4000/android-kotlin/implementing-mvvm-android-livedata/" rel="alternate" type="text/html" title="Architecture Components Example - Room, LiveData, ViewModel" /><published>2020-10-23T00:00:00+09:00</published><updated>2020-10-23T00:00:00+09:00</updated><id>http://localhost:4000/android-kotlin/implementing-mvvm-android-livedata</id><content type="html" xml:base="http://localhost:4000/android-kotlin/implementing-mvvm-android-livedata/">&lt;h2 id=&quot;architecture-component&quot;&gt;Architecture Component&lt;/h2&gt;
+&lt;p float=&quot;center&quot;&gt;
+  &lt;img src=&quot;/assets/images/gif/2020-10-2318-56.gif&quot; width=&quot;300&quot; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Architecture Component 예제를 공부하면서 주요 기능으로 자리잡고 있는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Room&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LiveData&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Repository&lt;/code&gt; , &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ViewModel&lt;/code&gt;, 에 대하여 정리한 글이다.&lt;/p&gt;
+
+&lt;p float=&quot;center&quot;&gt;
+&lt;img src=&quot;/assets/images/png/architectureComponent.png&quot; width=&quot;100%&quot; /&gt;
+&lt;/p&gt;
+&lt;p&gt;이미지 출처 및 참고자료 &lt;br /&gt;
+&lt;a href=&quot;https://codelabs.developers.google.com/codelabs/android-room-with-a-view-kotlin?hl=ko#1&quot;&gt;https://codelabs.developers.google.com/codelabs/android-room-with-a-view-kotlin?hl=ko#1&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;공식문서
+&lt;a href=&quot;import androidx.lifecycle.viewModelScope&quot;&gt;Room&lt;/a&gt;
+&lt;a href=&quot;https://developer.android.com/topic/libraries/architecture/livedata?hl=ko&quot;&gt;LiveData&lt;/a&gt;
+&lt;a href=&quot;https://developer.android.com/topic/libraries/architecture/viewmodel?hl=ko&quot;&gt;ViewModel&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;room&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Room&lt;/code&gt;?&lt;/h2&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Room&lt;/code&gt;은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SQLite&lt;/code&gt; 추상화 레이어를 제공하여 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SQLite&lt;/code&gt;를 완벽히 활용하면서 더 견고한 데이터 베이스 액세스를 가능하게 한다.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SQLite&lt;/code&gt; 데이터베이스 위에 있는 데이터베이스 계층이다.&lt;/li&gt;
+  &lt;li&gt;SQLiteOpenHelper로 처리하던 작업을 처리한다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DAO&lt;/code&gt;를 사용하여 데이터베이스에 쿼리를 발급한다.&lt;/li&gt;
+  &lt;li&gt;성능저하를 피하기 위해 main thread 에서 Query를 사용하는 것을 허용하지 않는다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Room&lt;/code&gt;에서 LiveData를 반환하면 백그라운드 스레드에서 Query 비동기로 자동실행된다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//bulid.gradle
+
+implementation &quot;androidx.room:room-runtime:$rootProject.roomVersion&quot;
+kapt &quot;androidx.room:room-compiler:$rootProject.roomVersion&quot;
+implementation &quot;androidx.room:room-ktx:$rootProject.roomVersion&quot;
+androidTestImplementation &quot;androidx.room:room-testing:$rootProject.roomVersion&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h4 id=&quot;entity&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Entity&lt;/code&gt;&lt;/h4&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// Word.kt
+
+@Entity(tableName = &quot;word_table&quot;)
+data class Word(@PrimaryKey @ColumnInfo(name = &quot;word&quot;) val word: String)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;@Entity(tableName =””)
+    &lt;ul&gt;
+      &lt;li&gt;SQLite table&lt;/li&gt;
+      &lt;li&gt;table name을 설정한다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;@PrimaryKey
+    &lt;ul&gt;
+      &lt;li&gt;모든 entity 는 primary key가 있어야한다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;@ColumnInfo -&amp;gt; column 이름을 설정하고 유형을 지정한다.&lt;/li&gt;
+  &lt;li&gt;데이터베이스에 저장된 모든 속성은 public 이며 kotlin의 기본 설정이다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;dao&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DAO&lt;/code&gt;&lt;/h4&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//WordDao.kt
+
+@Dao
+interface WordDao {
+
+    @Query(&quot;SELECT * from word_table ORDER BY word ASC&quot;)
+    fun getAlphabetizedWords(): LiveData&amp;lt;List&amp;lt;Word&amp;gt;&amp;gt;
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insert(word: Word)
+
+    @Query(&quot;DELETE FROM word_table&quot;)
+    suspend fun deleteAll()
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Dao&lt;/code&gt;는 interface혹은 abstract 클래스로 설정해야 한다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;@Dao&lt;/code&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Room을 위한 DAO 클래스로 식별한다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;@Insert&lt;/code&gt;
+    &lt;ul&gt;
+      &lt;li&gt;SQL 문법이 필요없는 특별한 DAO 메소드 anottation이다.&lt;/li&gt;
+      &lt;li&gt;테이블에 데이터를 추가하는 용도&lt;/li&gt;
+      &lt;li&gt;동일하게 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;@Update&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;@Delete&lt;/code&gt;도 제공된다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;OnConflictStrategy.IGNORE&lt;/code&gt;
+    &lt;ul&gt;
+      &lt;li&gt;입력된 값이 테이블에 있는 값과 동일하면 작업을 무시한다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;deleteAll()
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;@Delete&lt;/code&gt;는 여러개의 entitiy 삭제할 수 없기 때문에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;@Query&lt;/code&gt;로 직접 구현해야 한다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;@Query&lt;/code&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;@Query&lt;/code&gt;는 string parameter로 되어있는 SQL을 입력받고 실행하는 annotation이다.&lt;/li&gt;
+      &lt;li&gt;구현을 위해 SQLite 문법을 이해하고 있어야 한다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;roomdatabase&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RoomDatabase&lt;/code&gt;&lt;/h4&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//WordRoomDatabase.kt
+
+
+@Database(entities = [Word::class], version = 1, exportSchema = false)
+abstract class WordRoomDatabase : RoomDatabase() {
+
+    // The database exposes DAOs through an abstract 'getter' method for each @Dao.
+    abstract fun wordDao(): WordDao
+		
+		. . .
+}
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Room&lt;/code&gt;클래스는 abstract로 선언해야 하며 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RoomDatabase&lt;/code&gt;객체를 상속받아야 한다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;@Database&lt;/code&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Entity&lt;/code&gt;와 version을 입력받아 데이터베이스를 셋팅한다.&lt;/li&gt;
+      &lt;li&gt;각각의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Entity&lt;/code&gt;는 데이터베이스에 작성 될 테이블에 해당한다.&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;exportSchema&lt;/code&gt;
+        &lt;ul&gt;
+          &lt;li&gt;데이터베이스 마이그레이션은 코드의 범위를 벗어나므로 빌드 경고를 피하기 위해 여기서 exportSchema를 false로 설정해야한다.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;database schema가 변경될 경우 version number를 업데이트하고 migration을 관리해야 한다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;wordDao()&lt;/code&gt;
+    &lt;ul&gt;
+      &lt;li&gt;데이터베이스는 각각의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DAO&lt;/code&gt;에 대해 abstract getter 방법으로 제공한다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;. . .
+abstract fun wordDao(): WordDao
+
+private class WordDatabaseCallback(
+    private val scope: CoroutineScope
+) : RoomDatabase.Callback() {
+
+    override fun onOpen(db: SupportSQLiteDatabase) {
+        super.onOpen(db)
+        WordRoomDatabase.INSTANCE?.let { database -&amp;gt;
+            scope.launch {
+                var wordDao = database.wordDao()
+
+                // Delete all content here.
+                wordDao.deleteAll()
+
+                // Add sample words.
+                var word = Word(&quot;Hello&quot;)
+                wordDao.insert(word)
+                word = Word(&quot;World!&quot;)
+                wordDao.insert(word)
+
+                // TODO: Add your own words!
+                word = Word(&quot;TODO!&quot;)
+                wordDao.insert(word)
+            }
+        }
+    }
+}
+. . .
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;WordDatabase 인스턴스가 생성될 때 실행될 callback 함수이다.&lt;/li&gt;
+  &lt;li&gt;scope: CoroutineScope
+    &lt;ul&gt;
+      &lt;li&gt;Room의 Query는 main Thread에서 사용할 수 없다.
+        &lt;ul&gt;
+          &lt;li&gt;다른 Thread를 사용하기 위해 CoroutineScope를 입력받아 사용한다.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;wordDao의 동작
+    &lt;ul&gt;
+      &lt;li&gt;deleteAll() -&amp;gt; entity를 모두 지운다.&lt;/li&gt;
+      &lt;li&gt;insert() -&amp;gt; “Hello”, “World!”, “Todo” 3가지 객체를 생성하고 insert 한다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;실제 데이터베이스에서 entity가 초기화 되어야 하거나 꼭 있어야하는 데이터가 있을 경우 위 방법을 통해 구현한다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;. . .
+companion object {
+    @Volatile
+    private var INSTANCE: WordRoomDatabase? = null
+
+    fun getDatabase(
+        context: Context,
+        scope: CoroutineScope
+    ): WordRoomDatabase {
+        // if the INSTANCE is not null, then return it,
+        // if it is, then create the database
+        return INSTANCE ?: synchronized(this) {
+            val instance = Room.databaseBuilder(
+                context.applicationContext,
+                WordRoomDatabase::class.java,
+                &quot;word_database&quot;
+            )
+                .addCallback(WordRoomDatabase.WordDatabaseCallback(scope))
+                .build()
+            INSTANCE = instance
+            // return instance
+            instance
+        }
+    }
+}
+. . .
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;getDatabase()&lt;/code&gt;
+    &lt;ul&gt;
+      &lt;li&gt;해당 메소드를 통해 Database 객체를 싱글턴으로 반환한다.&lt;/li&gt;
+      &lt;li&gt;context와 callback 함수 실행을 위해 CoroutinScope를 입력받는다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Room.databaseBuilder()&lt;/code&gt;
+    &lt;ul&gt;
+      &lt;li&gt;응용 프로그램 context에서 RoomDatabase 객체를 생성한다.&lt;/li&gt;
+      &lt;li&gt;context, Roomdatabase, database name을 입력받는다.&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;addCallback()&lt;/code&gt;
+        &lt;ul&gt;
+          &lt;li&gt;bulid 전 콜백함수를 실행하여 데이터를 초기화한다.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bulid()&lt;/code&gt;
+        &lt;ul&gt;
+          &lt;li&gt;마지막으로 빌드하고 instance를 반환한다.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;repository-&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Repository&lt;/code&gt; ?&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Repository&lt;/code&gt;는 여러 데이터 소스에 대한 액세스를 추상화한다.&lt;/li&gt;
+  &lt;li&gt;아키텍처 구성요소 라이브러리에 속하지 않지만 코드 분리 및 아키텍처를 위한 권장 모범 사례다.&lt;/li&gt;
+  &lt;li&gt;애플리케이션의 나머지 부분에 대한 데이터 액세스를 위한 API를 제공한다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Repository&lt;/code&gt;를 사용하는 이유
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Qeury&lt;/code&gt;를 관리하고 여러 백엔드를 사용할 수 있도록 허용한다.&lt;/li&gt;
+      &lt;li&gt;Network와 Local 데이터베이스 사이에서 캐시된 결과를 어떻게 사용할지를 결정하기위한 로직을 구현한다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// WordRepository.kt
+
+class WordRepository(private val wordDao:WordDao) {
+
+    val allWords: LiveData&amp;lt;List&amp;lt;Word&amp;gt;&amp;gt; = wordDao.getAlphabetizedWords()
+
+    suspend fun insert(word: Word) {
+        wordDao.insert(word)
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DAO&lt;/code&gt;를 private으로 생성함&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DAO&lt;/code&gt;에 대한 액세스만 필요하므로 전체 데이터베이스 대신 DAO를 전달한다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Room&lt;/code&gt;은 별도의 쓰레드에서 모든 쿼리를 실행한다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Room&lt;/code&gt;+ &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DAO&lt;/code&gt; 로 검색된 객체가 LiveData&amp;lt;&amp;gt;로 입력된다.
+    &lt;ul&gt;
+      &lt;li&gt;관찰된 LiveData는 변경 시 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Observer&lt;/code&gt;에 통지한다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;suspend fun insert()&lt;/code&gt;
+    &lt;ul&gt;
+      &lt;li&gt;suspend 를 붙임으로서 코루틴으로 언제든 지연되었다가 재개 될 수 있는 메소드가 정의된다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;livedata&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LiveData&lt;/code&gt;?&lt;/h2&gt;
+&lt;p&gt;데이터가 변경될 때 반응하는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;View&lt;/code&gt;가 있다고 가정했을 때 데이터가 어떻게 저장되느냐에 따라 이것이 까다로울 수 있다. 앱의 여러가지 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;View&lt;/code&gt;에서 데이터 변경을 관찰하다 보면 코드줄이 길어지고 찾기 힘들어지면서 Test와 디버깅을 어렵게 만든다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LiveData&lt;/code&gt;는 이러한 문제를 해결한다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;식별 가능한 데이터 홀더 클래스&lt;/li&gt;
+  &lt;li&gt;일반 클래스와 달리 수명주기를 인식함&lt;/li&gt;
+  &lt;li&gt;activity, fragment, service등의 앱 구성요소 수명주기를 고려함&lt;/li&gt;
+  &lt;li&gt;수명주기 인식을 통해 활성상태에 있는 앱 구성요소의 관찰자만 업데이트 함&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;참고:
+LiveData를 Room과 독립적으로 사용할 경우 데이터 업데이트를 관리해야한다. 
+LiveData에는 저장된 데이터를 업데이트하는 데에 대한 공식적은 방법이 없다. 
+
+LiveData 저장된 데이터를 업데이트 하려면 MutableLiveData를 사용해야한다. 
+method -&amp;gt; setValue(T), postValue(T)
+일반적으로 MutableLiveData는 ViewModel 내에서 사용된다.
+ViewModel은 immutable LiveData 객체만 Observers에게 노출시킨다. 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;다음은 안드로이드 공식문서에 나와있는 LiveData의 장점이다.&lt;/p&gt;
+&lt;h5 id=&quot;livedata의-장점&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LiveData&lt;/code&gt;의 장점&lt;/h5&gt;
+&lt;ul&gt;
+  &lt;li&gt;UI와 데이터 상태의 일치 보장
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LiveData&lt;/code&gt;는 수명주기 상태가 변경될 때 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Observer&lt;/code&gt; 객체에 알림&lt;/li&gt;
+      &lt;li&gt;코드를 통합하여 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Observer&lt;/code&gt;객체에 UI를 업데이트&lt;/li&gt;
+      &lt;li&gt;데이터가 변경될 때마다 관찰자가 UI를 업데이트 함&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;메모리누출 없음
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Lifecylce&lt;/code&gt; 객체와 관찰자가 결합되어 있고 수명주기가 끝나면 자동 삭제됨&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;중지된 activity로 인한 비정상 종료가 없음
+    &lt;ul&gt;
+      &lt;li&gt;관찰자의 수명주기가 비활성 상태이면 관찰자는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LiveData&lt;/code&gt; 이벤트를 수신하지 않음&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;수명주기를 수동으로 처리하지 않음
+    &lt;ul&gt;
+      &lt;li&gt;UI 구성요소는 관련 데이터를 관찰하기만 할 뿐 관찰을 중지하거나 다시 시작하지 않음&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LiveData&lt;/code&gt;는 관찰하는 동안 관련 수명주기 상태의 변경을 인식하여 자동으로 관리&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;최신 데이터 유지
+    &lt;ul&gt;
+      &lt;li&gt;수명 주기가 비활성화 되고 다시 활성화 될 때 최신 데이터를 수신&lt;/li&gt;
+      &lt;li&gt;ex) 백그라운드에 있던 activity가 포그라운드로 돌아온 직후 최신 데이터 수신&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;적절한 구성 변경
+    &lt;ul&gt;
+      &lt;li&gt;구성 변경(ex-&amp;gt;기기회전)으로 인해 activity, fragment 등이 다시 생성되면 사용할 수 있는 최신정보 를 즉시수신&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;리소스 공유
+    &lt;ul&gt;
+      &lt;li&gt;맵에서 시스템 서비스를 공유할 수 있도록 싱글톤 패턴을 사용하는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LiveData&lt;/code&gt; 객체를 확장하여 시스템 서비스를 래핑&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LiveData&lt;/code&gt; 객체가 시스템 서비스에 한 번 연결되면 리소스가 필요한 모든 관찰자가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LiveData&lt;/code&gt; 객체를 볼 수 있음&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;viewmodel&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ViewModel&lt;/code&gt;?&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ViewModel&lt;/code&gt;클래스는 수명주기를 고려하여 UI 관련 데이터를 저장하고 관리하도록 설계되었다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ViewModel&lt;/code&gt; 클래스를 사용하면 화면 회전과 같이 구성을 변경할 때도 데이터를 유지할 수 있다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ViewModel&lt;/code&gt;이 없는경우
+    &lt;ul&gt;
+      &lt;li&gt;Android 프레임워크는 UI Controller(activity,fragment..) 의 수명주기를 관리한다. 프레임워크는 특정 사용자 작업이나 완전히 통제할 수 없는 기기 이벤트에 대한 응답으로 UI 컨트롤러를 제거하거나 다시 만들도록 결정할 수 있다. 이러한 경우 컨트롤러에 저장된 일시적은 모든 UI 관련데이터가 손실된다.&lt;/li&gt;
+      &lt;li&gt;예를들어 activity의 view 구성의 변경을 위해 다시 생성하면 새 activity는 새로운 데이터를 처음부터 다시 가져와야 한다. 간단한 경우에는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;onSaveInstanceState()&lt;/code&gt;메소드를 통해 복원할 수 있으나 이 경우는 소량의 데이터에만 적합하다.&lt;/li&gt;
+      &lt;li&gt;UI 컨트롤러가 비동기 호출을 자주 해야한다.
+        &lt;ul&gt;
+          &lt;li&gt;이는 비동기 호출관리, 메모리누출 방지, 시스템에서 호출 폐기 후 호출을 하는지 확인해야한다.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;ui컨트롤러는 주로 ui 데이터를 표시하거나, 사용자 작업에 반응하거나, 권한요청과 같은 커뮤니케이션을 처리하기 위한 것이다. 여기에 데이터베이스나 네트워크 데이터 로드를 담당하도록 요구하면 클래스가 팽창한다. 이는 테스트를 어렵게 만든다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ViewModel&lt;/code&gt;은 UI 컨트롤러에서 뷰 데이터 소유권을 분리하는 방법을 제공한다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// WordViewModel.kt
+
+class WordViewModel(application: Application) : AndroidViewModel(application) {
+
+    private val repository: WordRepository
+
+    val allWords: LiveData&amp;lt;List&amp;lt;Word&amp;gt;&amp;gt;
+
+    init {
+        val wordsDao = WordRoomDatabase.getDatabase(application, viewModelScope).wordDao()
+        repository = WordRepository(wordsDao)
+        allWords = repository.allWords
+    }
+
+    fun insert(word: Word) = viewModelScope.launch(Dispatchers.IO) {
+        repository.insert(word)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Application&lt;/code&gt;을 파라미터로 받고 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AndroidViewModel&lt;/code&gt;을 상속받는다.&lt;/li&gt;
+  &lt;li&gt;init block을 사용하여 인스턴스 생성 시 해야할 로직을 구현한다.
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;WordRoomDatabase&lt;/code&gt;를 생성하고 Dao 객체를 가져온다.&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;WordRepository&lt;/code&gt;에 가져온 dao 를 입력하여 인스턴스를 생성한다.&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;allWords&lt;/code&gt;에 repository 내부에서 변화를 관찰하고 있는 allWords를 입력한다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;insert(word: Word)&lt;/code&gt;
+    &lt;ul&gt;
+      &lt;li&gt;ui 컨트롤러에서 호출하여 사용한다.&lt;/li&gt;
+      &lt;li&gt;데이터에 관련된 로직은 viewModel이 담당하고 ui 컨트롤러는 단지 데이터 입력 후 전달만을 담당하게 된다.&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;viewModelScope&lt;/code&gt;를 사용하여 코루틴을 구현한다.
+        &lt;ul&gt;
+          &lt;li&gt;위에서 생성된 repository내부의 insert() 메소드를 통해 Word 데이터를 추가한다.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;ui-controller의-viewmodel&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;UI Controller&lt;/code&gt;의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ViewModel&lt;/code&gt;&lt;/h5&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// ArchiTecturecomponentActivity.kt 
+
+...
+private lateinit var wordViewModel: WordViewModel
+
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_architecture_component)
+		
+		...
+
+    wordViewModel = ViewModelProvider(this).get(WordViewModel::class.java)
+    wordViewModel.allWords.observe(this, Observer { words -&amp;gt;
+        // Update the cached copy of the words in the adapter.
+        words?.let { adapter.setWords(it) }
+    })
+
+		...
+}
+...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ViewModelProvider(this).get(WordViewModel::class.java)&lt;/code&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ViewModel&lt;/code&gt;인스턴스 생성&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;wordViewModel.allWords.observe{}&lt;/code&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ViewModel&lt;/code&gt; 내부의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;allWords&lt;/code&gt; 객체를  &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;observe{}&lt;/code&gt; 통해 관찰한다.
+        &lt;ul&gt;
+          &lt;li&gt;관찰하고 있다가 변동이 발생한 경우 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;apdater.setWords(it)&lt;/code&gt;로 객체를 전달한다.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// WordListAdapter.kt
+...
+
+    override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
+        val current = words[position]
+        holder.wordItemView.text = current.word
+    }
+
+    internal fun setWords(words: List&amp;lt;Word&amp;gt;) {
+        this.words = words
+        notifyDataSetChanged()
+    }
+...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Activity&lt;/code&gt;에서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;viewModel&lt;/code&gt;을 통해 관찰하고있던 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;allWords&lt;/code&gt;가 이곳에 전달된다.
+    &lt;ul&gt;
+      &lt;li&gt;전달되었다는 뜻은 변경되었다는 것을 의미한다.&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;notifiDataSetChanged()&lt;/code&gt;메소드로 변경되었음을 알린다.
+        &lt;ul&gt;
+          &lt;li&gt;그렇게 되면 adpater 내부에서 자동으로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;onBindViewHolder&lt;/code&gt; 를 호출한다.
+            &lt;ul&gt;
+              &lt;li&gt;재정비 된 words 에서 변경된 내용이 업데이트 된다.&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;다시한번 아래 이미지를 보며서 정리해보자.&lt;/p&gt;
+
+&lt;p float=&quot;center&quot;&gt;
+&lt;img src=&quot;/assets/images/png/architectureComponent.png&quot; width=&quot;100%&quot; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;다시보니 ViewModel에서 UI 컨트롤러에 변동사항을 알리는것을 제외하곤  화살표의 방향이 아래로만 되어있는것이 눈에 들어온다.  이러한 flow가 생겨난 이유는 UI 컨트롤러에서 view를 표시하고 사용자 행동에 반응하는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;UI Control&lt;/code&gt; 이외의 작업이 추가되어 팽창하는것을 막기 위함이다.  여기서 이외의 작업을 담당하기위해 분리 된 것이 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ViewModel&lt;/code&gt;이다. 여기서 중요한것은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;UI Controller&lt;/code&gt;는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ViewModel&lt;/code&gt;를 생성하고 접근하지만 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ViewModel&lt;/code&gt;은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;UI Controller&lt;/code&gt;의 존재를 알지 못하여 직접적으로 접근할 수 없다는 것이다. 
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ViewModel&lt;/code&gt;은 수명주기를 고려하여 UI관련 데이터를 관리한다. 그리고 데이터베이스에서 데이터를 crud하는 작업을 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Repository&lt;/code&gt;에게 일임한다. 이렇게 완벽히 분리된 상태에서 변동된 데이터를 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;UI Controller&lt;/code&gt;에 전달하기 위해 존재하는 것이 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LiveData&lt;/code&gt;이다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LiveData&lt;/code&gt;는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;UI Controller&lt;/code&gt;의 수명주기를 알고있으며 관리를 하기로한 객체에 대해 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Observer&lt;/code&gt;를 두고 변동을 감지한다.&lt;/p&gt;</content><author><name>Hun</name></author><category term="android-kotlin" /><category term="Kotlin" /><category term="MVVM" /><summary type="html">Architecture Component</summary></entry><entry><title type="html">android snackbar &amp;amp; move to activity in fragment</title><link href="http://localhost:4000/android-ui/android-snackbar-move-to-activity-in-fragment/" rel="alternate" type="text/html" title="android snackbar &amp;amp; move to activity in fragment" /><published>2020-10-22T00:00:00+09:00</published><updated>2020-10-22T00:00:00+09:00</updated><id>http://localhost:4000/android-ui/android-snackbar-move-to-activity-in-fragment</id><content type="html" xml:base="http://localhost:4000/android-ui/android-snackbar-move-to-activity-in-fragment/">&lt;p&gt;참고자료 &lt;br /&gt;
 &lt;a href=&quot;https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin&quot;&gt;https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin&lt;/a&gt;
 &lt;a href=&quot;https://developer.android.com/training/snackbar/action?hl=ko&quot;&gt;https://developer.android.com/training/snackbar/action?hl=ko&lt;/a&gt;&lt;/p&gt;
 
@@ -1502,335 +1989,4 @@ result :
       &lt;li&gt;함수의 반환 구문이 없다는 것을 표현하기 위해 사용 = java의 void&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Hun</name></author><category term="android-kotlin" /><category term="Kotlin" /><category term="Android" /><category term="MVVM" /><category term="Database" /><summary type="html">참고자료 https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin</summary></entry><entry><title type="html">android room local database - kotlin</title><link href="http://localhost:4000/android-kotlin/android-room-local-database-kotlin/" rel="alternate" type="text/html" title="android room local database - kotlin" /><published>2020-10-15T00:00:00+09:00</published><updated>2020-10-15T00:00:00+09:00</updated><id>http://localhost:4000/android-kotlin/android-room-local-database-kotlin</id><content type="html" xml:base="http://localhost:4000/android-kotlin/android-room-local-database-kotlin/">&lt;p&gt;참고자료 &lt;br /&gt;
-&lt;a href=&quot;https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin&quot;&gt;https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin&lt;/a&gt;&lt;/p&gt;
-
-&lt;hr /&gt;
-&lt;hr /&gt;
-
-&lt;h2 id=&quot;bookmark&quot;&gt;Bookmark&lt;/h2&gt;
-&lt;p float=&quot;left&quot;&gt;
-  &lt;img src=&quot;/assets/images/gif/2020-10-1509-47.gif&quot; width=&quot;300&quot; /&gt;
-	&lt;img src=&quot;/assets/images/gif/2020-10-1509-48.gif&quot; width=&quot;300&quot; /&gt;
-&lt;/p&gt;
-&lt;h2 id=&quot;script&quot;&gt;Script&lt;/h2&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;Kotlin&lt;/p&gt;
-  &lt;ul&gt;
-    &lt;li&gt;data
-      &lt;ul&gt;
-        &lt;li&gt;Bookmark.kt&lt;/li&gt;
-        &lt;li&gt;source
-          &lt;ul&gt;
-            &lt;li&gt;BookmarkDataSource.kt&lt;/li&gt;
-            &lt;li&gt;BookmarkRepository.kt&lt;/li&gt;
-            &lt;li&gt;local
-              &lt;ul&gt;
-                &lt;li&gt;BookmarkDatabase.kt&lt;/li&gt;
-                &lt;li&gt;BookmarkDao.kt&lt;/li&gt;
-                &lt;li&gt;BookmarkLocalDataSource.kt&lt;/li&gt;
-              &lt;/ul&gt;
-            &lt;/li&gt;
-          &lt;/ul&gt;
-        &lt;/li&gt;
-      &lt;/ul&gt;
-    &lt;/li&gt;
-    &lt;li&gt;util
-      &lt;ul&gt;
-        &lt;li&gt;AppExecutors.kt&lt;/li&gt;
-        &lt;li&gt;DiskIOThreadExecutor.kt&lt;/li&gt;
-      &lt;/ul&gt;
-    &lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;bookmarkkt&quot;&gt;Bookmark.kt&lt;/h2&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@Entity(tableName= &quot;bookmarks&quot;)
-data class Bookmark @JvmOverloads constructor (
-    @NonNull @PrimaryKey @ColumnInfo(name = &quot;id&quot;) var id: String = UUID.randomUUID().toString(),
-    @NonNull @ColumnInfo(name= &quot;title&quot;) var title: String = &quot;&quot;,
-    @NonNull @ColumnInfo(name= &quot;url&quot;) var url: String = &quot;&quot;,
-    @NonNull @ColumnInfo(name= &quot;category&quot;) var category: String = &quot;&quot;
-) {
-
-    @ColumnInfo(name = &quot;position&quot;) var position: Int = 0
-    
-    @ColumnInfo(name = &quot;favicon&quot;) var favicon: String = &quot;&quot;
-    
-    val isEmpty
-        get() = title.isEmpty()
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;ul&gt;
-  &lt;li&gt;Bookmark Entity Model&lt;/li&gt;
-  &lt;li&gt;Bookmarks Table을 생성하고 id, title 등의 데이터 컬럼 작성&lt;/li&gt;
-  &lt;li&gt;Bookmark 객체 생성자&lt;/li&gt;
-  &lt;li&gt;@Entity() &lt;br /&gt;
-  -&amp;gt; room anotation &lt;br /&gt;
-  -&amp;gt; table name 을 입력하고 아래 클래스가 room entity 임을 나타냄&lt;/li&gt;
-  &lt;li&gt;data class &lt;br /&gt;
-  -&amp;gt; 데이터를 보유하면서 아무것도 하지 않는 model에 특화된 class &lt;br /&gt;
--&amp;gt; @JvmOverloads &lt;br /&gt;
-  -&amp;gt; Default 메소드를 사용할 수 있음 &lt;br /&gt;
-      -&amp;gt; Java에는 Kotlin 처럼 파라미터 안에 Default 값을 넣을 수 없음 &lt;br /&gt;
-      -&amp;gt; @JvmOverloads를 기입하면 java에서 Default 값을 오버로딩하여 할당함 &lt;br /&gt;
--&amp;gt; constructor &lt;br /&gt;
-  -&amp;gt; java의 생성자 역할 &lt;br /&gt;
-  -&amp;gt; java에서는 클래스 내부에 직접 생성자를 등록해야함 &lt;br /&gt;
-      -&amp;gt; Kotlin에선 constructor 를 파라미터 앞에 선언하면 간단하게 생성자 등록 가능 &lt;br /&gt;
-          -&amp;gt; 객체 생성시 반드시 필요한 값은 파라미터에 &lt;br /&gt;
-          -&amp;gt; 그렇지 않은 값은 클래스 내부에 선언 &lt;br /&gt;
--&amp;gt;  @NonNull, @PrimaryKey, @ColumnInfo &lt;br /&gt;
-  -&amp;gt; Room의 anotation&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;datasourcebookmarkdatasourcekt&quot;&gt;data/source/BookmarkDataSource.kt&lt;/h2&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;interface BookmarkDataSource {
-
-    interface LoadBookmarksCallback {
-        fun onBookmarksLoaded(bookmarks: List&amp;lt;Bookmark&amp;gt;)
-        fun onDataNotAvailable()
-    }
-
-    interface GetBookmarkCallback {
-        fun onBookmarkLoaded(book: Bookmark)
-        fun onDataNotAvailable()
-    }
-
-    fun getBookmarks(callback: LoadBookmarksCallback)
-
-    fun getBookmark(bookmarkId: String, callback: GetBookmarkCallback)
-
-    fun saveBookmark(bookmark: Bookmark)
-
-    fun deleteAllBookmarks()
-
-    fun deleteBookmark(bookmarkId: String)
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;-&amp;gt; interface &lt;br /&gt;
-	-&amp;gt; java와 마찬가지로 해당 interface를 상속받은 클래스는 내부에 구현된 함수를 강제 오버라이드 하게 됨 &lt;br /&gt;
--&amp;gt; LoadBookmarksCallback | GetBookmarkCallbaclk &lt;br /&gt;
-	-&amp;gt; 데이터 베이스와 클라이언트 사이에서 단일객체 혹은 복수의 객체들을 체크하여 callback &lt;br /&gt;
--&amp;gt; 나머지는 bookmark객체를 데이터베이스로부터 CRUD를 구현 할 메소드&lt;/p&gt;
-
-&lt;h2 id=&quot;datasourcebookmarkrepositorykt&quot;&gt;data/source/BookmarkRepository.kt&lt;/h2&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class BookmarkRepository(
-    val bookmarksLocalDataSource: BookmarkLocalDataSource
-		// 추후 에 remote도 추가 
-		// val bookmarkRemoteDataSource : BookmarkRemoteDataSource
-) : BookmarkDataSource {
-
-		. . .
-		// override method 구현 
-
-    companion object {
-
-        private var INSTANCE: BookmarkRepository? = null
-
-        @JvmStatic
-        fun getInstance(bookmarksLocalDataSource: BookmarkLocalDataSource) =
-            INSTANCE ?: synchronized(BookmarkRepository::class.java) {
-                INSTANCE ?: BookmarkRepository(bookmarksLocalDataSource).also { INSTANCE = it }
-            }
-
-        @JvmStatic
-        fun destroyInstance() {
-            INSTANCE = null
-        }
-    }
-}
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;-&amp;gt; DataSource(interface)를 입력받음 &lt;br /&gt;
--&amp;gt; BookmarkDataSource 상속받아 내부 메소드 오버라이드 &lt;br /&gt;
--&amp;gt; 추후에 RemoteLocalDataSource.kt 추가 됨 &lt;br /&gt;
-	-&amp;gt; Local | Remote &amp;lt;-&amp;gt; 데이터 요청 로직 사이에서 데이터 crud 구현하여 callback 구현&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;companion object &lt;br /&gt;
--&amp;gt; Kotlin에는 자바의 static 메소드가 없음 &lt;br /&gt;
-  -&amp;gt; 싱글턴 패턴을 구현하기 위해서 companion object를 마지막에 넣어주어야 함  &lt;br /&gt;
-      -&amp;gt; 패키지 전역에서 접근하여 활용&lt;/li&gt;
-  &lt;li&gt;@JvmStatic &lt;br /&gt;
--&amp;gt; java에서 해당 코드를 static으로 인지하도록 anotation 추가&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;datasourcelocalbookmarkdatabasekt&quot;&gt;data/source/local/BookmarkDatabase.kt&lt;/h2&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@Database(entities = [Bookmark::class], version = 1)
-abstract class BookmarkDatabase : RoomDatabase() {
-
-    abstract fun bookmarkDao(): BookmarkDao
-
-    companion object {
-
-        private var INSTANCE: BookmarkDatabase? = null
-
-        private val lock = Any()
-
-        fun getInstance(context: Context): BookmarkDatabase {
-            synchronized(lock) {
-                if (INSTANCE == null) {
-                    INSTANCE = Room.databaseBuilder(
-                        context.applicationContext,
-                        BookmarkDatabase::class.java,
-                        &quot;bookmarks.db&quot;
-                    ).build()
-                }
-                return  INSTANCE!!
-            }
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;-&amp;gt; abstract class (추상 클래스) &lt;br /&gt;
-	-&amp;gt;  인터페이스와 흡사하지만 내부에 선언된 메소드를 강제하지 않음 &lt;br /&gt;
-	-&amp;gt;  이 객체를 생성할 경우 bookmarkDao interface를 선택적으로 사용함 &lt;br /&gt;
--&amp;gt; 싱글턴 패턴 &lt;br /&gt;
--&amp;gt; Room.databaseBuilder() 
-	-&amp;gt; Bookmark.kt 에 선언된 entity를 기반으로 실제 bookmarks.db라는 파일을 생성하여 실제 로컬 table 생성&lt;/p&gt;
-
-&lt;h2 id=&quot;datasourcelocalbookmarkdaokt&quot;&gt;data/source/local/BookmarkDao.kt&lt;/h2&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@Dao
-interface BookmarkDao {
-
-    @Query(&quot;SELECT * FROM bookmarks&quot;)
-    fun getBookmarks(): List&amp;lt;Bookmark&amp;gt;
-
-    @Query(&quot;SELECT * FROM bookmarks WHERE id = :bookmarkId&quot;)
-    fun getBookmarkById(bookmarkId: String): Bookmark?
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertBookmark(bookmark: Bookmark)
-
-    @Update
-    fun updateBookmark(bookmark: Bookmark): Int
-
-    @Query(&quot;DELETE FROM bookmarks WHERE id = :bookmarkId&quot;)
-    fun deleteBookmarkById(bookmarkId: String): Int
-
-    @Query(&quot;DELETE FROM bookmarks&quot;) fun deleteBookmarks()
-}
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;-&amp;gt; 실제 Room database에서 활용되는 Query가 메소드로 구현 &lt;br /&gt;
--&amp;gt; BookmarkDatabase 추상 클래스에 선언되어 있음 &lt;br /&gt;
-	-&amp;gt; BookmarkDatabase 를 통해 사용 &lt;br /&gt;
--&amp;gt; 실제 Database 의 query 문을 사용&lt;/p&gt;
-
-&lt;h2 id=&quot;datasourcelocalbookmarklocaldatasourcekt&quot;&gt;data/source/local/BookmarkLocalDataSource.kt&lt;/h2&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class BookmarkLocalDataSource private constructor(
-    private val appExecutors: AppExecutors,
-    private val bookmarkDao: BookmarkDao
-) : BookmarkDataSource {
-
-    override fun getBookmarks(callback: BookmarkDataSource.LoadBookmarksCallback) {
-        appExecutors.diskIO.execute {
-            val bookmarks = bookmarkDao.getBookmarks()
-            appExecutors.mainThread.execute {
-                if (bookmarks.isEmpty()) {
-                    callback.onDataNotAvailable()
-                } else {
-                    callback.onBookmarksLoaded(bookmarks)
-                }
-            }
-        }
-    }
-
-    override fun getBookmark(
-        bookmarkId: String,
-        callback: BookmarkDataSource.GetBookmarkCallback
-    ) {
-        appExecutors.diskIO.execute {
-            val bookmark = bookmarkDao.getBookmarkById(bookmarkId)
-            appExecutors.mainThread.execute {
-                if (bookmark != null) {
-                    callback.onBookmarkLoaded(bookmark)
-                } else {
-                    callback.onDataNotAvailable()
-                }
-            }
-        }
-    }
-
-    override fun saveBookmark(bookmark: Bookmark) {
-        appExecutors.diskIO.execute { bookmarkDao.insertBookmark(bookmark) }
-    }
-
-    override fun deleteAllBookmarks() {
-        appExecutors.diskIO.execute { bookmarkDao.deleteBookmarks() }
-    }
-
-    override fun deleteBookmark(bookmarkId: String) {
-        appExecutors.diskIO.execute { bookmarkDao.deleteBookmarkById(bookmarkId) }
-    }
-
-    companion object {
-        private var INSTANCE: BookmarkLocalDataSource? = null
-
-        @JvmStatic
-        fun getInstance(appExecutors: AppExecutors, bookmarkDao: BookmarkDao): BookmarkLocalDataSource {
-            if (INSTANCE == null) {
-                synchronized(BookmarkLocalDataSource::javaClass) {
-                    INSTANCE = BookmarkLocalDataSource(appExecutors, bookmarkDao)
-                }
-            }
-            return INSTANCE!!
-        }
-
-        @VisibleForTesting
-        fun clearInstance() {
-            INSTANCE = null
-        }
-    }
-}
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;-&amp;gt; Room database에 실제 접근 할 bookmarkDao 인터페이스를 입력값으로 받음 &lt;br /&gt;
--&amp;gt; 로컬 데이터베이스 사용 시 thread 관리 할 AppExcutors를 입력값으로 받음 &lt;br /&gt;
--&amp;gt; BookmarkDataSource를 상속받음 &lt;br /&gt;
-	-&amp;gt; 인터페이스 내부 메소드 오버라이드 &lt;br /&gt;
--&amp;gt; crud 메소드 내부에 bookmarkDao의 쿼리 인터페이스를 활용하여 실제 CRUD 구현 &lt;br /&gt;
-	-&amp;gt; crud 결과를 callback 함수를 통해 요청한 로직에 전달&lt;/p&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;companion object 로 싱글턴 패턴 구현과 전역적으로 사용 할 수 있도록 선언&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;utilappexcutorskt&quot;&gt;util/AppExcutors.kt&lt;/h2&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;open class AppExecutors constructor(
-    val diskIO: Executor = DiskIOThreadExecutor(),
-    val mainThread: Executor = MainThreadExecutor()
-		// 추후 networkIO도 추가됨
-		 // val networkIO: Executor = Executors.newFixedThreadPool(THREAD_COUNT)
-) {
-
-    private class MainThreadExecutor : Executor {
-        private val mainThreadHandler = Handler(Looper.getMainLooper())
-
-        override fun execute(command: Runnable?) {
-            if (command != null) {
-                mainThreadHandler.post(command)
-            }
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;-&amp;gt; 데이터베이스 접근 시 MainThread를 사용하면 충돌이 일어나 앱이 멈춰버림 &lt;br /&gt;
-	-&amp;gt; 그렇기 때문에 새로운 Thread를 생성해서 사용해야 함   &lt;br /&gt;
-	-&amp;gt; AppExcutors는 main, local, network thread를 각각 생성 함 &lt;br /&gt;
-		-&amp;gt; 필요에 따라 각각의 thread를 꺼내쓰도록 함&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;open class &lt;br /&gt;
--&amp;gt; java와 다르게 Kotlin은 class와 메소드가 기본적으로 final임  &lt;br /&gt;
-  -&amp;gt; 클래스의 상속을 허용하려면 클래스 앞에 open 변경자를 붙여야함 &lt;br /&gt;
-  -&amp;gt; 마찬가지로 오버라이드하고 싶은 메소드 or 프로퍼티 앞에도 open 변경자를 붙여야함&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;utildiskiothreadexecutorkt&quot;&gt;util/DiskIOThreadExecutor.kt&lt;/h2&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class DiskIOThreadExecutor : Executor {
-
-    private val diskIO = Executors.newSingleThreadExecutor()
-
-    override fun execute(command: Runnable?) { diskIO.execute(command) }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;-&amp;gt; local database crud 할 때 사용할 thread 를 생성함&lt;/p&gt;</content><author><name>Hun</name></author><category term="android-kotlin" /><category term="Kotlin" /><category term="Android" /><category term="Database" /><category term="MVVM" /><summary type="html">참고자료 https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin</summary></entry></feed>
+&lt;/ul&gt;</content><author><name>Hun</name></author><category term="android-kotlin" /><category term="Kotlin" /><category term="Android" /><category term="MVVM" /><category term="Database" /><summary type="html">참고자료 https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin</summary></entry></feed>
