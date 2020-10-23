@@ -1,4 +1,303 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-23T20:32:07+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hun development blog</title><subtitle>Android &amp; Flutter &amp; Fullstack</subtitle><author><name>Hun</name></author><entry><title type="html">Architecture Components Example - Room, LiveData, ViewModel</title><link href="http://localhost:4000/android-kotlin/implementing-mvvm-android-livedata/" rel="alternate" type="text/html" title="Architecture Components Example - Room, LiveData, ViewModel" /><published>2020-10-23T00:00:00+09:00</published><updated>2020-10-23T00:00:00+09:00</updated><id>http://localhost:4000/android-kotlin/implementing-mvvm-android-livedata</id><content type="html" xml:base="http://localhost:4000/android-kotlin/implementing-mvvm-android-livedata/">&lt;h2 id=&quot;architecture-component&quot;&gt;Architecture Component&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-24T05:06:32+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hun development blog</title><subtitle>Android &amp; Flutter &amp; Fullstack</subtitle><author><name>Hun</name></author><entry><title type="html">Data Binding in Android Example</title><link href="http://localhost:4000/data-binding-in-android-example/" rel="alternate" type="text/html" title="Data Binding in Android Example" /><published>2020-10-23T00:00:00+09:00</published><updated>2020-10-23T00:00:00+09:00</updated><id>http://localhost:4000/data-binding-in-android-example</id><content type="html" xml:base="http://localhost:4000/data-binding-in-android-example/">&lt;p float=&quot;center&quot;&gt;
+  &lt;img src=&quot;/assets/images/gif/2020-10-2323-36.gif&quot; width=&quot;300&quot; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Data Binding 예제를 정리한 글&lt;/p&gt;
+
+&lt;p&gt;참고자료 &lt;br /&gt;
+&lt;a href=&quot;https://developer.android.com/topic/libraries/data-binding?hl=ko&quot;&gt;Data Binding - 공식문서&lt;/a&gt; &lt;br /&gt;
+&lt;a href=&quot;https://codelabs.developers.google.com/codelabs/android-databinding?hl=ko#0&quot;&gt;Data Binding - Example&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;data-binding&quot;&gt;Data Binding&lt;/h2&gt;
+&lt;p float=&quot;center&quot;&gt;
+&lt;img src=&quot;/assets/images/png/dataBinding.png&quot; width=&quot;100%&quot; /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DataBinding&lt;/code&gt; 라이브러리는 XML 레이아웃의 UI 구성요소를 선언적 형식을 사용하여 데이터 소스에 바인딩할 수 있도록 하는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Android Jetpack&lt;/code&gt; 라이브러리이다. &lt;br /&gt;
+해당 예제는 정적 데이터와 일부 관측 가능한 데이터를 보여주는 하나의 화면을 가지고 있다. 데이터가 바뀌면 UI가 자동으로 업데이트 된다. 데이터는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ViewModel&lt;/code&gt;에서 제공된다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MVVM&lt;/code&gt; (Model / View / ViewModel) 은 Data Binding과 잘 어울리는 프레젠테이션 계층 패턴이다.&lt;/p&gt;
+
+&lt;h2 id=&quot;data-binding-example&quot;&gt;Data Binding Example&lt;/h2&gt;
+&lt;p&gt;해당 예제는 총 6가지로 구현되어있다. 처음에는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ViewModel&lt;/code&gt; 만 사용하여 구현하였고 점차 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DataBinding&lt;/code&gt;과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LiveData&lt;/code&gt; 가 추가되면서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MVVM&lt;/code&gt;의 모습을 갖추어 간다.  추가되는 기능들이 어떤 변화를 주는지 제대로 파악하는것이 목표이다.&lt;/p&gt;
+
+&lt;p&gt;처음에는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ViewModel&lt;/code&gt;이 간략하게  정의되어있다.&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// ViewModel
+
+class SimpleViewModel : ViewModel() {
+    val name = &quot;Grace&quot;
+    val lastName = &quot;Hopper&quot;
+    var likes = 0
+        private set // This is to prevent external modification of the variable.
+
+    fun onLike() {
+        likes++
+    }
+
+    val popularity: Popularity
+        get() {
+            return when {
+                likes &amp;gt; 9 -&amp;gt; Popularity.STAR
+                likes &amp;gt; 4 -&amp;gt; Popularity.POPULAR
+                else -&amp;gt; Popularity.NORMAL
+            }
+        }
+}
+
+enum class Popularity {
+    NORMAL,
+    POPULAR,
+    STAR
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;페이지의 데이터가 구현되어있다.
+    &lt;ul&gt;
+      &lt;li&gt;name, lastName, likes&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;enum =&amp;gt; NORMAL, POPULAR, START
+    &lt;ul&gt;
+      &lt;li&gt;likes 가 올라갈 때 마다 이미지가 변경될때 지정되는 enum type&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;onLike()
+    &lt;ul&gt;
+      &lt;li&gt;like를 1씩 추가하는 메소드&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;databindingactivitykt&quot;&gt;DataBindingActivity.kt&lt;/h5&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;XML&lt;/code&gt;+ &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Activity&lt;/code&gt; + &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ViewModel&lt;/code&gt;로 구현되어있다.&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// DataBindingActivity.kt
+
+private val viewModel by lazy { ViewModelProvider(this).get(SimpleViewModel::class.java) }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;SimpleViewModel로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ViewModel&lt;/code&gt; 인스턴스를 생성한다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// DataBindingActivity.kt 
+
+fun onLike(view: View) {
+        viewModel.onLike()
+        updateLikes()
+    }
+
+   private fun updateName() {
+        findViewById&amp;lt;TextView&amp;gt;(R.id.plain_name).text = viewModel.name
+        findViewById&amp;lt;TextView&amp;gt;(R.id.plain_lastname).text = viewModel.lastName
+    }
+
+   private fun updateLikes() {
+        findViewById&amp;lt;TextView&amp;gt;(R.id.likes).text = viewModel.likes.toString()
+        findViewById&amp;lt;ProgressBar&amp;gt;(R.id.progressBar).progress =
+            (viewModel.likes * 100 / 5).coerceAtMost(100)
+        val image = findViewById&amp;lt;ImageView&amp;gt;(R.id.imageView)
+
+        val color = getAssociatedColor(viewModel.popularity, this)
+
+        ImageViewCompat.setImageTintList(image, ColorStateList.valueOf(color))
+
+        image.setImageDrawable(getDrawablePopularity(viewModel.popularity, this))
+    }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;onLike(), updateName(), updateLikes() 모두 ui 데이터를 업데이트 하는데 사용되는 메소드다.
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;findViewById&lt;/code&gt; 가 자중 사용된다.&lt;/li&gt;
+      &lt;li&gt;updateLikes() 에서는 likes 숫자와 이미지 종류 + 색상까지 update 해야하므로 코드줄이 길어졌다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// DataBindingActivity.kt
+
+    private fun getAssociatedColor(popularity: Popularity, context: Context): Int {
+			. . .
+    }
+
+    private fun getDrawablePopularity(popularity: Popularity, context: Context): Drawable? {
+			. . .
+    }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;여기에 UI controller의 본분 UI를 표시하는 부분까지 만들어주어야 한다.&lt;/li&gt;
+  &lt;li&gt;좋은코드인지 나쁜코드인지를 판별하기 보다는 현재의 코드에서 어떠한 부분들이 개선되는지를 살펴보는데 집중하도록 하자.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;solutionactivity1kt&quot;&gt;SolutionActivity1.kt&lt;/h4&gt;
+&lt;p&gt;이제 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DataBinding&lt;/code&gt;을 추가해보자. &lt;br /&gt;
+우선 builde.gradle에 다음을 추가하여 dataBinding을 활성화한다.&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//build.gradle
+
+...
+
+android {
+  buildFeatures {
+    dataBinding true
+  }
+}
+...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;이제 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;XML&lt;/code&gt; 을 수정해보자.&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// activity_solution1.xml
+
+&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&amp;gt;
+&amp;lt;layout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+    xmlns:tools=&quot;http://schemas.android.com/tools&quot;&amp;gt;
+
+    &amp;lt;data&amp;gt;
+
+        &amp;lt;variable
+            name=&quot;name&quot;
+            type=&quot;String&quot;/&amp;gt;
+
+        &amp;lt;variable
+            name=&quot;lastName&quot;
+            type=&quot;String&quot;/&amp;gt;
+    &amp;lt;/data&amp;gt;
+
+    &amp;lt;androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;match_parent&quot;&amp;gt;
+				
+				...
+    &amp;lt;/androidx.constraintlayout.widget.ConstraintLayout&amp;gt;
+&amp;lt;/layout&amp;gt;
+				
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;SolutionActivity1.kt의 레이아웃으로써 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ConstraintLayout&lt;/code&gt; 이다.&lt;/li&gt;
+  &lt;li&gt;레이아웃을 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DataBinding&lt;/code&gt;으로 변환하려면 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;layout&amp;gt;&amp;lt;/layout&amp;gt;&lt;/code&gt; 태그로 감싸야 한다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;data&amp;gt;&amp;lt;/data&amp;gt;&lt;/code&gt; 내부에 변수를 선언할 수 있고 다음과 같이 사용 가능하다.
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// Some examples of complex layout expressions
+android:text=&quot;@{String.valueOf(index + 1)}&quot;
+android:visibility=&quot;@{age &amp;lt; 13 ? View.GONE : View.VISIBLE}&quot;
+android:transitionName='@{&quot;image_&quot; + id}'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+    &lt;ul&gt;
+      &lt;li&gt;레이아웃 내부에서 형변환을 구현&lt;/li&gt;
+      &lt;li&gt;조건문을 레이아웃 내부에 구현&lt;/li&gt;
+      &lt;li&gt;레이아웃 내부에서 데이터를 유동적으로 변경&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;!! 해당 기능은 많은 도움이 되지만 너무 복잡한 논리가 레이아웃 내부에 있으면 가독성이 떨어지며 유지보수를 어렵게 할 수 있다. 적절히 사용한다면 다음과 같은 이점을 얻을 수 있다.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;앱의 성능 향상&lt;/li&gt;
+  &lt;li&gt;메모리 누수 및 Null 포인터 예외 방지&lt;/li&gt;
+  &lt;li&gt;UI 프레임워크 호출을 제거하여 활동 코드 간소화&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;해당 예제는 다음과 같은 방식으로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DataBindidng&lt;/code&gt;을 활용한다.&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Android:text=&quot;@{viewmodel.name}&quot;
+Android:visibility=&quot;@{viewmodel.nameVisible}&quot;
+Android:onClick=&quot;@{() -&amp;gt; viewmodel.onLike()}&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;이제 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Activity&lt;/code&gt;를 수정해보자.&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_solution1)
+
+        val binding: ActivitySolution1Binding =
+            DataBindingUtil.setContentView(this, R.layout.activity_solution1)
+
+        binding.name = &quot;Ada&quot;
+        binding.lastName = &quot;Lovelace&quot;
+
+        updateLikes()
+    }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;변동된 사항은 거의없고 onCreate() 내부에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ActivitySolution1Binding&lt;/code&gt;이라는 객체의 인스턴스를 생성하는 코드만 늘어났다.
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ActivitySolution1Binding&lt;/code&gt;은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;activity_solution.xml&lt;/code&gt;을 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;layout&amp;gt;/layout&amp;gt;&lt;/code&gt;으로 감싸면서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dataBinding&lt;/code&gt;이 자동으로 생성한 객체이다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;코드만 늘어난거 아닌가?
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;binding.name = &quot;Ada&quot;&lt;/code&gt; 보면 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dataBinding&lt;/code&gt; 객체의 인스턴스를 얻는것만으로 내부에 있는 데이터를 변경할 수 있게 되었다.
+        &lt;ul&gt;
+          &lt;li&gt;큰 변화는 아니지만 이러한 변화가 어떤 유용함을 가져다 주는지 다음 solution을 통해 알아보도록 하자.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;solutionactivity2kt&quot;&gt;SolutionActivity2.kt&lt;/h4&gt;
+&lt;p&gt;우선 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;XML&lt;/code&gt;을 다음과 같이 변경한다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;...
+    &amp;lt;data&amp;gt;
+
+        &amp;lt;variable
+            name=&quot;viewmodel&quot;
+            type=&quot;com.example.androidsamples.dataBinding.data.SimpleViewModel&quot;/&amp;gt;
+    &amp;lt;/data&amp;gt;			
+...
+        &amp;lt;TextView
+            android:id=&quot;@+id/plain_name&quot;
+            ...
+            android:text=&quot;@{viewmodel.name}&quot; /&amp;gt;
+				
+        &amp;lt;TextView
+            android:id=&quot;@+id/plain_lastname&quot;
+            ...
+            android:text=&quot;@{viewmodel.lastName}&quot;/&amp;gt;
+       
+			 &amp;lt;Button
+			     android:id=&quot;@+id/like_button&quot;
+					 ...
+					 android:onClick=&quot;@{() -&amp;gt; viewmodel.onLike()}&quot; /&amp;gt;
+...
+...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;레이아웃 표현식은 @기호로 시작하여 {} 내부에 작성한다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;data&amp;gt;&amp;lt;/data&amp;gt;&lt;/code&gt; 내부에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ViewModel&lt;/code&gt; 자체를 객체로 작성하였다.
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TextView&lt;/code&gt;에 변경되는 로직을 관리하는 권한이 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Activity&lt;/code&gt;에서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ViewModel&lt;/code&gt;로 변경되었다.
+        &lt;ul&gt;
+          &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;@{name}&lt;/code&gt;에서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;@{viewmodel.main}&lt;/code&gt;으로 변경되었다.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Button 의 onClick설정이 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;@{() -&amp;gt; viewmodel.onLike()}&lt;/code&gt;으로 변경되었다.
+        &lt;ul&gt;
+          &lt;li&gt;onLike() 메소드의 위치가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Activity&lt;/code&gt;에서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ViewModel&lt;/code&gt;로 변경되었다.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Activity&lt;/code&gt;변동사항&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//onCreate()
+...
+    val binding: ActivitySolution2Binding=
+    DataBindingUtil.setContentView(this, R.layout.activity_solution2)
+
+    binding.viewmodel = viewModel
+...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;setContentView(R.layout.activity_data_binding)&lt;/code&gt;가 완전히 사라지고 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DataBinding&lt;/code&gt;으로 변경되었다.&lt;/li&gt;
+  &lt;li&gt;onLike() 함수가 사라지고 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ViewModel&lt;/code&gt;내부에 구현되었으며 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;xml&lt;/code&gt;에서 사용한다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DataBinding&lt;/code&gt;객체로 레이아웃 데이터에 접근 할 수 있게되었지만 그 과정을 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ViewModel&lt;/code&gt;을 통해서 해야한다.
+    &lt;ul&gt;
+      &lt;li&gt;이렇게 점차 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Activity&lt;/code&gt;와 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ViewModel&lt;/code&gt;은 분리되어간다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;!! 아직 위 코드는 작동하지않는다. 정확히 말하면 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;XML&lt;/code&gt;의 버튼의 onClick이 작동하지 않는다.  다음 솔루션에서 해당 내용을 구현한다.&lt;/p&gt;
+
+&lt;h4 id=&quot;solutionactivity3kt&quot;&gt;SolutionActivity3.kt&lt;/h4&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ViewModel&lt;/code&gt; 변경 사항 &lt;br /&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;XML&lt;/code&gt;  &lt;br /&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Activity&lt;/code&gt; &lt;br /&gt;
+여기부터 정리&lt;/p&gt;</content><author><name>Hun</name></author><category term="Kotlin" /><category term="MVVM" /><category term="AndroidUI" /><summary type="html"></summary></entry><entry><title type="html">Architecture Components Example - Room, LiveData, ViewModel</title><link href="http://localhost:4000/android-kotlin/implementing-mvvm-android-livedata/" rel="alternate" type="text/html" title="Architecture Components Example - Room, LiveData, ViewModel" /><published>2020-10-23T00:00:00+09:00</published><updated>2020-10-23T00:00:00+09:00</updated><id>http://localhost:4000/android-kotlin/implementing-mvvm-android-livedata</id><content type="html" xml:base="http://localhost:4000/android-kotlin/implementing-mvvm-android-livedata/">&lt;h2 id=&quot;architecture-component&quot;&gt;Architecture Component&lt;/h2&gt;
 &lt;p float=&quot;center&quot;&gt;
   &lt;img src=&quot;/assets/images/gif/2020-10-2318-56.gif&quot; width=&quot;300&quot; /&gt;
 &lt;/p&gt;
@@ -1732,261 +2031,4 @@ result :
 {one=11, two=2, three=3}
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;Map의 기본 구현인 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LinkedHashMap&lt;/code&gt;은 Map이 반복될 때  요소의 삽입 순서를 보존한다. 다시말해 (in turn) 대체 구현(alternative implementation)인 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HashMap&lt;/code&gt; 은 순서를 보존하지 않는다.&lt;/p&gt;</content><author><name>Hun</name></author><category term="programming-theory" /><category term="Kotlin" /><category term="DataStructure" /><category term="KotlinDocs" /><summary type="html">참고자료 https://www.tutorialspoint.com/data_structures_algorithms/index.html</summary></entry><entry><title type="html">android local &amp;amp; remote data source - kotlin</title><link href="http://localhost:4000/android-kotlin/android-local-remote-data-source-kotlin/" rel="alternate" type="text/html" title="android local &amp;amp; remote data source - kotlin" /><published>2020-10-15T00:00:00+09:00</published><updated>2020-10-15T00:00:00+09:00</updated><id>http://localhost:4000/android-kotlin/android-local-remote-data-source-kotlin</id><content type="html" xml:base="http://localhost:4000/android-kotlin/android-local-remote-data-source-kotlin/">&lt;p&gt;참고자료 &lt;br /&gt;
-&lt;a href=&quot;https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin&quot;&gt;https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin&lt;/a&gt;&lt;/p&gt;
-
-&lt;hr /&gt;
-&lt;hr /&gt;
-
-&lt;h2 id=&quot;script&quot;&gt;Script&lt;/h2&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;Kotlin&lt;/p&gt;
-  &lt;ul&gt;
-    &lt;li&gt;data
-      &lt;ul&gt;
-        &lt;li&gt;source
-          &lt;ul&gt;
-            &lt;li&gt;BookmarkRepository.kt&lt;/li&gt;
-            &lt;li&gt;remote
-              &lt;ul&gt;
-                &lt;li&gt;BookmarkRemoteDataSource.kt&lt;/li&gt;
-              &lt;/ul&gt;
-            &lt;/li&gt;
-          &lt;/ul&gt;
-        &lt;/li&gt;
-      &lt;/ul&gt;
-    &lt;/li&gt;
-    &lt;li&gt;(mock)
-      &lt;ul&gt;
-        &lt;li&gt;Injection.kt&lt;/li&gt;
-      &lt;/ul&gt;
-    &lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;datasourcebookmarkremotedatasourcekt&quot;&gt;data/source/BookmarkRemoteDataSource.kt&lt;/h2&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;object BookmarkRemoteDataSource : BookmarkDataSource {
-
-    private const val SERVICE_LATENCY_IN_MILLIS = 5000L
-
-    private var BOOKMARKS_SERVICE_DATA = LinkedHashMap&amp;lt;String, Bookmark&amp;gt;(2)
-
-    init {
-        addBookmark(&quot;Google&quot;, &quot;Portal&quot;,&quot;https://www.google.com&quot;)
-        addBookmark(&quot;Naver&quot;, &quot;Portal&quot;,&quot;https://www.naver.com&quot;)
-        addBookmark(&quot;Daum&quot;, &quot;Portal&quot;,&quot;https://www.daum.net&quot;)
-    }
-
-    private fun addBookmark(title: String, category: String, url: String) {
-
-        val newBookmark = Bookmark(title, category, url)
-
-        BOOKMARKS_SERVICE_DATA.put(newBookmark.id, newBookmark)
-    }
-
-    override fun getBookmarks(callback: BookmarkDataSource.LoadBookmarksCallback) {
-
-        val bookmarks = Lists.newArrayList&amp;lt;Bookmark&amp;gt;(BOOKMARKS_SERVICE_DATA.values)
-
-        // Simulate network
-        Handler(Looper.getMainLooper()).postDelayed({
-            callback.onBookmarksLoaded(bookmarks)
-        }, SERVICE_LATENCY_IN_MILLIS)
-    }
-
-    override fun getBookmark(
-        bookmarkId: String,
-        callback: BookmarkDataSource.GetBookmarkCallback
-    ) {
-
-        val bookmark = BOOKMARKS_SERVICE_DATA[bookmarkId]
-
-        // simulate network
-        with(Handler(Looper.getMainLooper())) {
-            if (bookmark != null) {
-                postDelayed({ callback.onBookmarkLoaded(bookmark) }, SERVICE_LATENCY_IN_MILLIS)
-            } else {
-                postDelayed({ callback.onDataNotAvailable() }, SERVICE_LATENCY_IN_MILLIS)
-            }
-        }
-    }
-
-    override fun saveBookmark(bookmark: Bookmark) {
-
-        BOOKMARKS_SERVICE_DATA.put(bookmark.id, bookmark)
-    }
-
-    override fun deleteAllBookmarks() {
-
-        BOOKMARKS_SERVICE_DATA.clear()
-    }
-
-    override fun deleteBookmark(bookmarkId: String) {
-
-        BOOKMARKS_SERVICE_DATA.remove(bookmarkId)
-    }
-
-    override fun refreshBookmark() {
-        //
-    }
-}
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;-&amp;gt; 아직 원격 데이터베이스와 api가 셋팅되어있지 않기때문에 cache를 활용하여 임시로 구현&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;LinkedHashMap&amp;lt;String, Bookmark&amp;gt;
-  -&amp;gt; id와 bookmark 객체를 crud &lt;br /&gt;
-  -&amp;gt; remote database 가 구현이 안되어 있어도 linkedhashmap을 통해 테스트 가능 &lt;br /&gt;
-  -&amp;gt; linkedhasmap은 cache 메모리 이며 속도가 빠름 &lt;br /&gt;
-      -&amp;gt; 변동이 없는 경우 cache에서 가져오는 편이 속도나 성능면에서 이득 &lt;br /&gt;
-      -&amp;gt; remote - cache 를 동기화해주는 로직을 구현해야함&lt;/li&gt;
-  &lt;li&gt;init {} &lt;br /&gt;
--&amp;gt; init block 이라 하며 객체 생성시 호출 됨 &lt;br /&gt;
-  -&amp;gt; google, naver, daum 이라는 임시 데이터 모델이 객체 생성 시 자동으로 생성되어 linkedhasmap에 추가됨&lt;/li&gt;
-  &lt;li&gt;BookmarkDataSource 상속 &lt;br /&gt;
-  -&amp;gt; 내부 메소드가 오버라이드 되며 임시 cache linkedmap 를 통해 crud 동작 구현&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;datasourcebookmarkrepositorykt&quot;&gt;data/source/BookmarkRepository.kt&lt;/h2&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class BookmarkRepository(
-    private val bookmarkLocalDataSource: BookmarkDataSource,
-    private val bookmarkRemoteDataSource: BookmarkDataSource
-) : BookmarkDataSource {
-
-    var cachedBookmarks: LinkedHashMap&amp;lt;String, Bookmark&amp;gt; = LinkedHashMap()
-
-    var cacheIsDirty = false
-
-    private fun refreshCache(bookmarks: List&amp;lt;Bookmark&amp;gt;) {
-        cachedBookmarks.clear()
-        bookmarks.forEach {
-            cacheAndPerform(it) {}
-        }
-        cacheIsDirty = false
-    }
-
-    private fun refreshLocalDataSource(bookmarks: List&amp;lt;Bookmark&amp;gt;) {
-        bookmarkLocalDataSource.deleteAllBookmarks()
-        for (bookmark in bookmarks) {
-            bookmarkLocalDataSource.saveBookmark(bookmark)
-        }
-    }
-
-    private fun getBookmarkFromRemoteDataSource(callback: BookmarkDataSource.LoadBookmarksCallback) {
-        bookmarkRemoteDataSource.getBookmarks(object : BookmarkDataSource.LoadBookmarksCallback {
-            override fun onBookmarksLoaded(bookmarks: List&amp;lt;Bookmark&amp;gt;) {
-                refreshCache(bookmarks)
-                refreshLocalDataSource(bookmarks)
-
-                callback.onBookmarksLoaded(ArrayList(cachedBookmarks.values))
-            }
-
-            override fun onDataNotAvailable() {
-                callback.onDataNotAvailable()
-            }
-
-        })
-    }
-
-    private fun getBookmarkId(id: String) = cachedBookmarks[id]
-
-    private inline fun cacheAndPerform(bookmark: Bookmark, perform: (Bookmark) -&amp;gt; Unit) {
-        val cachedBookmark =
-            Bookmark(
-                bookmark.id,
-                bookmark.category,
-                bookmark.url,
-                bookmark.title
-            ).apply {
-                favicon = bookmark.favicon
-                position = bookmark.position
-            }
-
-        cachedBookmarks[cachedBookmark.id] = cachedBookmark
-        perform(cachedBookmark)
-    }
-
-		. . .
-		BookmarkDataSource override method 
-		. . .
-
-
-    companion object {
-
-        private var INSTANCE: BookmarkRepository? = null
-
-        @JvmStatic
-        fun getInstance(
-            bookmarkLocalDataSource: BookmarkDataSource,
-            bookmarkRemoteDataSource: BookmarkDataSource
-        ) =
-            INSTANCE ?: synchronized(BookmarkRepository::class.java) {
-                INSTANCE ?: BookmarkRepository(
-                    bookmarkLocalDataSource,
-                    bookmarkRemoteDataSource
-                ).also { INSTANCE = it }
-            }
-
-        @JvmStatic
-        fun destroyInstance() {
-            INSTANCE = null
-        }
-    }
-}
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;ul&gt;
-  &lt;li&gt;BookmarkDataSource 를 2개 입력받아 remote와 local로 나눔&lt;/li&gt;
-  &lt;li&gt;var cachedBookmarks: LinkedHashMap&amp;lt;String, Bookmark&amp;gt; = LinkedHashMap()
-    &lt;ul&gt;
-      &lt;li&gt;cache의 사용으로 속도와 성능 향상&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;var cacheIsDirty = false&lt;/li&gt;
-  &lt;li&gt;Bookmark data에 변동이있는지 구분&lt;/li&gt;
-  &lt;li&gt;변동이 없으면 false / 변동이 있으면 true&lt;/li&gt;
-  &lt;li&gt;refreshCache()
-    &lt;ul&gt;
-      &lt;li&gt;LinkedHashMap() 을 refresh 함&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;refreshLocalDataSource()
-    &lt;ul&gt;
-      &lt;li&gt;Room Database의 bookmarks 테이블을 refresh함&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;getMookmarkRemoteDataSource()
-    &lt;ul&gt;
-      &lt;li&gt;local에는 없으나 remote에 객체가 존재할 때 (동기화가 안된 상황)
-        &lt;ul&gt;
-          &lt;li&gt;cache와 room database를 refresh 하여 동기화&lt;/li&gt;
-          &lt;li&gt;가져온 객체를 callback으로 반환&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;getBookmarkId()
-    &lt;ul&gt;
-      &lt;li&gt;cache에서 입력받은 id의 bookmark 객체 찾아 반환&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;cacheAndPerform()
-    &lt;ul&gt;
-      &lt;li&gt;inline fun
-        &lt;ul&gt;
-          &lt;li&gt;Kotlin은 컴파일 단계에서 함수 타입의 변수(람다)를 FunctionN 인터페이스를 구현한 객체로 저장&lt;/li&gt;
-          &lt;li&gt;매개변수에 따라 Function0&lt;R&gt; , Function1&amp;lt;P1, R&amp;gt; ... Function22&amp;lt;...&amp;gt; 까지 제공됨&lt;/R&gt;&lt;/li&gt;
-          &lt;li&gt;각각의 람다식마다 객체가 생성되어 메모리에 저장되고 invoke() 함수가 각각 호출되어 메모리할당 및 가상 호출에 의한 런타임 오버헤드 발생&lt;/li&gt;
-          &lt;li&gt;람다를 매개로하는 고차함수를 inline fun 으로 정의하여 오버헤드를 줄임&lt;/li&gt;
-          &lt;li&gt;직접 객체를 호출하기 보단 함수의 본문을 복붙함&lt;/li&gt;
-          &lt;li&gt;saveBookmark() , refreshCache(),  getBookmark() 등 단일 객체를 가져오거나 저장할 때 cahce 상의 객체를 동기화&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;(Bookmark) -&amp;gt; Unit
-    &lt;ul&gt;
-      &lt;li&gt;함수의 반환 구문이 없다는 것을 표현하기 위해 사용 = java의 void&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Hun</name></author><category term="android-kotlin" /><category term="Kotlin" /><category term="Android" /><category term="MVVM" /><category term="Database" /><summary type="html">참고자료 https://github.com/ll0301/architecture-samples/tree/todo-mvvm-live-kotlin</summary></entry></feed>
+&lt;p&gt;Map의 기본 구현인 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LinkedHashMap&lt;/code&gt;은 Map이 반복될 때  요소의 삽입 순서를 보존한다. 다시말해 (in turn) 대체 구현(alternative implementation)인 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HashMap&lt;/code&gt; 은 순서를 보존하지 않는다.&lt;/p&gt;</content><author><name>Hun</name></author><category term="programming-theory" /><category term="Kotlin" /><category term="DataStructure" /><category term="KotlinDocs" /><summary type="html">참고자료 https://www.tutorialspoint.com/data_structures_algorithms/index.html</summary></entry></feed>

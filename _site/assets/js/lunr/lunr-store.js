@@ -71,6 +71,12 @@ var store = [{
         "url": "http://localhost:4000/android-ui/android-snackbar-move-to-activity-in-fragment/",
         "teaser": "http://localhost:4000/assets/images/background/teaser1.jpg"
       },{
+        "title": "Data Binding in Android Example",
+        "excerpt":"Data Binding 예제를 정리한 글 참고자료 Data Binding - 공식문서 Data Binding - Example Data Binding DataBinding 라이브러리는 XML 레이아웃의 UI 구성요소를 선언적 형식을 사용하여 데이터 소스에 바인딩할 수 있도록 하는 Android Jetpack 라이브러리이다. 해당 예제는 정적 데이터와 일부 관측 가능한 데이터를 보여주는 하나의 화면을 가지고 있다. 데이터가 바뀌면 UI가...","categories": [],
+        "tags": ["Kotlin","MVVM","AndroidUI"],
+        "url": "http://localhost:4000/data-binding-in-android-example/",
+        "teaser": "http://localhost:4000/assets/images/background/teaser1.jpg"
+      },{
         "title": "Architecture Components Example - Room, LiveData, ViewModel",
         "excerpt":"Architecture Component Architecture Component 예제를 공부하면서 주요 기능으로 자리잡고 있는 Room, LiveData, Repository , ViewModel, 에 대하여 정리한 글이다. 이미지 출처 및 참고자료 https://codelabs.developers.google.com/codelabs/android-room-with-a-view-kotlin?hl=ko#1 공식문서 Room LiveData ViewModel Room? Room은 SQLite 추상화 레이어를 제공하여 SQLite를 완벽히 활용하면서 더 견고한 데이터 베이스 액세스를 가능하게 한다. SQLite 데이터베이스 위에 있는 데이터베이스 계층이다....","categories": ["android-kotlin"],
         "tags": ["Kotlin","MVVM"],

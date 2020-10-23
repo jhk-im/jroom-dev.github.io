@@ -1,0 +1,300 @@
+I"%:<p float="center">
+  <img src="/assets/images/gif/2020-10-2323-36.gif" width="300" />
+</p>
+
+<p>Data Binding 예제를 정리한 글</p>
+
+<p>참고자료 <br />
+<a href="https://developer.android.com/topic/libraries/data-binding?hl=ko">Data Binding - 공식문서</a> <br />
+<a href="https://codelabs.developers.google.com/codelabs/android-databinding?hl=ko#0">Data Binding - Example</a></p>
+<h2 id="data-binding">Data Binding</h2>
+<p float="center">
+<img src="/assets/images/png/dataBinding.png" width="100%" />
+</p>
+<p><code class="language-plaintext highlighter-rouge">DataBinding</code> 라이브러리는 XML 레이아웃의 UI 구성요소를 선언적 형식을 사용하여 데이터 소스에 바인딩할 수 있도록 하는 <code class="language-plaintext highlighter-rouge">Android Jetpack</code> 라이브러리이다. <br />
+해당 예제는 정적 데이터와 일부 관측 가능한 데이터를 보여주는 하나의 화면을 가지고 있다. 데이터가 바뀌면 UI가 자동으로 업데이트 된다. 데이터는 <code class="language-plaintext highlighter-rouge">ViewModel</code>에서 제공된다. <code class="language-plaintext highlighter-rouge">MVVM</code> (Model / View / ViewModel) 은 Data Binding과 잘 어울리는 프레젠테이션 계층 패턴이다.</p>
+
+<h2 id="data-binding-example">Data Binding Example</h2>
+<p>해당 예제는 총 6가지로 구현되어있다. 처음에는 <code class="language-plaintext highlighter-rouge">ViewModel</code> 만 사용하여 구현하였고 점차 <code class="language-plaintext highlighter-rouge">DataBinding</code>과 <code class="language-plaintext highlighter-rouge">LiveData</code> 가 추가되면서 <code class="language-plaintext highlighter-rouge">MVVM</code>의 모습을 갖추어 간다.  추가되는 기능들이 어떤 변화를 주는지 제대로 파악하는것이 목표이다.</p>
+
+<p>처음에는 <code class="language-plaintext highlighter-rouge">ViewModel</code>이 간략하게  정의되어있다.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// ViewModel
+
+class SimpleViewModel : ViewModel() {
+    val name = "Grace"
+    val lastName = "Hopper"
+    var likes = 0
+        private set // This is to prevent external modification of the variable.
+
+    fun onLike() {
+        likes++
+    }
+
+    val popularity: Popularity
+        get() {
+            return when {
+                likes &gt; 9 -&gt; Popularity.STAR
+                likes &gt; 4 -&gt; Popularity.POPULAR
+                else -&gt; Popularity.NORMAL
+            }
+        }
+}
+
+enum class Popularity {
+    NORMAL,
+    POPULAR,
+    STAR
+}
+</code></pre></div></div>
+<ul>
+  <li>페이지의 데이터가 구현되어있다.
+    <ul>
+      <li>name, lastName, likes</li>
+    </ul>
+  </li>
+  <li>enum =&gt; NORMAL, POPULAR, START
+    <ul>
+      <li>likes 가 올라갈 때 마다 이미지가 변경될때 지정되는 enum type</li>
+    </ul>
+  </li>
+  <li>onLike()
+    <ul>
+      <li>like를 1씩 추가하는 메소드</li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="databindingactivitykt">DataBindingActivity.kt</h5>
+<p><code class="language-plaintext highlighter-rouge">XML</code>+ <code class="language-plaintext highlighter-rouge">Activity</code> + <code class="language-plaintext highlighter-rouge">ViewModel</code>로 구현되어있다.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// DataBindingActivity.kt
+
+private val viewModel by lazy { ViewModelProvider(this).get(SimpleViewModel::class.java) }
+</code></pre></div></div>
+<ul>
+  <li>SimpleViewModel로 <code class="language-plaintext highlighter-rouge">ViewModel</code> 인스턴스를 생성한다.</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// DataBindingActivity.kt 
+
+fun onLike(view: View) {
+        viewModel.onLike()
+        updateLikes()
+    }
+
+   private fun updateName() {
+        findViewById&lt;TextView&gt;(R.id.plain_name).text = viewModel.name
+        findViewById&lt;TextView&gt;(R.id.plain_lastname).text = viewModel.lastName
+    }
+
+   private fun updateLikes() {
+        findViewById&lt;TextView&gt;(R.id.likes).text = viewModel.likes.toString()
+        findViewById&lt;ProgressBar&gt;(R.id.progressBar).progress =
+            (viewModel.likes * 100 / 5).coerceAtMost(100)
+        val image = findViewById&lt;ImageView&gt;(R.id.imageView)
+
+        val color = getAssociatedColor(viewModel.popularity, this)
+
+        ImageViewCompat.setImageTintList(image, ColorStateList.valueOf(color))
+
+        image.setImageDrawable(getDrawablePopularity(viewModel.popularity, this))
+    }
+</code></pre></div></div>
+<ul>
+  <li>onLike(), updateName(), updateLikes() 모두 ui 데이터를 업데이트 하는데 사용되는 메소드다.
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">findViewById</code> 가 자중 사용된다.</li>
+      <li>updateLikes() 에서는 likes 숫자와 이미지 종류 + 색상까지 update 해야하므로 코드줄이 길어졌다.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// DataBindingActivity.kt
+
+    private fun getAssociatedColor(popularity: Popularity, context: Context): Int {
+			. . .
+    }
+
+    private fun getDrawablePopularity(popularity: Popularity, context: Context): Drawable? {
+			. . .
+    }
+</code></pre></div></div>
+<ul>
+  <li>여기에 UI controller의 본분 UI를 표시하는 부분까지 만들어주어야 한다.</li>
+  <li>좋은코드인지 나쁜코드인지를 판별하기 보다는 현재의 코드에서 어떠한 부분들이 개선되는지를 살펴보는데 집중하도록 하자.</li>
+</ul>
+
+<h4 id="solutionactivity1kt">SolutionActivity1.kt</h4>
+<p>이제 <code class="language-plaintext highlighter-rouge">DataBinding</code>을 추가해보자. <br />
+우선 builde.gradle에 다음을 추가하여 dataBinding을 활성화한다.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//build.gradle
+
+...
+
+android {
+  buildFeatures {
+    dataBinding true
+  }
+}
+...
+</code></pre></div></div>
+<p>이제 <code class="language-plaintext highlighter-rouge">XML</code> 을 수정해보자.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// activity_solution1.xml
+
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"&gt;
+
+    &lt;data&gt;
+
+        &lt;variable
+            name="name"
+            type="String"/&gt;
+
+        &lt;variable
+            name="lastName"
+            type="String"/&gt;
+    &lt;/data&gt;
+
+    &lt;androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"&gt;
+				
+				...
+    &lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;
+&lt;/layout&gt;
+				
+</code></pre></div></div>
+<ul>
+  <li>SolutionActivity1.kt의 레이아웃으로써 <code class="language-plaintext highlighter-rouge">ConstraintLayout</code> 이다.</li>
+  <li>레이아웃을 <code class="language-plaintext highlighter-rouge">DataBinding</code>으로 변환하려면 <code class="language-plaintext highlighter-rouge">&lt;layout&gt;&lt;/layout&gt;</code> 태그로 감싸야 한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">&lt;data&gt;&lt;/data&gt;</code> 내부에 변수를 선언할 수 있고 다음과 같이 사용 가능하다.
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Some examples of complex layout expressions
+android:text="@{String.valueOf(index + 1)}"
+android:visibility="@{age &lt; 13 ? View.GONE : View.VISIBLE}"
+android:transitionName='@{"image_" + id}'
+</code></pre></div>    </div>
+    <ul>
+      <li>레이아웃 내부에서 형변환을 구현</li>
+      <li>조건문을 레이아웃 내부에 구현</li>
+      <li>레이아웃 내부에서 데이터를 유동적으로 변경</li>
+    </ul>
+  </li>
+</ul>
+
+<p>!! 해당 기능은 많은 도움이 되지만 너무 복잡한 논리가 레이아웃 내부에 있으면 가독성이 떨어지며 유지보수를 어렵게 할 수 있다. 적절히 사용한다면 다음과 같은 이점을 얻을 수 있다.</p>
+<ul>
+  <li>앱의 성능 향상</li>
+  <li>메모리 누수 및 Null 포인터 예외 방지</li>
+  <li>UI 프레임워크 호출을 제거하여 활동 코드 간소화</li>
+</ul>
+
+<p>해당 예제는 다음과 같은 방식으로 <code class="language-plaintext highlighter-rouge">DataBindidng</code>을 활용한다.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Android:text="@{viewmodel.name}"
+Android:visibility="@{viewmodel.nameVisible}"
+Android:onClick="@{() -&gt; viewmodel.onLike()}"
+</code></pre></div></div>
+
+<p>이제 <code class="language-plaintext highlighter-rouge">Activity</code>를 수정해보자.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_solution1)
+
+        val binding: ActivitySolution1Binding =
+            DataBindingUtil.setContentView(this, R.layout.activity_solution1)
+
+        binding.name = "Ada"
+        binding.lastName = "Lovelace"
+
+        updateLikes()
+    }
+</code></pre></div></div>
+<ul>
+  <li>변동된 사항은 거의없고 onCreate() 내부에 <code class="language-plaintext highlighter-rouge">ActivitySolution1Binding</code>이라는 객체의 인스턴스를 생성하는 코드만 늘어났다.
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">ActivitySolution1Binding</code>은 <code class="language-plaintext highlighter-rouge">activity_solution.xml</code>을 <code class="language-plaintext highlighter-rouge">&lt;layout&gt;/layout&gt;</code>으로 감싸면서 <code class="language-plaintext highlighter-rouge">dataBinding</code>이 자동으로 생성한 객체이다.</li>
+    </ul>
+  </li>
+  <li>코드만 늘어난거 아닌가?
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">binding.name = "Ada"</code> 보면 <code class="language-plaintext highlighter-rouge">dataBinding</code> 객체의 인스턴스를 얻는것만으로 내부에 있는 데이터를 변경할 수 있게 되었다.
+        <ul>
+          <li>큰 변화는 아니지만 이러한 변화가 어떤 유용함을 가져다 주는지 다음 solution을 통해 알아보도록 하자.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="solutionactivity2kt">SolutionActivity2.kt</h4>
+<p>우선 <code class="language-plaintext highlighter-rouge">XML</code>을 다음과 같이 변경한다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...
+    &lt;data&gt;
+
+        &lt;variable
+            name="viewmodel"
+            type="com.example.androidsamples.dataBinding.data.SimpleViewModel"/&gt;
+    &lt;/data&gt;			
+...
+        &lt;TextView
+            android:id="@+id/plain_name"
+            ...
+            android:text="@{viewmodel.name}" /&gt;
+				
+        &lt;TextView
+            android:id="@+id/plain_lastname"
+            ...
+            android:text="@{viewmodel.lastName}"/&gt;
+       
+			 &lt;Button
+			     android:id="@+id/like_button"
+					 ...
+					 android:onClick="@{() -&gt; viewmodel.onLike()}" /&gt;
+...
+...
+</code></pre></div></div>
+<ul>
+  <li>레이아웃 표현식은 @기호로 시작하여 {} 내부에 작성한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">&lt;data&gt;&lt;/data&gt;</code> 내부에 <code class="language-plaintext highlighter-rouge">ViewModel</code> 자체를 객체로 작성하였다.
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">TextView</code>에 변경되는 로직을 관리하는 권한이 <code class="language-plaintext highlighter-rouge">Activity</code>에서 <code class="language-plaintext highlighter-rouge">ViewModel</code>로 변경되었다.
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">@{name}</code>에서 <code class="language-plaintext highlighter-rouge">@{viewmodel.main}</code>으로 변경되었다.</li>
+        </ul>
+      </li>
+      <li>Button 의 onClick설정이 <code class="language-plaintext highlighter-rouge">@{() -&gt; viewmodel.onLike()}</code>으로 변경되었다.
+        <ul>
+          <li>onLike() 메소드의 위치가 <code class="language-plaintext highlighter-rouge">Activity</code>에서 <code class="language-plaintext highlighter-rouge">ViewModel</code>로 변경되었다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">Activity</code>변동사항</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//onCreate()
+...
+    val binding: ActivitySolution2Binding=
+    DataBindingUtil.setContentView(this, R.layout.activity_solution2)
+
+    binding.viewmodel = viewModel
+...
+</code></pre></div></div>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">setContentView(R.layout.activity_data_binding)</code>가 완전히 사라지고 <code class="language-plaintext highlighter-rouge">DataBinding</code>으로 변경되었다.</li>
+  <li>onLike() 함수가 사라지고 <code class="language-plaintext highlighter-rouge">ViewModel</code>내부에 구현되었으며 <code class="language-plaintext highlighter-rouge">xml</code>에서 사용한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">DataBinding</code>객체로 레이아웃 데이터에 접근 할 수 있게되었지만 그 과정을 <code class="language-plaintext highlighter-rouge">ViewModel</code>을 통해서 해야한다.
+    <ul>
+      <li>이렇게 점차 <code class="language-plaintext highlighter-rouge">Activity</code>와 <code class="language-plaintext highlighter-rouge">ViewModel</code>은 분리되어간다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>!! 아직 위 코드는 작동하지않는다. 정확히 말하면 <code class="language-plaintext highlighter-rouge">XML</code>의 버튼의 onClick이 작동하지 않는다.  다음 솔루션에서 해당 내용을 구현한다.</p>
+
+<h4 id="solutionactivity3kt">SolutionActivity3.kt</h4>
+<p><code class="language-plaintext highlighter-rouge">ViewModel</code> 변경 사항
+<code class="language-plaintext highlighter-rouge">XML</code> <br />
+<code class="language-plaintext highlighter-rouge">Activity</code></p>
+:ET
