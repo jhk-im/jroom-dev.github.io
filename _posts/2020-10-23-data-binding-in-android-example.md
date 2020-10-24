@@ -316,4 +316,150 @@ class SolutionActivity3 : AppCompatActivity() {
 - `binding.lifecycleOwner`
 	- binding 된 `xml` 레이아웃의 수명주기 소유자가 UI 컨트롤러로 연결된 `Activity`임을 나타낸다.   
 		- 이로써 `LiveData<>`의 변화를 감지하여 업데이트 할 수 있게 되었다.   
-- UI 컨트롤러의 코드줄이 확연하게 줄어든 것을 확인할 수 있다.
+- UI 컨트롤러의 코드줄이 확연하게 줄어든 것을 확인할 수 있다.   
+
+#### SolutionActivity4.kt   
+- `DataBinding`을 사용하면 거의 모든 UI 호출이 `Binding Adapter`라는 정적인 방법으로 이루어진다. 
+-  `Room`은 엄청냔 앙의 `Binding Adapter`를 제공한다.    
+-  `Android:text` 속성의 예는 다음과 같다.   
+	```
+	    @BindingAdapter("android:text")
+    public static void setText(TextView view, CharSequence text) {
+        // Some checks removed for clarity
+
+        view.setText(text);
+    }
+	```
+- `Background` 속성은 다음과 같다.   
+	```
+	    @BindingAdapter("android:background")
+    public static void setBackground(View view, Drawable drawable) {
+        if (VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN) {
+            view.setBackground(drawable);
+        } else {
+            view.setBackgroundDrawable(drawable);
+        }
+    }
+	```
+- `Binding Adapter`를 사용하여 다음과 같은 Progress bar를 생성해 보자.   
+	```
+	// util/BindingAdapters.kt
+	
+	    @BindingAdapter("app:hideIfZero")
+    fun hideIfZero(view: View, number: Int) {
+        view.visibility = if (number == 0) View.GONE else View.VISIBLE
+    }
+	```
+- 첫번째 파라미터가 `View`이므로 모든 `View`에서 사용할 수 있다.   
+	- 해당 타입을 변경하여 특정 클래스로 제한할 수 있다.   
+- 레이아웃의 반환을 구분하기 위해 정수를 파라미터로 받는다.   
+	- 0인경우 `View.GONE`이 되어 보이지 않는다.   
+		- 아닌경우 `View.VISBLE`이 되어 표시된다.   
+- `activity_solution.xml`에서 진행 Progress bar를 찾아 해당 어댑터를 추가한다.    
+```
+	    <ProgressBar
+            android:id="@+id/progressBar"
+            app:hideIfZero="@{viewmodel.likes}"
+...
+```
+- 이제 Progress bar는 좋아요 숫자인 `viewmodel.likes`의 상태에 따라서 보여지거나 안보여지게 설정 되었다.   
+- 이제 Progress bar가 특정 좋아요 숫자에 따라 색상이 채워지도록 `Binding Adapter`를 만들어보자.   
+```
+@BindingAdapter(value = ["app:progressScaled", "android:max"], requireAll = true)
+fun setProgress(progressBar: ProgressBar, likes: Int, max: Int) {
+    progressBar.progress = (likes * max / 5).coerceAtMost(max)
+}
+```
+- 해당 어댑터는 파라미터가 누락된 경우 사용되지 않는다.
+- 어댑터는 컴파일 시간에 동작한다.   
+- 모든 요소가 다음과같이 `XML`에 존재해야 한다.   
+```
+        <ProgressBar
+                android:id="@+id/progressBar"
+                app:hideIfZero="@{viewmodel.likes}"
+                app:progressScaled="@{viewmodel.likes}"
+                android:max="@{100}"
+...
+```
+- 앱을 실행하면 Progress bar 가 어떻게 채워지는지 알 수 있다.   
+	- 다만 아직 색상이 변경되지는 않는다.    
+- 마지막 솔루션을 통해 모든 동작을 완성해보자.   
+
+#### SolutionActivity5.kt
+likes 값에 따라 Progress bar 표시줄의 색상을 색칠하고 속성을 추가하는 `Binding Adapter`  과 `XML`   
+```
+@BindingAdapter("app:progressTint")
+fun tintPopularity(view: ProgressBar, popularity: Popularity) {
+
+    val color = getAssociatedColor(popularity, view.context)
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        view.progressTintList = ColorStateList.valueOf(color)
+    }
+}
+
+...
+
+private fun getAssociatedColor(popularity: Popularity, context: Context): Int {
+    return when (popularity) {
+        Popularity.NORMAL -> context.theme.obtainStyledAttributes(
+            intArrayOf(android.R.attr.colorForeground)
+        ).getColor(0, 0x000000)
+        Popularity.POPULAR -> ContextCompat.getColor(context, R.color.popular)
+        Popularity.STAR -> ContextCompat.getColor(context, R.color.star)
+    }
+}
+```
+```
+// XML 
+...
+        <ProgressBar
+                android:id="@+id/progressBar"
+                app:hideIfZero="@{viewmodel.likes}"
+                app:progressScaled="@{viewmodel.likes}"
+                app:progressTint="@{viewmodel.popularity}"
+                android:max="@{100}"
+...
+```
+-  `Binding Adpater`인 progressTint에서 `viewmodel.popularity`를 바인딩하고있다.   
+	-  입력되는 popularity enum type에 따라서 getAssociatedColor 메소드를 통해 색상이 지정된다.   
+		-  `XML` 내부의 progress bar view에서 해당 어댑터`app:progressTint`를 통해 업데이트 하여 뿌려준다.   
+
+likes에 따라 다른 아이콘을 표시하는 `Binding Adpater`과 `XML`
+```
+@BindingAdapter("app:popularityIcon")
+fun popularityIcon(view: ImageView, popularity: Popularity) {
+
+    val color = getAssociatedColor(popularity, view.context)
+
+    ImageViewCompat.setImageTintList(view, ColorStateList.valueOf(color))
+
+    view.setImageDrawable(getDrawablePopularity(popularity, view.context))
+}
+
+...
+
+private fun getDrawablePopularity(popularity: Popularity, context: Context): Drawable? {
+    return when (popularity) {
+        Popularity.NORMAL -> {
+            ContextCompat.getDrawable(context, R.drawable.ic_person_black_96dp)
+        }
+        Popularity.POPULAR -> {
+            ContextCompat.getDrawable(context, R.drawable.ic_whatshot_black_96dp)
+        }
+        Popularity.STAR -> {
+            ContextCompat.getDrawable(context, R.drawable.ic_whatshot_black_96dp)
+        }
+    }
+}
+```
+```
+// XML
+
+<ImageView
+android:id="@+id/imageView"
+app:popularityIcon="@{viewmodel.popularity}" 
+```
+- `Binding Adapter`인 popularityIcon에서 `viewmodel.popularity`를 바인딩하고있다.   
+	- 입력되는 popularity enum type에 따라서 getDrawablePopularity 메소드를 통해 이미지가 지정된다.   
+		-  `XML` 내부의 progress bar view에서 해당 어댑터`app:popularityIcon`을 통해 업데이트 하여 뿌려준다.

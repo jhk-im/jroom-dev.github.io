@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-24T13:25:22+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hun development blog</title><subtitle>Android &amp; Flutter &amp; Fullstack</subtitle><author><name>Hun</name></author><entry><title type="html">Data Binding in Android Example</title><link href="http://localhost:4000/data-binding-in-android-example/" rel="alternate" type="text/html" title="Data Binding in Android Example" /><published>2020-10-23T00:00:00+09:00</published><updated>2020-10-23T00:00:00+09:00</updated><id>http://localhost:4000/data-binding-in-android-example</id><content type="html" xml:base="http://localhost:4000/data-binding-in-android-example/">&lt;p float=&quot;center&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-25T03:44:00+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hun development blog</title><subtitle>Android &amp; Flutter &amp; Fullstack</subtitle><author><name>Hun</name></author><entry><title type="html">Data Binding in Android Example</title><link href="http://localhost:4000/data-binding-in-android-example/" rel="alternate" type="text/html" title="Data Binding in Android Example" /><published>2020-10-23T00:00:00+09:00</published><updated>2020-10-23T00:00:00+09:00</updated><id>http://localhost:4000/data-binding-in-android-example</id><content type="html" xml:base="http://localhost:4000/data-binding-in-android-example/">&lt;p float=&quot;center&quot;&gt;
   &lt;img src=&quot;/assets/images/gif/2020-10-2323-36.gif&quot; width=&quot;300&quot; /&gt;
 &lt;/p&gt;
 
@@ -363,6 +363,178 @@ class SimpleViewModelSolution : ViewModel() {
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;UI 컨트롤러의 코드줄이 확연하게 줄어든 것을 확인할 수 있다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;solutionactivity4kt&quot;&gt;SolutionActivity4.kt&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DataBinding&lt;/code&gt;을 사용하면 거의 모든 UI 호출이 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Binding Adapter&lt;/code&gt;라는 정적인 방법으로 이루어진다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Room&lt;/code&gt;은 엄청냔 앙의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Binding Adapter&lt;/code&gt;를 제공한다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Android:text&lt;/code&gt; 속성의 예는 다음과 같다.
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;     @BindingAdapter(&quot;android:text&quot;)
+ public static void setText(TextView view, CharSequence text) {
+     // Some checks removed for clarity
+
+     view.setText(text);
+ }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Background&lt;/code&gt; 속성은 다음과 같다.
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;      @BindingAdapter(&quot;android:background&quot;)
+  public static void setBackground(View view, Drawable drawable) {
+      if (VERSION.SDK_INT &amp;gt;= VERSION_CODES.JELLY_BEAN) {
+          view.setBackground(drawable);
+      } else {
+          view.setBackgroundDrawable(drawable);
+      }
+  }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Binding Adapter&lt;/code&gt;를 사용하여 다음과 같은 Progress bar를 생성해 보자.
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  // util/BindingAdapters.kt
+	
+      @BindingAdapter(&quot;app:hideIfZero&quot;)
+  fun hideIfZero(view: View, number: Int) {
+      view.visibility = if (number == 0) View.GONE else View.VISIBLE
+  }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;첫번째 파라미터가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;View&lt;/code&gt;이므로 모든 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;View&lt;/code&gt;에서 사용할 수 있다.
+    &lt;ul&gt;
+      &lt;li&gt;해당 타입을 변경하여 특정 클래스로 제한할 수 있다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;레이아웃의 반환을 구분하기 위해 정수를 파라미터로 받는다.
+    &lt;ul&gt;
+      &lt;li&gt;0인경우 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;View.GONE&lt;/code&gt;이 되어 보이지 않는다.
+        &lt;ul&gt;
+          &lt;li&gt;아닌경우 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;View.VISBLE&lt;/code&gt;이 되어 표시된다.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;activity_solution.xml&lt;/code&gt;에서 진행 Progress bar를 찾아 해당 어댑터를 추가한다.
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;      &amp;lt;ProgressBar
+          android:id=&quot;@+id/progressBar&quot;
+          app:hideIfZero=&quot;@{viewmodel.likes}&quot;
+...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;이제 Progress bar는 좋아요 숫자인 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;viewmodel.likes&lt;/code&gt;의 상태에 따라서 보여지거나 안보여지게 설정 되었다.&lt;/li&gt;
+  &lt;li&gt;이제 Progress bar가 특정 좋아요 숫자에 따라 색상이 채워지도록 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Binding Adapter&lt;/code&gt;를 만들어보자.
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@BindingAdapter(value = [&quot;app:progressScaled&quot;, &quot;android:max&quot;], requireAll = true)
+fun setProgress(progressBar: ProgressBar, likes: Int, max: Int) {
+  progressBar.progress = (likes * max / 5).coerceAtMost(max)
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;해당 어댑터는 파라미터가 누락된 경우 사용되지 않는다.&lt;/li&gt;
+  &lt;li&gt;어댑터는 컴파일 시간에 동작한다.&lt;/li&gt;
+  &lt;li&gt;모든 요소가 다음과같이 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;XML&lt;/code&gt;에 존재해야 한다.
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;      &amp;lt;ProgressBar
+              android:id=&quot;@+id/progressBar&quot;
+              app:hideIfZero=&quot;@{viewmodel.likes}&quot;
+              app:progressScaled=&quot;@{viewmodel.likes}&quot;
+              android:max=&quot;@{100}&quot;
+...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;앱을 실행하면 Progress bar 가 어떻게 채워지는지 알 수 있다.
+    &lt;ul&gt;
+      &lt;li&gt;다만 아직 색상이 변경되지는 않는다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;마지막 솔루션을 통해 모든 동작을 완성해보자.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;solutionactivity5kt&quot;&gt;SolutionActivity5.kt&lt;/h4&gt;
+&lt;p&gt;likes 값에 따라 Progress bar 표시줄의 색상을 색칠하고 속성을 추가하는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Binding Adapter&lt;/code&gt;  과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;XML&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@BindingAdapter(&quot;app:progressTint&quot;)
+fun tintPopularity(view: ProgressBar, popularity: Popularity) {
+
+    val color = getAssociatedColor(popularity, view.context)
+
+    if (Build.VERSION.SDK_INT &amp;gt;= Build.VERSION_CODES.LOLLIPOP) {
+        view.progressTintList = ColorStateList.valueOf(color)
+    }
+}
+
+...
+
+private fun getAssociatedColor(popularity: Popularity, context: Context): Int {
+    return when (popularity) {
+        Popularity.NORMAL -&amp;gt; context.theme.obtainStyledAttributes(
+            intArrayOf(android.R.attr.colorForeground)
+        ).getColor(0, 0x000000)
+        Popularity.POPULAR -&amp;gt; ContextCompat.getColor(context, R.color.popular)
+        Popularity.STAR -&amp;gt; ContextCompat.getColor(context, R.color.star)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// XML 
+...
+        &amp;lt;ProgressBar
+                android:id=&quot;@+id/progressBar&quot;
+                app:hideIfZero=&quot;@{viewmodel.likes}&quot;
+                app:progressScaled=&quot;@{viewmodel.likes}&quot;
+                app:progressTint=&quot;@{viewmodel.popularity}&quot;
+                android:max=&quot;@{100}&quot;
+...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Binding Adpater&lt;/code&gt;인 progressTint에서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;viewmodel.popularity&lt;/code&gt;를 바인딩하고있다.
+    &lt;ul&gt;
+      &lt;li&gt;입력되는 popularity enum type에 따라서 getAssociatedColor 메소드를 통해 색상이 지정된다.
+        &lt;ul&gt;
+          &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;XML&lt;/code&gt; 내부의 progress bar view에서 해당 어댑터&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;app:progressTint&lt;/code&gt;를 통해 업데이트 하여 뿌려준다.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;likes에 따라 다른 아이콘을 표시하는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Binding Adpater&lt;/code&gt;과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;XML&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@BindingAdapter(&quot;app:popularityIcon&quot;)
+fun popularityIcon(view: ImageView, popularity: Popularity) {
+
+    val color = getAssociatedColor(popularity, view.context)
+
+    ImageViewCompat.setImageTintList(view, ColorStateList.valueOf(color))
+
+    view.setImageDrawable(getDrawablePopularity(popularity, view.context))
+}
+
+...
+
+private fun getDrawablePopularity(popularity: Popularity, context: Context): Drawable? {
+    return when (popularity) {
+        Popularity.NORMAL -&amp;gt; {
+            ContextCompat.getDrawable(context, R.drawable.ic_person_black_96dp)
+        }
+        Popularity.POPULAR -&amp;gt; {
+            ContextCompat.getDrawable(context, R.drawable.ic_whatshot_black_96dp)
+        }
+        Popularity.STAR -&amp;gt; {
+            ContextCompat.getDrawable(context, R.drawable.ic_whatshot_black_96dp)
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// XML
+
+&amp;lt;ImageView
+android:id=&quot;@+id/imageView&quot;
+app:popularityIcon=&quot;@{viewmodel.popularity}&quot; 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Binding Adapter&lt;/code&gt;인 popularityIcon에서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;viewmodel.popularity&lt;/code&gt;를 바인딩하고있다.
+    &lt;ul&gt;
+      &lt;li&gt;입력되는 popularity enum type에 따라서 getDrawablePopularity 메소드를 통해 이미지가 지정된다.
+        &lt;ul&gt;
+          &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;XML&lt;/code&gt; 내부의 progress bar view에서 해당 어댑터&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;app:popularityIcon&lt;/code&gt;을 통해 업데이트 하여 뿌려준다.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
 &lt;/ul&gt;</content><author><name>Hun</name></author><category term="Kotlin" /><category term="MVVM" /><category term="AndroidUI" /><summary type="html"></summary></entry><entry><title type="html">Architecture Components Example - Room, LiveData, ViewModel</title><link href="http://localhost:4000/android-kotlin/implementing-mvvm-android-livedata/" rel="alternate" type="text/html" title="Architecture Components Example - Room, LiveData, ViewModel" /><published>2020-10-23T00:00:00+09:00</published><updated>2020-10-23T00:00:00+09:00</updated><id>http://localhost:4000/android-kotlin/implementing-mvvm-android-livedata</id><content type="html" xml:base="http://localhost:4000/android-kotlin/implementing-mvvm-android-livedata/">&lt;h2 id=&quot;architecture-component&quot;&gt;Architecture Component&lt;/h2&gt;
 &lt;p float=&quot;center&quot;&gt;
   &lt;img src=&quot;/assets/images/gif/2020-10-2318-56.gif&quot; width=&quot;300&quot; /&gt;

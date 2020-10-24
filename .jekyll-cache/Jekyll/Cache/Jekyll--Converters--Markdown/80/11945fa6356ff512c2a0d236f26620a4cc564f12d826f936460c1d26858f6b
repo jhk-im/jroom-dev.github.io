@@ -1,4 +1,4 @@
-I"}G<p float="center">
+I"me<p float="center">
   <img src="/assets/images/gif/2020-10-2323-36.gif" width="300" />
 </p>
 
@@ -230,27 +230,27 @@ Android:onClick="@{() -&gt; viewmodel.onLike()}"
 <p>우선 <code class="language-plaintext highlighter-rouge">XML</code>을 다음과 같이 변경한다.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...
-    &lt;data&gt;
+&lt;data&gt;
 
-        &lt;variable
-            name="viewmodel"
-            type="com.example.androidsamples.dataBinding.data.SimpleViewModel"/&gt;
-    &lt;/data&gt;			
+  &lt;variable
+    name="viewmodel"
+    type="com.example.androidsamples.dataBinding.data.SimpleViewModel"/&gt;
+&lt;/data&gt;			
 ...
-        &lt;TextView
-            android:id="@+id/plain_name"
-            ...
-            android:text="@{viewmodel.name}" /&gt;
+&lt;TextView
+    android:id="@+id/plain_name"
+    ...
+    android:text="@{viewmodel.name}" /&gt;
 				
-        &lt;TextView
-            android:id="@+id/plain_lastname"
-            ...
-            android:text="@{viewmodel.lastName}"/&gt;
+&lt;TextView
+    android:id="@+id/plain_lastname"
+    ...
+    android:text="@{viewmodel.lastName}"/&gt;
        
-			 &lt;Button
-			     android:id="@+id/like_button"
-					 ...
-					 android:onClick="@{() -&gt; viewmodel.onLike()}" /&gt;
+&lt;Button
+    android:id="@+id/like_button"
+    ...
+    android:onClick="@{() -&gt; viewmodel.onLike()}" /&gt;
 ...
 ...
 </code></pre></div></div>
@@ -363,5 +363,162 @@ class SimpleViewModelSolution : ViewModel() {
     </ul>
   </li>
   <li>UI 컨트롤러의 코드줄이 확연하게 줄어든 것을 확인할 수 있다.</li>
+</ul>
+
+<h4 id="solutionactivity4kt">SolutionActivity4.kt</h4>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">DataBinding</code>을 사용하면 거의 모든 UI 호출이 <code class="language-plaintext highlighter-rouge">Binding Adapter</code>라는 정적인 방법으로 이루어진다.</li>
+  <li><code class="language-plaintext highlighter-rouge">Room</code>은 엄청냔 앙의 <code class="language-plaintext highlighter-rouge">Binding Adapter</code>를 제공한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">Android:text</code> 속성의 예는 다음과 같다.
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>     @BindingAdapter("android:text")
+ public static void setText(TextView view, CharSequence text) {
+     // Some checks removed for clarity
+
+     view.setText(text);
+ }
+</code></pre></div>    </div>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Background</code> 속성은 다음과 같다.
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      @BindingAdapter("android:background")
+  public static void setBackground(View view, Drawable drawable) {
+      if (VERSION.SDK_INT &gt;= VERSION_CODES.JELLY_BEAN) {
+          view.setBackground(drawable);
+      } else {
+          view.setBackgroundDrawable(drawable);
+      }
+  }
+</code></pre></div>    </div>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Binding Adapter</code>를 사용하여 다음과 같은 Progress bar를 생성해 보자.
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  // util/BindingAdapters.kt
+	
+      @BindingAdapter("app:hideIfZero")
+  fun hideIfZero(view: View, number: Int) {
+      view.visibility = if (number == 0) View.GONE else View.VISIBLE
+  }
+</code></pre></div>    </div>
+  </li>
+  <li>첫번째 파라미터가 <code class="language-plaintext highlighter-rouge">View</code>이므로 모든 <code class="language-plaintext highlighter-rouge">View</code>에서 사용할 수 있다.
+    <ul>
+      <li>해당 타입을 변경하여 특정 클래스로 제한할 수 있다.</li>
+    </ul>
+  </li>
+  <li>레이아웃의 반환을 구분하기 위해 정수를 파라미터로 받는다.
+    <ul>
+      <li>0인경우 <code class="language-plaintext highlighter-rouge">View.GONE</code>이 되어 보이지 않는다.
+        <ul>
+          <li>아닌경우 <code class="language-plaintext highlighter-rouge">View.VISBLE</code>이 되어 표시된다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">activity_solution.xml</code>에서 진행 Progress bar를 찾아 해당 어댑터를 추가한다.
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      &lt;ProgressBar
+          android:id="@+id/progressBar"
+          app:hideIfZero="@{viewmodel.likes}"
+...
+</code></pre></div>    </div>
+  </li>
+  <li>이제 Progress bar는 좋아요 숫자인 <code class="language-plaintext highlighter-rouge">viewmodel.likes</code>의 상태에 따라서 보여지거나 안보여지게 설정 되었다.</li>
+  <li>이제 Progress bar가 특정 좋아요 숫자에 따라 색상이 채워지도록 <code class="language-plaintext highlighter-rouge">Binding Adapter</code>를 만들어보자.
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@BindingAdapter(value = ["app:progressScaled", "android:max"], requireAll = true)
+fun setProgress(progressBar: ProgressBar, likes: Int, max: Int) {
+  progressBar.progress = (likes * max / 5).coerceAtMost(max)
+}
+</code></pre></div>    </div>
+  </li>
+  <li>해당 어댑터는 파라미터가 누락된 경우 사용되지 않는다.</li>
+  <li>어댑터는 컴파일 시간에 동작한다.</li>
+  <li>모든 요소가 다음과같이 <code class="language-plaintext highlighter-rouge">XML</code>에 존재해야 한다.
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      &lt;ProgressBar
+              android:id="@+id/progressBar"
+              app:hideIfZero="@{viewmodel.likes}"
+              app:progressScaled="@{viewmodel.likes}"
+              android:max="@{100}"
+...
+</code></pre></div>    </div>
+  </li>
+  <li>앱을 실행하면 Progress bar 가 어떻게 채워지는지 알 수 있다.
+    <ul>
+      <li>다만 아직 색상이 변경되지는 않는다.</li>
+    </ul>
+  </li>
+  <li>마지막 솔루션을 통해 모든 동작을 완성해보자.</li>
+</ul>
+
+<h4 id="solutionactivity5kt">SolutionActivity5.kt</h4>
+<ul>
+  <li>
+    <p>likes 값에 따라 Progress bar 표시줄의 색상을 색칠하고 속성을 추가하는 <code class="language-plaintext highlighter-rouge">Binding Adapter</code>  과 <code class="language-plaintext highlighter-rouge">XML</code><br />
+```
+@BindingAdapter(“app:progressTint”)
+fun tintPopularity(view: ProgressBar, popularity: Popularity) {</p>
+
+    <p>val color = getAssociatedColor(popularity, view.context)</p>
+
+    <p>if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.LOLLIPOP) {
+      view.progressTintList = ColorStateList.valueOf(color)
+  }
+}</p>
+  </li>
+</ul>
+
+<p>…</p>
+
+<p>private fun getAssociatedColor(popularity: Popularity, context: Context): Int {
+    return when (popularity) {
+        Popularity.NORMAL -&gt; context.theme.obtainStyledAttributes(
+            intArrayOf(android.R.attr.colorForeground)
+        ).getColor(0, 0x000000)
+        Popularity.POPULAR -&gt; ContextCompat.getColor(context, R.color.popular)
+        Popularity.STAR -&gt; ContextCompat.getColor(context, R.color.star)
+    }
+}</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code></code></pre></div></div>
+<p>// XML 
+…
+        &lt;ProgressBar
+                android:id=”@+id/progressBar”
+                app:hideIfZero=”@{viewmodel.likes}”
+                app:progressScaled=”@{viewmodel.likes}”
+                app:progressTint=”@{viewmodel.popularity}”
+                android:max=”@{100}”
+…</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-  `Binding Adpater`인 progressTint에서 `viewmodel.popularity`를 바인딩하고있다.   
+	-  입력되는 popularity emun type에 따라서 getAssociatedColor 메소드를 통해 색상이 지정된다.   
+
+
+- likes에 따라 다른 아이콘을 표시하는 `Binding Adpater`   
+</code></pre></div></div>
+<p>@BindingAdapter(“app:popularityIcon”)
+fun popularityIcon(view: ImageView, popularity: Popularity) {</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>val color = getAssociatedColor(popularity, view.context)
+
+ImageViewCompat.setImageTintList(view, ColorStateList.valueOf(color))
+
+view.setImageDrawable(getDrawablePopularity(popularity, view.context)) }
+</code></pre></div></div>
+
+<p>…</p>
+
+<p>private fun getDrawablePopularity(popularity: Popularity, context: Context): Drawable? {
+    return when (popularity) {
+        Popularity.NORMAL -&gt; {
+            ContextCompat.getDrawable(context, R.drawable.ic_person_black_96dp)
+        }
+        Popularity.POPULAR -&gt; {
+            ContextCompat.getDrawable(context, R.drawable.ic_whatshot_black_96dp)
+        }
+        Popularity.STAR -&gt; {
+            ContextCompat.getDrawable(context, R.drawable.ic_whatshot_black_96dp)
+        }
+    }
+}
+```</p>
+<ul>
+  <li>ic_person_black_96dp(검은색)</li>
+  <li>ic_whatshot_black_96dp(연분 핑크색)</li>
+  <li>ic_whatshot_black_96dp(진한 핑크색)</li>
 </ul>
 :ET

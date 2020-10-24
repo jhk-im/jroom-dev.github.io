@@ -1,4 +1,4 @@
-I"G<p float="center">
+I"�N<p float="center">
   <img src="/assets/images/gif/2020-10-2323-36.gif" width="300" />
 </p>
 
@@ -363,5 +363,40 @@ class SimpleViewModelSolution : ViewModel() {
     </ul>
   </li>
   <li>UI 컨트롤러의 코드줄이 확연하게 줄어든 것을 확인할 수 있다.</li>
+</ul>
+
+<h4 id="solutionactivity4kt">SolutionActivity4.kt</h4>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">DataBinding</code>을 사용하면 거의 모든 UI 호출이 <code class="language-plaintext highlighter-rouge">Binding Adapter</code>라는 정적인 방법으로 이루어진다.</li>
+  <li><code class="language-plaintext highlighter-rouge">Room</code>은 엄청냔 앙의 <code class="language-plaintext highlighter-rouge">Binding Adapter</code>를 제공한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">Android:text</code> 속성의 예는 다음과 같다.
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>     @BindingAdapter("android:text")
+ public static void setText(TextView view, CharSequence text) {
+     // Some checks removed for clarity
+
+     view.setText(text);
+ }
+</code></pre></div>    </div>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Background</code> 속성은 다음과 같다.
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      @BindingAdapter("android:background")
+  public static void setBackground(View view, Drawable drawable) {
+      if (VERSION.SDK_INT &gt;= VERSION_CODES.JELLY_BEAN) {
+          view.setBackground(drawable);
+      } else {
+          view.setBackgroundDrawable(drawable);
+      }
+  }
+</code></pre></div>    </div>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Binding Adapter</code>를 사용하여 다음과 같은 Progress bar를 생성해 보자.
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  // util/BindingAdapters.kt
+	
+      @BindingAdapter("app:hideIfZero")
+  fun hideIfZero(view: View, number: Int) {
+      view.visibility = if (number == 0) View.GONE else View.VISIBLE
+  }
+</code></pre></div>    </div>
+  </li>
 </ul>
 :ET
