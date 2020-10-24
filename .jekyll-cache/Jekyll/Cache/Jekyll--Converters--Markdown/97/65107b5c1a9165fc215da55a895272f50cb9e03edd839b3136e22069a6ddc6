@@ -1,4 +1,4 @@
-I"H:<p float="center">
+I"#=<p float="center">
   <img src="/assets/images/gif/2020-10-2323-36.gif" width="300" />
 </p>
 
@@ -294,8 +294,28 @@ Android:onClick="@{() -&gt; viewmodel.onLike()}"
 <p>!! 아직 위 코드는 작동하지않는다. 정확히 말하면 <code class="language-plaintext highlighter-rouge">XML</code>의 버튼의 onClick이 작동하지 않는다.  다음 솔루션에서 해당 내용을 구현한다.</p>
 
 <h4 id="solutionactivity3kt">SolutionActivity3.kt</h4>
-<p><code class="language-plaintext highlighter-rouge">ViewModel</code> 변경 사항 <br />
-<code class="language-plaintext highlighter-rouge">XML</code>  <br />
-<code class="language-plaintext highlighter-rouge">Activity</code> <br />
-여기부터 정리</p>
+<p><code class="language-plaintext highlighter-rouge">ViewModel</code>이 아래와같이 수정되었다.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class SimpleViewModelSolution : ViewModel() {
+    private val _name = MutableLiveData("Ada")
+    private val _lastName = MutableLiveData("Lovelace")
+    private val _likes =  MutableLiveData(0)
+
+    val name: LiveData&lt;String&gt; = _name
+    val lastName: LiveData&lt;String&gt; = _lastName
+    val likes: LiveData&lt;Int&gt; = _likes
+
+    // popularity is exposed as LiveData using a Transformation instead of a @Bindable property.
+    val popularity: LiveData&lt;Popularity&gt; = Transformations.map(_likes) {
+        when {
+            it &gt; 9 -&gt; Popularity.STAR
+            it &gt; 4 -&gt; Popularity.POPULAR
+            else -&gt; Popularity.NORMAL
+        }
+    }
+
+    fun onLike() {
+        _likes.value = (_likes.value ?: 0) + 1
+    }
+}
+</code></pre></div></div>
 :ET

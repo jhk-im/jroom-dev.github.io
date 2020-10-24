@@ -1,4 +1,4 @@
-I"�*<p float="center">
+I"G<p float="center">
   <img src="/assets/images/gif/2020-10-2323-36.gif" width="300" />
 </p>
 
@@ -224,5 +224,144 @@ Android:onClick="@{() -&gt; viewmodel.onLike()}"
       </li>
     </ul>
   </li>
+</ul>
+
+<h4 id="solutionactivity2kt">SolutionActivity2.kt</h4>
+<p>우선 <code class="language-plaintext highlighter-rouge">XML</code>을 다음과 같이 변경한다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...
+&lt;data&gt;
+
+  &lt;variable
+    name="viewmodel"
+    type="com.example.androidsamples.dataBinding.data.SimpleViewModel"/&gt;
+&lt;/data&gt;			
+...
+&lt;TextView
+    android:id="@+id/plain_name"
+    ...
+    android:text="@{viewmodel.name}" /&gt;
+				
+&lt;TextView
+    android:id="@+id/plain_lastname"
+    ...
+    android:text="@{viewmodel.lastName}"/&gt;
+       
+&lt;Button
+    android:id="@+id/like_button"
+    ...
+    android:onClick="@{() -&gt; viewmodel.onLike()}" /&gt;
+...
+...
+</code></pre></div></div>
+<ul>
+  <li>레이아웃 표현식은 @기호로 시작하여 {} 내부에 작성한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">&lt;data&gt;&lt;/data&gt;</code> 내부에 <code class="language-plaintext highlighter-rouge">ViewModel</code> 자체를 객체로 작성하였다.
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">TextView</code>에 변경되는 로직을 관리하는 권한이 <code class="language-plaintext highlighter-rouge">Activity</code>에서 <code class="language-plaintext highlighter-rouge">ViewModel</code>로 변경되었다.
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">@{name}</code>에서 <code class="language-plaintext highlighter-rouge">@{viewmodel.main}</code>으로 변경되었다.</li>
+        </ul>
+      </li>
+      <li>Button 의 onClick설정이 <code class="language-plaintext highlighter-rouge">@{() -&gt; viewmodel.onLike()}</code>으로 변경되었다.
+        <ul>
+          <li>onLike() 메소드의 위치가 <code class="language-plaintext highlighter-rouge">Activity</code>에서 <code class="language-plaintext highlighter-rouge">ViewModel</code>로 변경되었다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">Activity</code>변동사항</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//onCreate()
+...
+    val binding: ActivitySolution2Binding=
+    DataBindingUtil.setContentView(this, R.layout.activity_solution2)
+
+    binding.viewmodel = viewModel
+...
+</code></pre></div></div>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">setContentView(R.layout.activity_data_binding)</code>가 완전히 사라지고 <code class="language-plaintext highlighter-rouge">DataBinding</code>으로 변경되었다.</li>
+  <li>onLike() 함수가 사라지고 <code class="language-plaintext highlighter-rouge">ViewModel</code>내부에 구현되었으며 <code class="language-plaintext highlighter-rouge">xml</code>에서 사용한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">DataBinding</code>객체로 레이아웃 데이터에 접근 할 수 있게되었지만 그 과정을 <code class="language-plaintext highlighter-rouge">ViewModel</code>을 통해서 해야한다.
+    <ul>
+      <li>이렇게 점차 <code class="language-plaintext highlighter-rouge">Activity</code>와 <code class="language-plaintext highlighter-rouge">ViewModel</code>은 분리되어간다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>!! 아직 위 코드는 작동하지않는다. 정확히 말하면 <code class="language-plaintext highlighter-rouge">XML</code>의 버튼의 onClick이 작동하지 않는다.  다음 솔루션에서 해당 내용을 구현한다.</p>
+
+<h4 id="solutionactivity3kt">SolutionActivity3.kt</h4>
+<p>새로운 <code class="language-plaintext highlighter-rouge">ViewModel</code>을 생성한다.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// SimpleViewModelSolution  
+
+class SimpleViewModelSolution : ViewModel() {
+    private val _name = MutableLiveData("Ada")
+    private val _lastName = MutableLiveData("Lovelace")
+    private val _likes =  MutableLiveData(0)
+
+    val name: LiveData&lt;String&gt; = _name
+    val lastName: LiveData&lt;String&gt; = _lastName
+    val likes: LiveData&lt;Int&gt; = _likes
+
+    // popularity is exposed as LiveData using a Transformation instead of a @Bindable property.
+    val popularity: LiveData&lt;Popularity&gt; = Transformations.map(_likes) {
+        when {
+            it &gt; 9 -&gt; Popularity.STAR
+            it &gt; 4 -&gt; Popularity.POPULAR
+            else -&gt; Popularity.NORMAL
+        }
+    }
+
+    fun onLike() {
+        _likes.value = (_likes.value ?: 0) + 1
+    }
+}
+</code></pre></div></div>
+<ul>
+  <li>_name, _lastName, , _likes가 <code class="language-plaintext highlighter-rouge">MutableLiveData</code>로 선언되었다.
+    <ul>
+      <li>이는 변환할 수 있는 <code class="language-plaintext highlighter-rouge">LiveData</code>를 의미한다.
+        <ul>
+          <li>이 변수를 name, lastName, likes 라는 <code class="language-plaintext highlighter-rouge">LivdData&lt;&gt;</code> 변수에 입력한다.</li>
+          <li>해당 매커니즘은 <code class="language-plaintext highlighter-rouge">LivdData&lt;&gt;</code>의 변화를 읽고 UI를 업데이트 할 수 있도록 한다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>popopularity enum 변수도 <code class="language-plaintext highlighter-rouge">LiveData&lt;&gt;</code>로 설정하여 변화를 <code class="language-plaintext highlighter-rouge">ViewModel</code>내부에서 변화를 감지한다.</li>
+</ul>
+
+<p>!! <code class="language-plaintext highlighter-rouge">LiveData&lt;&gt;</code>는 UI 컨트롤러의 수명주기를 인식하여 관찰하므로 <code class="language-plaintext highlighter-rouge">DataBinding</code>이 사용된 <code class="language-plaintext highlighter-rouge">XML</code>의 수명주기 소유자를 지정해야한다. 다음과 같이 <code class="language-plaintext highlighter-rouge">Activity</code>를 수정한다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class SolutionActivity3 : AppCompatActivity() {
+
+    private val viewModel by lazy { ViewModelProvider(this).get(SimpleViewModelSolution::class.java) }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val binding: ActivitySolution3Binding =
+            DataBindingUtil.setContentView(this, R.layout.activity_solution3)
+
+        binding.lifecycleOwner = this
+
+        binding.viewmodel = viewModel
+    }
+}
+</code></pre></div></div>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">binding.lifecycleOwner</code>
+    <ul>
+      <li>binding 된 <code class="language-plaintext highlighter-rouge">xml</code> 레이아웃의 수명주기 소유자가 UI 컨트롤러로 연결된 <code class="language-plaintext highlighter-rouge">Activity</code>임을 나타낸다.
+        <ul>
+          <li>이로써 <code class="language-plaintext highlighter-rouge">LiveData&lt;&gt;</code>의 변화를 감지하여 업데이트 할 수 있게 되었다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>UI 컨트롤러의 코드줄이 확연하게 줄어든 것을 확인할 수 있다.</li>
 </ul>
 :ET

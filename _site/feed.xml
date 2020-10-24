@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-24T05:06:32+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hun development blog</title><subtitle>Android &amp; Flutter &amp; Fullstack</subtitle><author><name>Hun</name></author><entry><title type="html">Data Binding in Android Example</title><link href="http://localhost:4000/data-binding-in-android-example/" rel="alternate" type="text/html" title="Data Binding in Android Example" /><published>2020-10-23T00:00:00+09:00</published><updated>2020-10-23T00:00:00+09:00</updated><id>http://localhost:4000/data-binding-in-android-example</id><content type="html" xml:base="http://localhost:4000/data-binding-in-android-example/">&lt;p float=&quot;center&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-24T13:25:22+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hun development blog</title><subtitle>Android &amp; Flutter &amp; Fullstack</subtitle><author><name>Hun</name></author><entry><title type="html">Data Binding in Android Example</title><link href="http://localhost:4000/data-binding-in-android-example/" rel="alternate" type="text/html" title="Data Binding in Android Example" /><published>2020-10-23T00:00:00+09:00</published><updated>2020-10-23T00:00:00+09:00</updated><id>http://localhost:4000/data-binding-in-android-example</id><content type="html" xml:base="http://localhost:4000/data-binding-in-android-example/">&lt;p float=&quot;center&quot;&gt;
   &lt;img src=&quot;/assets/images/gif/2020-10-2323-36.gif&quot; width=&quot;300&quot; /&gt;
 &lt;/p&gt;
 
@@ -230,27 +230,27 @@ Android:onClick=&quot;@{() -&amp;gt; viewmodel.onLike()}&quot;
 &lt;p&gt;우선 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;XML&lt;/code&gt;을 다음과 같이 변경한다.&lt;/p&gt;
 
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;...
-    &amp;lt;data&amp;gt;
+&amp;lt;data&amp;gt;
 
-        &amp;lt;variable
-            name=&quot;viewmodel&quot;
-            type=&quot;com.example.androidsamples.dataBinding.data.SimpleViewModel&quot;/&amp;gt;
-    &amp;lt;/data&amp;gt;			
+  &amp;lt;variable
+    name=&quot;viewmodel&quot;
+    type=&quot;com.example.androidsamples.dataBinding.data.SimpleViewModel&quot;/&amp;gt;
+&amp;lt;/data&amp;gt;			
 ...
-        &amp;lt;TextView
-            android:id=&quot;@+id/plain_name&quot;
-            ...
-            android:text=&quot;@{viewmodel.name}&quot; /&amp;gt;
+&amp;lt;TextView
+    android:id=&quot;@+id/plain_name&quot;
+    ...
+    android:text=&quot;@{viewmodel.name}&quot; /&amp;gt;
 				
-        &amp;lt;TextView
-            android:id=&quot;@+id/plain_lastname&quot;
-            ...
-            android:text=&quot;@{viewmodel.lastName}&quot;/&amp;gt;
+&amp;lt;TextView
+    android:id=&quot;@+id/plain_lastname&quot;
+    ...
+    android:text=&quot;@{viewmodel.lastName}&quot;/&amp;gt;
        
-			 &amp;lt;Button
-			     android:id=&quot;@+id/like_button&quot;
-					 ...
-					 android:onClick=&quot;@{() -&amp;gt; viewmodel.onLike()}&quot; /&amp;gt;
+&amp;lt;Button
+    android:id=&quot;@+id/like_button&quot;
+    ...
+    android:onClick=&quot;@{() -&amp;gt; viewmodel.onLike()}&quot; /&amp;gt;
 ...
 ...
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
@@ -294,10 +294,76 @@ Android:onClick=&quot;@{() -&amp;gt; viewmodel.onLike()}&quot;
 &lt;p&gt;!! 아직 위 코드는 작동하지않는다. 정확히 말하면 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;XML&lt;/code&gt;의 버튼의 onClick이 작동하지 않는다.  다음 솔루션에서 해당 내용을 구현한다.&lt;/p&gt;
 
 &lt;h4 id=&quot;solutionactivity3kt&quot;&gt;SolutionActivity3.kt&lt;/h4&gt;
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ViewModel&lt;/code&gt; 변경 사항 &lt;br /&gt;
-&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;XML&lt;/code&gt;  &lt;br /&gt;
-&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Activity&lt;/code&gt; &lt;br /&gt;
-여기부터 정리&lt;/p&gt;</content><author><name>Hun</name></author><category term="Kotlin" /><category term="MVVM" /><category term="AndroidUI" /><summary type="html"></summary></entry><entry><title type="html">Architecture Components Example - Room, LiveData, ViewModel</title><link href="http://localhost:4000/android-kotlin/implementing-mvvm-android-livedata/" rel="alternate" type="text/html" title="Architecture Components Example - Room, LiveData, ViewModel" /><published>2020-10-23T00:00:00+09:00</published><updated>2020-10-23T00:00:00+09:00</updated><id>http://localhost:4000/android-kotlin/implementing-mvvm-android-livedata</id><content type="html" xml:base="http://localhost:4000/android-kotlin/implementing-mvvm-android-livedata/">&lt;h2 id=&quot;architecture-component&quot;&gt;Architecture Component&lt;/h2&gt;
+&lt;p&gt;새로운 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ViewModel&lt;/code&gt;을 생성한다.&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// SimpleViewModelSolution  
+
+class SimpleViewModelSolution : ViewModel() {
+    private val _name = MutableLiveData(&quot;Ada&quot;)
+    private val _lastName = MutableLiveData(&quot;Lovelace&quot;)
+    private val _likes =  MutableLiveData(0)
+
+    val name: LiveData&amp;lt;String&amp;gt; = _name
+    val lastName: LiveData&amp;lt;String&amp;gt; = _lastName
+    val likes: LiveData&amp;lt;Int&amp;gt; = _likes
+
+    // popularity is exposed as LiveData using a Transformation instead of a @Bindable property.
+    val popularity: LiveData&amp;lt;Popularity&amp;gt; = Transformations.map(_likes) {
+        when {
+            it &amp;gt; 9 -&amp;gt; Popularity.STAR
+            it &amp;gt; 4 -&amp;gt; Popularity.POPULAR
+            else -&amp;gt; Popularity.NORMAL
+        }
+    }
+
+    fun onLike() {
+        _likes.value = (_likes.value ?: 0) + 1
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;_name, _lastName, , _likes가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MutableLiveData&lt;/code&gt;로 선언되었다.
+    &lt;ul&gt;
+      &lt;li&gt;이는 변환할 수 있는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LiveData&lt;/code&gt;를 의미한다.
+        &lt;ul&gt;
+          &lt;li&gt;이 변수를 name, lastName, likes 라는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LivdData&amp;lt;&amp;gt;&lt;/code&gt; 변수에 입력한다.&lt;/li&gt;
+          &lt;li&gt;해당 매커니즘은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LivdData&amp;lt;&amp;gt;&lt;/code&gt;의 변화를 읽고 UI를 업데이트 할 수 있도록 한다.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;popopularity enum 변수도 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LiveData&amp;lt;&amp;gt;&lt;/code&gt;로 설정하여 변화를 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ViewModel&lt;/code&gt;내부에서 변화를 감지한다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;!! &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LiveData&amp;lt;&amp;gt;&lt;/code&gt;는 UI 컨트롤러의 수명주기를 인식하여 관찰하므로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DataBinding&lt;/code&gt;이 사용된 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;XML&lt;/code&gt;의 수명주기 소유자를 지정해야한다. 다음과 같이 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Activity&lt;/code&gt;를 수정한다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class SolutionActivity3 : AppCompatActivity() {
+
+    private val viewModel by lazy { ViewModelProvider(this).get(SimpleViewModelSolution::class.java) }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val binding: ActivitySolution3Binding =
+            DataBindingUtil.setContentView(this, R.layout.activity_solution3)
+
+        binding.lifecycleOwner = this
+
+        binding.viewmodel = viewModel
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;binding.lifecycleOwner&lt;/code&gt;
+    &lt;ul&gt;
+      &lt;li&gt;binding 된 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;xml&lt;/code&gt; 레이아웃의 수명주기 소유자가 UI 컨트롤러로 연결된 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Activity&lt;/code&gt;임을 나타낸다.
+        &lt;ul&gt;
+          &lt;li&gt;이로써 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LiveData&amp;lt;&amp;gt;&lt;/code&gt;의 변화를 감지하여 업데이트 할 수 있게 되었다.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;UI 컨트롤러의 코드줄이 확연하게 줄어든 것을 확인할 수 있다.&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Hun</name></author><category term="Kotlin" /><category term="MVVM" /><category term="AndroidUI" /><summary type="html"></summary></entry><entry><title type="html">Architecture Components Example - Room, LiveData, ViewModel</title><link href="http://localhost:4000/android-kotlin/implementing-mvvm-android-livedata/" rel="alternate" type="text/html" title="Architecture Components Example - Room, LiveData, ViewModel" /><published>2020-10-23T00:00:00+09:00</published><updated>2020-10-23T00:00:00+09:00</updated><id>http://localhost:4000/android-kotlin/implementing-mvvm-android-livedata</id><content type="html" xml:base="http://localhost:4000/android-kotlin/implementing-mvvm-android-livedata/">&lt;h2 id=&quot;architecture-component&quot;&gt;Architecture Component&lt;/h2&gt;
 &lt;p float=&quot;center&quot;&gt;
   &lt;img src=&quot;/assets/images/gif/2020-10-2318-56.gif&quot; width=&quot;300&quot; /&gt;
 &lt;/p&gt;

@@ -212,27 +212,27 @@ Android:onClick="@{() -> viewmodel.onLike()}"
 
 ```
 ...
-    <data>
+<data>
 
-        <variable
-            name="viewmodel"
-            type="com.example.androidsamples.dataBinding.data.SimpleViewModel"/>
-    </data>			
+  <variable
+    name="viewmodel"
+    type="com.example.androidsamples.dataBinding.data.SimpleViewModel"/>
+</data>			
 ...
-        <TextView
-            android:id="@+id/plain_name"
-            ...
-            android:text="@{viewmodel.name}" />
+<TextView
+    android:id="@+id/plain_name"
+    ...
+    android:text="@{viewmodel.name}" />
 				
-        <TextView
-            android:id="@+id/plain_lastname"
-            ...
-            android:text="@{viewmodel.lastName}"/>
+<TextView
+    android:id="@+id/plain_lastname"
+    ...
+    android:text="@{viewmodel.lastName}"/>
        
-			 <Button
-			     android:id="@+id/like_button"
-					 ...
-					 android:onClick="@{() -> viewmodel.onLike()}" />
+<Button
+    android:id="@+id/like_button"
+    ...
+    android:onClick="@{() -> viewmodel.onLike()}" />
 ...
 ...
 ```
@@ -261,7 +261,59 @@ Android:onClick="@{() -> viewmodel.onLike()}"
 !! 아직 위 코드는 작동하지않는다. 정확히 말하면 `XML`의 버튼의 onClick이 작동하지 않는다.  다음 솔루션에서 해당 내용을 구현한다.   
 
 #### SolutionActivity3.kt
-`ViewModel` 변경 사항   
-`XML`    
-`Activity`   
-여기부터 정리
+새로운 `ViewModel`을 생성한다.    
+```
+// SimpleViewModelSolution  
+
+class SimpleViewModelSolution : ViewModel() {
+    private val _name = MutableLiveData("Ada")
+    private val _lastName = MutableLiveData("Lovelace")
+    private val _likes =  MutableLiveData(0)
+
+    val name: LiveData<String> = _name
+    val lastName: LiveData<String> = _lastName
+    val likes: LiveData<Int> = _likes
+
+    // popularity is exposed as LiveData using a Transformation instead of a @Bindable property.
+    val popularity: LiveData<Popularity> = Transformations.map(_likes) {
+        when {
+            it > 9 -> Popularity.STAR
+            it > 4 -> Popularity.POPULAR
+            else -> Popularity.NORMAL
+        }
+    }
+
+    fun onLike() {
+        _likes.value = (_likes.value ?: 0) + 1
+    }
+}
+```
+- _name, _lastName, , _likes가 `MutableLiveData`로 선언되었다.   
+	- 이는 변환할 수 있는 `LiveData`를 의미한다.   
+		- 이 변수를 name, lastName, likes 라는 `LivdData<>` 변수에 입력한다.   
+		- 해당 매커니즘은 `LivdData<>`의 변화를 읽고 UI를 업데이트 할 수 있도록 한다.   
+- popopularity enum 변수도 `LiveData<>`로 설정하여 변화를 `ViewModel`내부에서 변화를 감지한다.   
+
+!! `LiveData<>`는 UI 컨트롤러의 수명주기를 인식하여 관찰하므로 `DataBinding`이 사용된 `XML`의 수명주기 소유자를 지정해야한다. 다음과 같이 `Activity`를 수정한다.    
+
+```
+class SolutionActivity3 : AppCompatActivity() {
+
+    private val viewModel by lazy { ViewModelProvider(this).get(SimpleViewModelSolution::class.java) }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val binding: ActivitySolution3Binding =
+            DataBindingUtil.setContentView(this, R.layout.activity_solution3)
+
+        binding.lifecycleOwner = this
+
+        binding.viewmodel = viewModel
+    }
+}
+```
+- `binding.lifecycleOwner`
+	- binding 된 `xml` 레이아웃의 수명주기 소유자가 UI 컨트롤러로 연결된 `Activity`임을 나타낸다.   
+		- 이로써 `LiveData<>`의 변화를 감지하여 업데이트 할 수 있게 되었다.   
+- UI 컨트롤러의 코드줄이 확연하게 줄어든 것을 확인할 수 있다.
