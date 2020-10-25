@@ -554,3 +554,70 @@ class ButtonsFragment : Fragment() {
 ```
 - @InMemoryLogger 한정자를 사용하여 `Hilt`에게 LoggerInMemoryDataSource 인스턴스를 주입하지 않도록 설정한다.   
 - 구현을 변경하려면 @DatabaseLogger로 변경하기만 하면 된다.
+
+## UI Testing
+- 이제 예제 앱이 `Hilt`로 완전히 마이그레이션 되었다. 기존에 있던 계측테스트도 마이그레이션 할 수 있다.
+	- 테스트는 에뮬레이터에서 실행된다.   
+	- hapyy() 테스트는 Button1 의 탭이 데이터베이스에 기록되어있음을 확인한다.  
+	- InMemoryDatabase 를 사용하고 있기 때문에 모든 테스트가 끝나면 로그가 사라진다.   
+   
+`Hilt`는 실제 코드와 같이 UI 테스트에 의존성을 주입할 것이다. 각 테스트에 대해 자동으로 새로운 구성요소를 생성하기 때문에 `Hilt`를 사용한 테스트는 유지보수가 필요없다.
+```
+// bulid.gradle(Module)
+
+dpendencies {
+    // Hilt testing dependency
+    androidTestImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
+    // Make Hilt generate code in the androidTest folder
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
+
+```
+- `Hilt`는 더 쉽게 테스트할 수 있도록 테스트별 주석이 있는 추가 라이브러리를 사용한다.   
+- AndroidTest 폴더에서 클래스에 대한 코드를 생성해야 하므로 주석 처리기도 실행될수 있어야한다.   
+- `Hilt`를 사용하는 테스트는 `Hilt`를 지원하는 애플리케이션에서 실행되어야 한다.   
+- `Room`은 이미 UI 테스트를 실행할 수 있는 `HiltTestApplication`과 함께 제공된다.   
+   
+테스트에 사용할 Application을 지정하는 것은 프로젝트에서 새로운 테스트 Runner를 생성함으로 써 이루어진다.   
+```
+// androidTest
+
+class CustomTestRunner : AndroidJUnitRunner() {
+
+    override fun newApplication(cl: ClassLoader?, name: String?, context: Context?): Application {
+        return super.newApplication(cl, HiltTestApplication::class.java.name, context)
+    }
+}
+```
+   
+- 다음으로,  Runner를 Test에 사용하라고 프로젝트에 알려줄 필요가 있다.    
+	 - app/build.gradle 파일의 testInstrumentRunner 특성에 지정되어 있다.    
+		 - 파일을 열고 기본 testInstrupmentRunner 콘텐츠를 다음으로 교체한다.   
+```
+// build.gradle(Module)
+
+android {
+    ...
+    defaultConfig {
+        ...
+        testInstrumentationRunner "com.example.android.hilt.CustomTestRunner"
+    }
+    ...
+}
+
+```
+   
+`Hilt`를 사용하는 테스트 실행
+```
+@RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
+class AppTest {
+
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
+
+    ...
+}
+```
+- 에뮬레이터 테스트 클래스가 힐트를 사용하려면 다음을 수행해야 한다.   
+	- 각 테스트에 대해 `Hilt` 구성요소 생성을 담당하는 @HiltAndroidTest를 추가한다.   
+	- 구성요소의 사애를 관리하고 테스트에 주입하는데 사용되는 HiltAndroidRule을 사용한다.

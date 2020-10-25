@@ -1,4 +1,4 @@
-I"��<p float="center">
+I"�<p float="center">
   <img src="/assets/images/gif/2020-10-2516-05.gif" width="300" />
 </p>
 
@@ -673,4 +673,43 @@ class ButtonsFragment : Fragment() {
   <li>@InMemoryLogger 한정자를 사용하여 <code class="language-plaintext highlighter-rouge">Hilt</code>에게 LoggerInMemoryDataSource 인스턴스를 주입하지 않도록 설정한다.</li>
   <li>구현을 변경하려면 @DatabaseLogger로 변경하기만 하면 된다.</li>
 </ul>
+
+<h2 id="ui-testing">UI Testing</h2>
+<ul>
+  <li>이제 예제 앱이 <code class="language-plaintext highlighter-rouge">Hilt</code>로 완전히 마이그레이션 되었다. 기존에 있던 계측테스트도 마이그레이션 할 수 있다.
+    <ul>
+      <li>테스트는 에뮬레이터에서 실행된다.</li>
+      <li>hapyy() 테스트는 Button1 의 탭이 데이터베이스에 기록되어있음을 확인한다.</li>
+      <li>InMemoryDatabase 를 사용하고 있기 때문에 모든 테스트가 끝나면 로그가 사라진다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">Hilt</code>는 실제 코드와 같이 UI 테스트에 의존성을 주입할 것이다. 각 테스트에 대해 자동으로 새로운 구성요소를 생성하기 때문에 <code class="language-plaintext highlighter-rouge">Hilt</code>를 사용한 테스트는 유지보수가 필요없다.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// bulid.gradle(Module)
+
+dpendencies {
+    // Hilt testing dependency
+    androidTestImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
+    // Make Hilt generate code in the androidTest folder
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
+
+</code></pre></div></div>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Hilt</code>는 더 쉽게 테스트할 수 있도록 테스트별 주석이 있는 추가 라이브러리를 사용한다.</li>
+  <li>AndroidTest 폴더에서 클래스에 대한 코드를 생성해야 하므로 주석 처리기도 실행될수 있어야한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">Hilt</code>를 사용하는 테스트는 <code class="language-plaintext highlighter-rouge">Hilt</code>를 지원하는 애플리케이션에서 실행되어야 한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">Room</code>은 이미 UI 테스트를 실행할 수 있는 <code class="language-plaintext highlighter-rouge">HiltTestApplication</code>과 함께 제공된다.</li>
+</ul>
+
+<p>테스트에 사용할 Application을 지정하는 것은 프로젝트에서 새로운 테스트 Runner를 생성함으로 써 이루어진다.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// androidTest
+
+class CustomTestRunner : AndroidJUnitRunner() {
+
+    override fun newApplication(cl: ClassLoader?, name: String?, context: Context?): Application {
+        return super.newApplication(cl, HiltTestApplication::class.java.name, context)
+    }
+}
+</code></pre></div></div>
 :ET

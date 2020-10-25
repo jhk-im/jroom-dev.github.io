@@ -1,4 +1,4 @@
-I"�^<p float="center">
+I"$�<p float="center">
   <img src="/assets/images/gif/2020-10-2516-05.gif" width="300" />
 </p>
 
@@ -406,17 +406,17 @@ class MainActivity : AppCompatActivity() { ... }
   </li>
 </ul>
 
-<p>AppNavigator 내부에 지정하면 되는데 굳이 AppNavigatorImpl을 추가하는 이유</p>
+<p>이전에 생성한 DatabaseModule에 추가할 수 없는 이유</p>
 <ul>
   <li>module의 이름은 그것이 제공하는 정보의 유형을 전달해야한다.
     <ul>
-      <li>예를 들어 DatabaseModule에 Navigation 바인딩을 포함시키는 것은 이상하다.
-        <ul>
-          <li>DatabaseModule은 애플리케이션 컨테이너에서 바인딩할 수 있도록 ApplicationComponent에 설치된다.</li>
-          <li>AppNavigator는 Activity에서 특정 정보를 필요로한다.</li>
-          <li>따라서 Activyti에 대한 정보를 사용할 수 있으므로 Application 컨테이너 대신 Activity 컨테이너에 설치해야한다.</li>
-        </ul>
-      </li>
+      <li>예를 들어 DatabaseModule에 Navigation 바인딩을 포함시키는 것은 이상하다.</li>
+    </ul>
+  </li>
+  <li>DatabaseModule은 애플리케이션 컨테이너에서 바인딩할 수 있도록 ApplicationComponent에 설치된다.
+    <ul>
+      <li>AppNavigator는 Activity에서 특정 정보를 필요로한다.</li>
+      <li>따라서 Activyti에 대한 정보를 사용할 수 있으므로 Application 컨테이너 대신 Activity 컨테이너에 설치해야한다.</li>
     </ul>
   </li>
   <li><code class="language-plaintext highlighter-rouge">Hilt</code>module은 동일한 클래스에 @Binds와 @Provides 를 동시에 배치할 수 없다.</li>
@@ -431,5 +431,323 @@ abstract class NavigationModule {
     @Binds
     abstract fun bindNavigator(impl: AppNavigatorImpl): AppNavigator
 }
+</code></pre></div></div>
+<ul>
+  <li>모듈 내부에 AppNavigator 바인딩을 추가할 수 있다. 
+-<code class="language-plaintext highlighter-rouge">Hilt</code>에 알려주고 있는 인터페이스를 반환하는 abstract 메소드이며 파라미터로 해당 인터페이스의 implementaion을 받는다.</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// navigator/AppNavigatiorImpl
+class AppNavigatorImpl @Inject constructor(
+    private val activity: FragmentActivity
+) : AppNavigator {
+    ...
+}
+</code></pre></div></div>
+<ul>
+  <li>AppNavigatorImpl은 FragmentActivity에 의존한다.
+    <ul>
+      <li>AppNavigator 인스턴스는 Activity 컨테이너에 제공되고 FragmentActivity는 사전 정의된 바인딩으로 제공되어 사용할 수 있다.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Hilt</code>는 AppNavigator 인스턴스를 주입할 수 있는 모든 정보를 가지고 있다.</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// ui/MainActivity.kt
+
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity() {
+
+    @Inject lateinit var navigator: AppNavigator
+    ...
+}
+</code></pre></div></div>
+
+<ul>
+  <li>Navigator 필드에 @Inject를 추가한다.</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@AndroidEntryPoint
+class ButtonsFragment : Fragment() {
+
+    @Inject lateinit var logger: LoggerLocalDataSource
+    @Inject lateinit var navigator: AppNavigator
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_buttons, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        ...
+    }
+}
+</code></pre></div></div>
+<ul>
+  <li>유일하게 ButtonsFragment만 ServicLocator를 사용하고있었다.
+    <ul>
+      <li>LogsFragment와 동일한 방법으로 @Inject를 추가하고 ServiceLocator와 관련된 코드를 삭제한다.</li>
+      <li>이제 ServiceLocator 클래스는 필요 없게 되었다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="qualifiers">Qualifiers</h2>
+<p>다음의 클래스를 data 에 추가한다.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// data/LoggerDataSource.kt
+
+interface LoggerDataSource {
+    fun addLog(msg: String)
+    fun getAllLogs(callback: (List&lt;Log&gt;) -&gt; Unit)
+    fun removeLogs()
+}
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">LoggerLocalDataSource</code>를 <code class="language-plaintext highlighter-rouge">LoggerDataSource</code>로 변경한다.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// ui/LogsFragment.kt
+
+@AndroidEntryPoint
+class LogsFragment : Fragment() {
+
+    @Inject lateinit var logger: LoggerDataSource
+    ...
+}
+
+// ui/ButtonsFragment.kt
+
+@AndroidEntryPoint
+class ButtonsFragment : Fragment() {
+
+    @Inject lateinit var logger: LoggerDataSource
+    ...
+}
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">LoggerLocalDataSource</code>에서 <code class="language-plaintext highlighter-rouge">LoggerDataSource</code> 인터페이스를 구현한다.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@Singleton
+class LoggerLocalDataSource @Inject constructor(
+    private val logDao: LogDao
+) : LoggerDataSource {
+    ...
+    override fun addLog(msg: String) { ... }
+    override fun getAllLogs(callback: (List&lt;Log&gt;) -&gt; Unit) { ... }
+    override fun removeLogs() { ... }
+}
+</code></pre></div></div>
+
+<p>이제 로그를 메모리에 보관하는 LoggerInMemoryDataSource를 구현한다.</p>
+<pre><code class="language-Qualifiers">@ActivityScoped
+class LoggerInMemoryDataSource @Inject constructor(
+) : LoggerDataSource{
+
+    private val logs = LinkedList&lt;Log&gt;()
+
+    override fun addLog(msg: String) {
+        logs.addFirst(Log(msg, System.currentTimeMillis()))
+    }
+
+    override fun getAllLogs(callback: (List&lt;Log&gt;) -&gt; Unit) {
+        callback(logs)
+    }
+
+    override fun removeLogs() {
+        logs.clear()
+    }
+}
+</code></pre>
+<ul>
+  <li>Activity 컨테이너 범위 지정
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">Hilt</code>에 @Inject 를 사용하여 제공하는 방법을 알려준다.</li>
+    </ul>
+  </li>
+  <li>Application은 단일 Activity로 구성된다.
+    <ul>
+      <li>Activity 컨테이너에 LoggerInMemoryDataSource 인스턴스가 있어야 하며 Fragment에서 해당 Instance를 재사용 해야한다.</li>
+    </ul>
+  </li>
+  <li>LoggerInMeomoryDataSource를 Activity 컨테이너 범위로 지정하여 메모리 내 로깅 동작을 수행할 수 있다.
+    <ul>
+      <li>생성된 모든 Activity는 다른 다른 고유한 컨테이너를 가질 수 있다.</li>
+      <li>컨테이너에서 Logger가 필요한 경우 LoggerInMemoryDataSource 인스턴스가 제공된다.</li>
+    </ul>
+  </li>
+  <li>Activity 컨테이너에 유형을 적용하려면 @ActivityScoped 를 추가해야한다.</li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">Hilt</code>는 LoggerInMemoryDataSource, LoggerLocalDataSource의 인스턴스를 제공하는 방법을 알고 있다. 하지만 LoggerDataSource는 알고있지 않다. module의 주석을 사용하여 <code class="language-plaintext highlighter-rouge">Hilt</code>에 어떤 구현을 사용해야 하는지 알려줄 수 있다. 여기서 동일한 프로젝트에서 두 구현을 모두 제공해야한다면?</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//di/LoggingDatabaseModule.kt
+
+@InstallIn(ApplicationComponent::class)
+@Module
+abstract class LoggingDatabaseModule {
+
+    @Singleton
+    @Binds
+    abstract fun bindDatabaseLogger(impl: LoggerLocalDataSource): LoggerDataSource
+}
+
+@InstallIn(ActivityComponent::class)
+@Module
+abstract class LoggingInMemoryModule {
+
+    @ActivityScoped
+    @Binds
+    abstract fun bindInMemoryLogger(impl: LoggerInMemoryDataSource): LoggerDataSource
+}
+</code></pre></div></div>
+<ul>
+  <li>@Binds 메소드의 유형이 범위 지정인 경우 범위지정 annotaition이 필요하다.
+    <ul>
+      <li>@Singleton, @ActivityScoped</li>
+    </ul>
+  </li>
+  <li>@Binds나 @Provides를 어떤 타입의 바인딩으로 사용할 경우, 타입 범위 지정 주석을 다른 구현 클래스에서 제거하면 된다.</li>
+</ul>
+
+<p>Fragment는 LoggerDataSource 타입이 주입되고있지만 <code class="language-plaintext highlighter-rouge">Hilt</code>는 같은 타입의 바인딩이 2개일 때 어떤 구현을 사용해야 할지 모른다. Qualifiers(한정자)를 사용하면 동일한 유형의 복수 바인딩을 제공하는 방법을 <code class="language-plaintext highlighter-rouge">Hilt</code>에 알려줄 수 있다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@Qualifier
+annotation class InMemoryLogger
+
+@Qualifier
+annotation class DatabaseLogger
+
+@InstallIn(ApplicationComponent::class)
+@Module
+abstract class LoggingDatabaseModule {
+
+    @DatabaseLogger
+    @Singleton
+    @Binds
+    abstract fun bindDatabaseLogger(impl: LoggerLocalDataSource): LoggerDataSource
+}
+
+@InstallIn(ActivityComponent::class)
+@Module
+abstract class LoggingInMemoryModule {
+
+    @InMemoryLogger
+    @ActivityScoped
+    @Binds
+    abstract fun bindInMemoryLogger(impl: LoggerInMemoryDataSource): LoggerDataSource
+}
+</code></pre></div></div>
+<ul>
+  <li>@Qualifier는 바인딩을 식별하는데 사용한다.
+    <ul>
+      <li>각 한정자는 구현 별로 한정자를 정의해야한다.</li>
+      <li>클래스에 유형을 주입하거나 해당 유형을 다른클래스의 종속성으로 가질 때는 Qualifier를 사용하여 모호성을 방지할 필요가 있다.</li>
+      <li>주입하고자 하는 구현과 함께 주입 지점에서 사용되어야 한다.
+        <ul>
+          <li>예제의 경우 Fragment에 LoggerInMemoryDataSource를 구현해 사용한다.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p>!! @DatabaseLogger 한정자가 ApplicationComponent에 설치되므로 LogApplication 클래스에 주입할 수 있다. 그러나 @InMemoryLogger가 ActivityComponent에 설치되어 있으므로 애플리케이션 컨테이너가 해당 바인딩에 대해 모르기 때문에 LogApplication 클래스에 주입할 수 없다.</p>
+  </li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	@AndroidEntryPoint
+class LogsFragment : Fragment() {
+
+    @InMemoryLogger
+    @Inject lateinit var logger: LoggerDataSource
+    ...
+}
+
+
+@AndroidEntryPoint
+class ButtonsFragment : Fragment() {
+
+    @InMemoryLogger
+    @Inject lateinit var logger: LoggerDataSource
+    ...
+}
+</code></pre></div></div>
+<ul>
+  <li>@InMemoryLogger 한정자를 사용하여 <code class="language-plaintext highlighter-rouge">Hilt</code>에게 LoggerInMemoryDataSource 인스턴스를 주입하지 않도록 설정한다.</li>
+  <li>구현을 변경하려면 @DatabaseLogger로 변경하기만 하면 된다.</li>
+</ul>
+
+<h2 id="ui-testing">UI Testing</h2>
+<ul>
+  <li>이제 예제 앱이 <code class="language-plaintext highlighter-rouge">Hilt</code>로 완전히 마이그레이션 되었다. 기존에 있던 계측테스트도 마이그레이션 할 수 있다.
+    <ul>
+      <li>테스트는 에뮬레이터에서 실행된다.</li>
+      <li>hapyy() 테스트는 Button1 의 탭이 데이터베이스에 기록되어있음을 확인한다.</li>
+      <li>InMemoryDatabase 를 사용하고 있기 때문에 모든 테스트가 끝나면 로그가 사라진다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">Hilt</code>는 실제 코드와 같이 UI 테스트에 의존성을 주입할 것이다. 각 테스트에 대해 자동으로 새로운 구성요소를 생성하기 때문에 <code class="language-plaintext highlighter-rouge">Hilt</code>를 사용한 테스트는 유지보수가 필요없다.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// bulid.gradle(Module)
+
+dpendencies {
+    // Hilt testing dependency
+    androidTestImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
+    // Make Hilt generate code in the androidTest folder
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
+
+</code></pre></div></div>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Hilt</code>는 더 쉽게 테스트할 수 있도록 테스트별 주석이 있는 추가 라이브러리를 사용한다.</li>
+  <li>AndroidTest 폴더에서 클래스에 대한 코드를 생성해야 하므로 주석 처리기도 실행될수 있어야한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">Hilt</code>를 사용하는 테스트는 <code class="language-plaintext highlighter-rouge">Hilt</code>를 지원하는 애플리케이션에서 실행되어야 한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">Room</code>은 이미 UI 테스트를 실행할 수 있는 <code class="language-plaintext highlighter-rouge">HiltTestApplication</code>과 함께 제공된다.</li>
+</ul>
+
+<p>테스트에 사용할 Application을 지정하는 것은 프로젝트에서 새로운 테스트 Runner를 생성함으로 써 이루어진다.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// androidTest
+
+class CustomTestRunner : AndroidJUnitRunner() {
+
+    override fun newApplication(cl: ClassLoader?, name: String?, context: Context?): Application {
+        return super.newApplication(cl, HiltTestApplication::class.java.name, context)
+    }
+}
+</code></pre></div></div>
+
+<ul>
+  <li>다음으로,  Runner를 Test에 사용하라고 프로젝트에 알려줄 필요가 있다.
+    <ul>
+      <li>app/build.gradle 파일의 testInstrumentRunner 특성에 지정되어 있다.
+        <ul>
+          <li>파일을 열고 기본 testInstrupmentRunner 콘텐츠를 다음으로 교체한다.<br />
+```
+// build.gradle(Module)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>android {
+    …
+    defaultConfig {
+        …
+        testInstrumentationRunner “com.example.android.hilt.CustomTestRunner”
+    }
+    …
+}</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   
+`Hilt`를 사용하는 테스트 실행
+</code></pre></div></div>
+<p>@RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
+class AppTest {</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@get:Rule
+var hiltRule = HiltAndroidRule(this)
+
+... } ``` - 에뮬레이터 테스트 클래스가 힐트를 사용하려면 다음을 수행해야 한다.   
+- 각 테스트에 대해 `Hilt` 구성요소 생성을 담당하는 @HiltAndroidTest를 추가한다.   
+- 구성요소의 사애를 관리하고 테스트에 주입하는데 사용되는 HiltAndroidRule을 사용한다.
 </code></pre></div></div>
 :ET
