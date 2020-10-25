@@ -1,0 +1,23 @@
+I""<p float="center">
+  <img src="/assets/images/gif/2020-10-2516-05.gif" width="300" />
+</p>
+
+<p>의존성 주입(Dependency Injection)을 구현하는 dagger-hilt eample을 공부하고 정리한 글</p>
+
+<p>참고자료 <br />
+<a href="https://developer.android.com/training/dependency-injection/hilt-android?hl=ko">Hilt - 공식문서</a> <br />
+<a href="https://codelabs.developers.google.com/codelabs/android-hilt/?hl=ko#0">Hilt - Example</a></p>
+<h2 id="dependency-injection과-hilt"><code class="language-plaintext highlighter-rouge">Dependency Injection</code>과 <code class="language-plaintext highlighter-rouge">Hilt</code></h2>
+<p><code class="language-plaintext highlighter-rouge">Dependency Injection</code> 줄여서 <code class="language-plaintext highlighter-rouge">DI</code>는 프로그래밍에 널리 사용되며 안드로이드 개발에 잘 맞는 기술이다. <code class="language-plaintext highlighter-rouge">DI</code>의 원칠을 따르면 좋은 앱 아키텍처의 기초를 갖출 수 있다.</p>
+
+<p>종속성 주입을 구현하면 다음과 같은 이점을 얻을 수 있다.</p>
+
+<p>코드의 재사용성
+리팩토링 용이성
+테스트 용이성
+Hilt는 Android를 위한 의견 종속성 주입 라이브러리로, 프로젝트에서 수동 DI를 사용하는 것을 줄일 수 있다. 수동 종속성 주입을 하려면 모든 클래스와 그 종속성을 손으로 구성하고 컨테이너를 사용하여 종속성을 재사용하고 관리해야 한다.</p>
+
+<p>힐트는 프로젝트의 모든 Android 구성요소에 컨테이너를 제공하고 컨테이너의 라이프사이클을 자동으로 관리함으로써 애플리케이션의 DI 주입을 수행하는 표준 방법을 제공한다. 이것은 인기 있는 DI 라이브러리인 단검을 활용함으로써 이루어진다.</p>
+
+<p>본 코델랩을 통해 작업하면서 문제(코드 버그, 문법적 오류, 불명확한 문구 등)가 발생할 경우 코델랩의 왼쪽 하단 모서리에 있는 오류 보고 링크를 통해 문제를 보고하십시오.</p>
+:ET

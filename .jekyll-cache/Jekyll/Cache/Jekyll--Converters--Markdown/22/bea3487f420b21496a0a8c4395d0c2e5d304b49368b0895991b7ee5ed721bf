@@ -1,0 +1,11 @@
+I"�<p float="center">
+  <img src="/assets/images/gif/2020-10-2323-36.gif" width="300" />
+</p>
+
+<p>의존성 주입(Dependency Injection)을 구현하는 dagger-hilt eample을 공부하고 정리한 글</p>
+
+<p>참고자료 <br />
+<a href="https://developer.android.com/training/dependency-injection/hilt-android?hl=ko">Hilt - 공식문서</a> <br />
+<a href="https://codelabs.developers.google.com/codelabs/android-hilt/?hl=ko#0">Hilt - Example</a></p>
+<h2 id="data-binding">Data Binding</h2>
+:ET
