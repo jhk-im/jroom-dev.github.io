@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-26T01:36:06+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hun development blog</title><subtitle>Android &amp; Flutter &amp; Fullstack</subtitle><author><name>Hun</name></author><entry><title type="html">Using dagger-hilt in Android Example</title><link href="http://localhost:4000/android-kotlin/using-dagger-hilt-in-android-example/" rel="alternate" type="text/html" title="Using dagger-hilt in Android Example" /><published>2020-10-25T00:00:00+09:00</published><updated>2020-10-25T00:00:00+09:00</updated><id>http://localhost:4000/android-kotlin/using-dagger-hilt-in-android-example</id><content type="html" xml:base="http://localhost:4000/android-kotlin/using-dagger-hilt-in-android-example/">&lt;p float=&quot;center&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-26T03:31:00+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hun development blog</title><subtitle>Android &amp; Flutter &amp; Fullstack</subtitle><author><name>Hun</name></author><entry><title type="html">Using dagger-hilt in Android Example</title><link href="http://localhost:4000/android-kotlin/using-dagger-hilt-in-android-example/" rel="alternate" type="text/html" title="Using dagger-hilt in Android Example" /><published>2020-10-25T00:00:00+09:00</published><updated>2020-10-25T00:00:00+09:00</updated><id>http://localhost:4000/android-kotlin/using-dagger-hilt-in-android-example</id><content type="html" xml:base="http://localhost:4000/android-kotlin/using-dagger-hilt-in-android-example/">&lt;p float=&quot;center&quot;&gt;
   &lt;img src=&quot;/assets/images/gif/2020-10-2516-05.gif&quot; width=&quot;300&quot; /&gt;
 &lt;/p&gt;
 
@@ -8,7 +8,7 @@
 &lt;a href=&quot;https://developer.android.com/training/dependency-injection/hilt-android?hl=ko&quot;&gt;Hilt - 공식문서&lt;/a&gt; &lt;br /&gt;
 &lt;a href=&quot;https://codelabs.developers.google.com/codelabs/android-hilt/?hl=ko#0&quot;&gt;Hilt - Example&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&quot;dependency-injection과-hilt&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Dependency Injection&lt;/code&gt;과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Hilt&lt;/code&gt;&lt;/h2&gt;
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Dependency Injection&lt;/code&gt; 줄여서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DI&lt;/code&gt;는 프로그래밍에 널리 사용되며 안드로이드 개발에 잘 맞는 기술이다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DI&lt;/code&gt;의 원칠을 따르면 좋은 앱 아키텍처의 기초를 갖출 수 있다.&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Dependency Injection&lt;/code&gt; 줄여서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DI&lt;/code&gt;는 프로그래밍에 널리 사용되며 안드로이드 개발에 잘 맞는 기술이다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DI&lt;/code&gt;의 원칙을 따르면 좋은 앱 아키텍처의 기초를 갖출 수 있다.&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DI&lt;/code&gt;의 장점&lt;/li&gt;
   &lt;li&gt;코드의 재사용성&lt;/li&gt;
@@ -386,7 +386,293 @@ class MainActivity : AppCompatActivity() { ... }
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;##&lt;/p&gt;</content><author><name>Hun</name></author><category term="android-kotlin" /><category term="AndroidUI" /><category term="MVVM" /><summary type="html"></summary></entry><entry><title type="html">Data Binding in Android Example</title><link href="http://localhost:4000/data-binding-in-android-example/" rel="alternate" type="text/html" title="Data Binding in Android Example" /><published>2020-10-23T00:00:00+09:00</published><updated>2020-10-23T00:00:00+09:00</updated><id>http://localhost:4000/data-binding-in-android-example</id><content type="html" xml:base="http://localhost:4000/data-binding-in-android-example/">&lt;p float=&quot;center&quot;&gt;
+&lt;h2 id=&quot;providing-interfaces-with-binds&quot;&gt;Providing interfaces with @Binds&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;AppNavigator는 인터페이스이기 때문에 생성자 주입을 사용할 수 없다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Hilt&lt;/code&gt;에 인터페이스를 사용하기 위해 @Binds 주석을 사용한다.
+    &lt;ul&gt;
+      &lt;li&gt;@Binds는 abstract 메소드에 추가해야한다.
+        &lt;ul&gt;
+          &lt;li&gt;abstract 이므로 코드를 포함하지 않는다.&lt;/li&gt;
+          &lt;li&gt;클래스도 absctract이어야 한다.&lt;/li&gt;
+          &lt;li&gt;여기서 반환 형식은 AppNavigator를 위해 제공하고자 하는 인터페이스이다.
+            &lt;ul&gt;
+              &lt;li&gt;AppNavigatorImpl과 함께 고유한 매개 변수를 추가햐여 지정한다.&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;이전에 생성한 DatabaseModule에 추가할 수 없는 이유&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;module의 이름은 그것이 제공하는 정보의 유형을 전달해야한다.
+    &lt;ul&gt;
+      &lt;li&gt;예를 들어 DatabaseModule에 Navigation 바인딩을 포함시키는 것은 이상하다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;DatabaseModule은 애플리케이션 컨테이너에서 바인딩할 수 있도록 ApplicationComponent에 설치된다.
+    &lt;ul&gt;
+      &lt;li&gt;AppNavigator는 Activity에서 특정 정보를 필요로한다.&lt;/li&gt;
+      &lt;li&gt;따라서 Activyti에 대한 정보를 사용할 수 있으므로 Application 컨테이너 대신 Activity 컨테이너에 설치해야한다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Hilt&lt;/code&gt;module은 동일한 클래스에 @Binds와 @Provides 를 동시에 배치할 수 없다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//di/NavigatorModule.kt
+
+@InstallIn(ActivityComponent::class)
+@Module
+abstract class NavigationModule {
+
+    @Binds
+    abstract fun bindNavigator(impl: AppNavigatorImpl): AppNavigator
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;모듈 내부에 AppNavigator 바인딩을 추가할 수 있다. 
+-&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Hilt&lt;/code&gt;에 알려주고 있는 인터페이스를 반환하는 abstract 메소드이며 파라미터로 해당 인터페이스의 implementaion을 받는다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// navigator/AppNavigatiorImpl
+class AppNavigatorImpl @Inject constructor(
+    private val activity: FragmentActivity
+) : AppNavigator {
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;AppNavigatorImpl은 FragmentActivity에 의존한다.
+    &lt;ul&gt;
+      &lt;li&gt;AppNavigator 인스턴스는 Activity 컨테이너에 제공되고 FragmentActivity는 사전 정의된 바인딩으로 제공되어 사용할 수 있다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Hilt&lt;/code&gt;는 AppNavigator 인스턴스를 주입할 수 있는 모든 정보를 가지고 있다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// ui/MainActivity.kt
+
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity() {
+
+    @Inject lateinit var navigator: AppNavigator
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Navigator 필드에 @Inject를 추가한다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@AndroidEntryPoint
+class ButtonsFragment : Fragment() {
+
+    @Inject lateinit var logger: LoggerLocalDataSource
+    @Inject lateinit var navigator: AppNavigator
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_buttons, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        ...
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;유일하게 ButtonsFragment만 ServicLocator를 사용하고있었다.
+    &lt;ul&gt;
+      &lt;li&gt;LogsFragment와 동일한 방법으로 @Inject를 추가하고 ServiceLocator와 관련된 코드를 삭제한다.&lt;/li&gt;
+      &lt;li&gt;이제 ServiceLocator 클래스는 필요 없게 되었다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;qualifiers&quot;&gt;Qualifiers&lt;/h2&gt;
+&lt;p&gt;다음의 클래스를 data 에 추가한다.&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// data/LoggerDataSource.kt
+
+interface LoggerDataSource {
+    fun addLog(msg: String)
+    fun getAllLogs(callback: (List&amp;lt;Log&amp;gt;) -&amp;gt; Unit)
+    fun removeLogs()
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LoggerLocalDataSource&lt;/code&gt;를 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LoggerDataSource&lt;/code&gt;로 변경한다.&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// ui/LogsFragment.kt
+
+@AndroidEntryPoint
+class LogsFragment : Fragment() {
+
+    @Inject lateinit var logger: LoggerDataSource
+    ...
+}
+
+// ui/ButtonsFragment.kt
+
+@AndroidEntryPoint
+class ButtonsFragment : Fragment() {
+
+    @Inject lateinit var logger: LoggerDataSource
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LoggerLocalDataSource&lt;/code&gt;에서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LoggerDataSource&lt;/code&gt; 인터페이스를 구현한다.&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@Singleton
+class LoggerLocalDataSource @Inject constructor(
+    private val logDao: LogDao
+) : LoggerDataSource {
+    ...
+    override fun addLog(msg: String) { ... }
+    override fun getAllLogs(callback: (List&amp;lt;Log&amp;gt;) -&amp;gt; Unit) { ... }
+    override fun removeLogs() { ... }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;이제 로그를 메모리에 보관하는 LoggerInMemoryDataSource를 구현한다.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-Qualifiers&quot;&gt;@ActivityScoped
+class LoggerInMemoryDataSource @Inject constructor(
+) : LoggerDataSource{
+
+    private val logs = LinkedList&amp;lt;Log&amp;gt;()
+
+    override fun addLog(msg: String) {
+        logs.addFirst(Log(msg, System.currentTimeMillis()))
+    }
+
+    override fun getAllLogs(callback: (List&amp;lt;Log&amp;gt;) -&amp;gt; Unit) {
+        callback(logs)
+    }
+
+    override fun removeLogs() {
+        logs.clear()
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+  &lt;li&gt;Activity 컨테이너 범위 지정
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Hilt&lt;/code&gt;에 @Inject 를 사용하여 제공하는 방법을 알려준다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Application은 단일 Activity로 구성된다.
+    &lt;ul&gt;
+      &lt;li&gt;Activity 컨테이너에 LoggerInMemoryDataSource 인스턴스가 있어야 하며 Fragment에서 해당 Instance를 재사용 해야한다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;LoggerInMeomoryDataSource를 Activity 컨테이너 범위로 지정하여 메모리 내 로깅 동작을 수행할 수 있다.
+    &lt;ul&gt;
+      &lt;li&gt;생성된 모든 Activity는 다른 다른 고유한 컨테이너를 가질 수 있다.&lt;/li&gt;
+      &lt;li&gt;컨테이너에서 Logger가 필요한 경우 LoggerInMemoryDataSource 인스턴스가 제공된다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Activity 컨테이너에 유형을 적용하려면 @ActivityScoped 를 추가해야한다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Hilt&lt;/code&gt;는 LoggerInMemoryDataSource, LoggerLocalDataSource의 인스턴스를 제공하는 방법을 알고 있다. 하지만 LoggerDataSource는 알고있지 않다. module의 주석을 사용하여 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Hilt&lt;/code&gt;에 어떤 구현을 사용해야 하는지 알려줄 수 있다. 여기서 동일한 프로젝트에서 두 구현을 모두 제공해야한다면?&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//di/LoggingDatabaseModule.kt
+
+@InstallIn(ApplicationComponent::class)
+@Module
+abstract class LoggingDatabaseModule {
+
+    @Singleton
+    @Binds
+    abstract fun bindDatabaseLogger(impl: LoggerLocalDataSource): LoggerDataSource
+}
+
+@InstallIn(ActivityComponent::class)
+@Module
+abstract class LoggingInMemoryModule {
+
+    @ActivityScoped
+    @Binds
+    abstract fun bindInMemoryLogger(impl: LoggerInMemoryDataSource): LoggerDataSource
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;@Binds 메소드의 유형이 범위 지정인 경우 범위지정 annotaition이 필요하다.
+    &lt;ul&gt;
+      &lt;li&gt;@Singleton, @ActivityScoped&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;@Binds나 @Provides를 어떤 타입의 바인딩으로 사용할 경우, 타입 범위 지정 주석을 다른 구현 클래스에서 제거하면 된다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Fragment는 LoggerDataSource 타입이 주입되고있지만 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Hilt&lt;/code&gt;는 같은 타입의 바인딩이 2개일 때 어떤 구현을 사용해야 할지 모른다. Qualifiers(한정자)를 사용하면 동일한 유형의 복수 바인딩을 제공하는 방법을 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Hilt&lt;/code&gt;에 알려줄 수 있다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@Qualifier
+annotation class InMemoryLogger
+
+@Qualifier
+annotation class DatabaseLogger
+
+@InstallIn(ApplicationComponent::class)
+@Module
+abstract class LoggingDatabaseModule {
+
+    @DatabaseLogger
+    @Singleton
+    @Binds
+    abstract fun bindDatabaseLogger(impl: LoggerLocalDataSource): LoggerDataSource
+}
+
+@InstallIn(ActivityComponent::class)
+@Module
+abstract class LoggingInMemoryModule {
+
+    @InMemoryLogger
+    @ActivityScoped
+    @Binds
+    abstract fun bindInMemoryLogger(impl: LoggerInMemoryDataSource): LoggerDataSource
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;@Qualifier는 바인딩을 식별하는데 사용한다.
+    &lt;ul&gt;
+      &lt;li&gt;각 한정자는 구현 별로 한정자를 정의해야한다.&lt;/li&gt;
+      &lt;li&gt;클래스에 유형을 주입하거나 해당 유형을 다른클래스의 종속성으로 가질 때는 Qualifier를 사용하여 모호성을 방지할 필요가 있다.&lt;/li&gt;
+      &lt;li&gt;주입하고자 하는 구현과 함께 주입 지점에서 사용되어야 한다.
+        &lt;ul&gt;
+          &lt;li&gt;예제의 경우 Fragment에 LoggerInMemoryDataSource를 구현해 사용한다.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;p&gt;!! @DatabaseLogger 한정자가 ApplicationComponent에 설치되므로 LogApplication 클래스에 주입할 수 있다. 그러나 @InMemoryLogger가 ActivityComponent에 설치되어 있으므로 애플리케이션 컨테이너가 해당 바인딩에 대해 모르기 때문에 LogApplication 클래스에 주입할 수 없다.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;	@AndroidEntryPoint
+class LogsFragment : Fragment() {
+
+    @InMemoryLogger
+    @Inject lateinit var logger: LoggerDataSource
+    ...
+}
+
+
+@AndroidEntryPoint
+class ButtonsFragment : Fragment() {
+
+    @InMemoryLogger
+    @Inject lateinit var logger: LoggerDataSource
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;@InMemoryLogger 한정자를 사용하여 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Hilt&lt;/code&gt;에게 LoggerInMemoryDataSource 인스턴스를 주입하지 않도록 설정한다.&lt;/li&gt;
+  &lt;li&gt;구현을 변경하려면 @DatabaseLogger로 변경하기만 하면 된다.&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Hun</name></author><category term="android-kotlin" /><category term="AndroidUI" /><category term="MVVM" /><summary type="html"></summary></entry><entry><title type="html">Data Binding in Android Example</title><link href="http://localhost:4000/data-binding-in-android-example/" rel="alternate" type="text/html" title="Data Binding in Android Example" /><published>2020-10-23T00:00:00+09:00</published><updated>2020-10-23T00:00:00+09:00</updated><id>http://localhost:4000/data-binding-in-android-example</id><content type="html" xml:base="http://localhost:4000/data-binding-in-android-example/">&lt;p float=&quot;center&quot;&gt;
   &lt;img src=&quot;/assets/images/gif/2020-10-2323-36.gif&quot; width=&quot;300&quot; /&gt;
 &lt;/p&gt;
 

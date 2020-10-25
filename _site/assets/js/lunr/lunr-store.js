@@ -84,7 +84,7 @@ var store = [{
         "teaser": "http://localhost:4000/assets/images/background/teaser1.jpg"
       },{
         "title": "Using dagger-hilt in Android Example",
-        "excerpt":"의존성 주입(Dependency Injection)을 구현하는 dagger-hilt eample을 공부하고 정리한 글 참고자료 Hilt - 공식문서 Hilt - Example Dependency Injection과 Hilt Dependency Injection 줄여서 DI는 프로그래밍에 널리 사용되며 안드로이드 개발에 잘 맞는 기술이다. DI의 원칠을 따르면 좋은 앱 아키텍처의 기초를 갖출 수 있다. DI의 장점 코드의 재사용성 리팩토링 용이성 테스트 용이성 Hilt는...","categories": ["android-kotlin"],
+        "excerpt":"의존성 주입(Dependency Injection)을 구현하는 dagger-hilt eample을 공부하고 정리한 글 참고자료 Hilt - 공식문서 Hilt - Example Dependency Injection과 Hilt Dependency Injection 줄여서 DI는 프로그래밍에 널리 사용되며 안드로이드 개발에 잘 맞는 기술이다. DI의 원칙을 따르면 좋은 앱 아키텍처의 기초를 갖출 수 있다. DI의 장점 코드의 재사용성 리팩토링 용이성 테스트 용이성 Hilt는...","categories": ["android-kotlin"],
         "tags": ["AndroidUI","MVVM"],
         "url": "http://localhost:4000/android-kotlin/using-dagger-hilt-in-android-example/",
         "teaser": "http://localhost:4000/assets/images/background/teaser1.jpg"
