@@ -592,6 +592,7 @@ class CustomTestRunner : AndroidJUnitRunner() {
 - 다음으로,  Runner를 Test에 사용하라고 프로젝트에 알려줄 필요가 있다.    
 	 - app/build.gradle 파일의 testInstrumentRunner 특성에 지정되어 있다.    
 		 - 파일을 열고 기본 testInstrupmentRunner 콘텐츠를 다음으로 교체한다.   
+
 ```
 // build.gradle(Module)
 
@@ -605,7 +606,8 @@ android {
 }
 
 ```
-   
+ 
+ 
 `Hilt`를 사용하는 테스트 실행
 ```
 @RunWith(AndroidJUnit4::class)
@@ -621,3 +623,151 @@ class AppTest {
 - 에뮬레이터 테스트 클래스가 힐트를 사용하려면 다음을 수행해야 한다.   
 	- 각 테스트에 대해 `Hilt` 구성요소 생성을 담당하는 @HiltAndroidTest를 추가한다.   
 	- 구성요소의 사애를 관리하고 테스트에 주입하는데 사용되는 HiltAndroidRule을 사용한다.
+
+
+## @EntryPoint annotation
+- `Hilt`가 지원하지 않는 클래스에 종속성을 주입하는 데 사용되는 @EntryPoint의 사용방법을 알아보자.   
+ - `Hilt`는 가장 일반적인 안드로이드 컴포넌트에 대한 지원을 받는다.   
+	 - 직접 지원하지 않거나 사용할 수 없는 클래스에선 @EntryPoint를 사용할 수 있다.   
+   
+사용 사례
+로그를 애플리케이션 프로세스 밖으로 내보내길 원한다. 그러기 위해선 ContentProvider를 이용해야 한다. 특정 로그 또는 앱의 모든 로그를 조회할 수 있도록 허용한다. 데이터를 검색하기 위해 `Room`을 사용할 것이다. 따라서 `LogDao`클래스는 데이터베이스 커서를 사용하여 필요한 정보를 반환하는 방법을 노출해야 한다.   
+
+```
+// data/LogDao.kt
+
+@Dao
+interface LogDao {
+    ...
+
+    @Query("SELECT * FROM logs ORDER BY id DESC")
+    fun selectAllLogsCursor(): Cursor
+
+    @Query("SELECT * FROM logs WHERE id = :id")
+    fun selectLogById(id: Long): Cursor?
+}
+```
+   
+ContentProvider 클래스를 만들고 쿼리 방법을 재정의하여 로그와 함께 커서를 반환해야 한다.
+```
+/** The authority of this content provider.  */
+private const val LOGS_TABLE = "logs"
+
+/** The authority of this content provider.  */
+private const val AUTHORITY = "com.example.android.hilt.provider"
+
+/** The match code for some items in the Logs table.  */
+private const val CODE_LOGS_DIR = 1
+
+/** The match code for an item in the Logs table.  */
+private const val CODE_LOGS_ITEM = 2
+
+/**
+ * A ContentProvider that exposes the logs outside the application process.
+ */
+class LogsContentProvider: ContentProvider() {
+
+    private val matcher: UriMatcher = UriMatcher(UriMatcher.NO_MATCH).apply {
+        addURI(AUTHORITY, LOGS_TABLE, CODE_LOGS_DIR)
+        addURI(AUTHORITY, "$LOGS_TABLE/*", CODE_LOGS_ITEM)
+    }
+
+    override fun onCreate(): Boolean {
+        return true
+    }
+
+    /**
+     * Queries all the logs or an individual log from the logs database.
+     *
+     * For the sake of this codelab, the logic has been simplified.
+     */
+    override fun query(
+        uri: Uri,
+        projection: Array<out String>?,
+        selection: String?,
+        selectionArgs: Array<out String>?,
+        sortOrder: String?
+    ): Cursor? {
+        val code: Int = matcher.match(uri)
+        return if (code == CODE_LOGS_DIR || code == CODE_LOGS_ITEM) {
+            val appContext = context?.applicationContext ?: throw IllegalStateException()
+            val logDao: LogDao = getLogDao(appContext)
+
+            val cursor: Cursor? = if (code == CODE_LOGS_DIR) {
+                logDao.selectAllLogsCursor()
+            } else {
+                logDao.selectLogById(ContentUris.parseId(uri))
+            }
+            cursor?.setNotificationUri(appContext.contentResolver, uri)
+            cursor
+        } else {
+            throw IllegalArgumentException("Unknown URI: $uri")
+        }
+    }
+
+    override fun insert(uri: Uri, values: ContentValues?): Uri? {
+        throw UnsupportedOperationException("Only reading operations are allowed")
+    }
+
+    override fun update(
+        uri: Uri,
+        values: ContentValues?,
+        selection: String?,
+        selectionArgs: Array<out String>?
+    ): Int {
+        throw UnsupportedOperationException("Only reading operations are allowed")
+    }
+
+    override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?): Int {
+        throw UnsupportedOperationException("Only reading operations are allowed")
+    }
+
+    override fun getType(uri: Uri): String? {
+        throw UnsupportedOperationException("Only reading operations are allowed")
+    }
+}
+```
+- getLogDao(appContext) 호출이 컴파일되지 않을것이다.   
+	- `Hilt` 애플리케이션 컨테이너에서 LogDao 종속성을 잡아 그것을 구현해야 한다.    
+		- 그러나 힐트는 예를 들어 @AndroidEntryPoint와 같은 Activity에서처럼 즉시 제공되는 ContentProvider에 대한 주입을 지원하지 않는다.   
+			- @EntryPoint로 주석을 달아서 접속할 수 있는 새로운 인터페이스를 만들어야 한다.   
+
+```
+class LogsContentProvider: ContentProvider() {
+
+    @InstallIn(ApplicationComponent::class)
+    @EntryPoint
+    interface LogsContentProviderEntryPoint {
+        fun logDao(): LogDao
+    }
+
+    ...
+}
+```
+- @EntryPoint in action
+	- 원하는 각 바인딩 유형(한정자 포함)에 대한 접근자 방법을 가진 인터페이스다.    
+	- 진입점을 설치할 구성요소를 지정하려면 인터페이스에 @InstallIn으로 주석을 달아야 한다.   
+- 가장 좋은 방법은 그것을 사용하는 클래스 안에 새로운 EntryPoint 인터페이스를 추가하는 것이다.   
+   
+```
+class LogsContentProvider: ContentProvider() {
+    ...
+
+    private fun getLogDao(appContext: Context): LogDao {
+        val hiltEntryPoint = EntryPointAccessors.fromApplication(
+            appContext,
+            LogsContentProviderEntryPoint::class.java
+        )
+        return hiltEntryPoint.logDao()
+    }
+}
+```
+- applicationContext를 정적 EntryPoints.get 메서드와 @EntryPoint로 주석을 붙인 인터페이스 클래스로 전달하는 방법을 기억하자.
+
+## end
+- 애플리케이션 클래스에서 @HiltAndroidApp을 사용하여 `Hilt`를 설정하는 방법.   
+- @AndroidEntryPoint를 사용하여 여러 Android 수명주기 구성 요소에 종속 컨테이너를 추가하는 방법.   
+- moudle을 사용하여 `Hilt`에게 특정 유형을 제공하는 방법을 알림.   
+- Qualifier를 사용하여 특정 유형에 대해 여러 바인딩을 제공하는 방법.      
+- `Hilt`를 사용하여 앱을 테스트하는 방법.   
+- `@EntryPoint`  사용하는 방법.

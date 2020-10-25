@@ -1,4 +1,4 @@
-I"�<p float="center">
+I"��<p float="center">
   <img src="/assets/images/gif/2020-10-2516-05.gif" width="300" />
 </p>
 
@@ -712,4 +712,207 @@ class CustomTestRunner : AndroidJUnitRunner() {
     }
 }
 </code></pre></div></div>
+
+<ul>
+  <li>다음으로,  Runner를 Test에 사용하라고 프로젝트에 알려줄 필요가 있다.
+    <ul>
+      <li>app/build.gradle 파일의 testInstrumentRunner 특성에 지정되어 있다.
+        <ul>
+          <li>파일을 열고 기본 testInstrupmentRunner 콘텐츠를 다음으로 교체한다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// build.gradle(Module)
+
+android {
+    ...
+    defaultConfig {
+        ...
+        testInstrumentationRunner "com.example.android.hilt.CustomTestRunner"
+    }
+    ...
+}
+
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">Hilt</code>를 사용하는 테스트 실행</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
+class AppTest {
+
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
+
+    ...
+}
+</code></pre></div></div>
+<ul>
+  <li>에뮬레이터 테스트 클래스가 힐트를 사용하려면 다음을 수행해야 한다.
+    <ul>
+      <li>각 테스트에 대해 <code class="language-plaintext highlighter-rouge">Hilt</code> 구성요소 생성을 담당하는 @HiltAndroidTest를 추가한다.</li>
+      <li>구성요소의 사애를 관리하고 테스트에 주입하는데 사용되는 HiltAndroidRule을 사용한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="entrypoint-annotation">@EntryPoint annotation</h2>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Hilt</code>가 지원하지 않는 클래스에 종속성을 주입하는 데 사용되는 @EntryPoint의 사용방법을 알아보자.</li>
+  <li><code class="language-plaintext highlighter-rouge">Hilt</code>는 가장 일반적인 안드로이드 컴포넌트에 대한 지원을 받는다.
+    <ul>
+      <li>직접 지원하지 않거나 사용할 수 없는 클래스에선 @EntryPoint를 사용할 수 있다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>사용 사례
+로그를 애플리케이션 프로세스 밖으로 내보내길 원한다. 그러기 위해선 ContentProvider를 이용해야 한다. 특정 로그 또는 앱의 모든 로그를 조회할 수 있도록 허용한다. 데이터를 검색하기 위해 <code class="language-plaintext highlighter-rouge">Room</code>을 사용할 것이다. 따라서 <code class="language-plaintext highlighter-rouge">LogDao</code>클래스는 데이터베이스 커서를 사용하여 필요한 정보를 반환하는 방법을 노출해야 한다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// data/LogDao.kt
+
+@Dao
+interface LogDao {
+    ...
+
+    @Query("SELECT * FROM logs ORDER BY id DESC")
+    fun selectAllLogsCursor(): Cursor
+
+    @Query("SELECT * FROM logs WHERE id = :id")
+    fun selectLogById(id: Long): Cursor?
+}
+</code></pre></div></div>
+
+<p>ContentProvider 클래스를 만들고 쿼리 방법을 재정의하여 로그와 함께 커서를 반환해야 한다.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/** The authority of this content provider.  */
+private const val LOGS_TABLE = "logs"
+
+/** The authority of this content provider.  */
+private const val AUTHORITY = "com.example.android.hilt.provider"
+
+/** The match code for some items in the Logs table.  */
+private const val CODE_LOGS_DIR = 1
+
+/** The match code for an item in the Logs table.  */
+private const val CODE_LOGS_ITEM = 2
+
+/**
+ * A ContentProvider that exposes the logs outside the application process.
+ */
+class LogsContentProvider: ContentProvider() {
+
+    private val matcher: UriMatcher = UriMatcher(UriMatcher.NO_MATCH).apply {
+        addURI(AUTHORITY, LOGS_TABLE, CODE_LOGS_DIR)
+        addURI(AUTHORITY, "$LOGS_TABLE/*", CODE_LOGS_ITEM)
+    }
+
+    override fun onCreate(): Boolean {
+        return true
+    }
+
+    /**
+     * Queries all the logs or an individual log from the logs database.
+     *
+     * For the sake of this codelab, the logic has been simplified.
+     */
+    override fun query(
+        uri: Uri,
+        projection: Array&lt;out String&gt;?,
+        selection: String?,
+        selectionArgs: Array&lt;out String&gt;?,
+        sortOrder: String?
+    ): Cursor? {
+        val code: Int = matcher.match(uri)
+        return if (code == CODE_LOGS_DIR || code == CODE_LOGS_ITEM) {
+            val appContext = context?.applicationContext ?: throw IllegalStateException()
+            val logDao: LogDao = getLogDao(appContext)
+
+            val cursor: Cursor? = if (code == CODE_LOGS_DIR) {
+                logDao.selectAllLogsCursor()
+            } else {
+                logDao.selectLogById(ContentUris.parseId(uri))
+            }
+            cursor?.setNotificationUri(appContext.contentResolver, uri)
+            cursor
+        } else {
+            throw IllegalArgumentException("Unknown URI: $uri")
+        }
+    }
+
+    override fun insert(uri: Uri, values: ContentValues?): Uri? {
+        throw UnsupportedOperationException("Only reading operations are allowed")
+    }
+
+    override fun update(
+        uri: Uri,
+        values: ContentValues?,
+        selection: String?,
+        selectionArgs: Array&lt;out String&gt;?
+    ): Int {
+        throw UnsupportedOperationException("Only reading operations are allowed")
+    }
+
+    override fun delete(uri: Uri, selection: String?, selectionArgs: Array&lt;out String&gt;?): Int {
+        throw UnsupportedOperationException("Only reading operations are allowed")
+    }
+
+    override fun getType(uri: Uri): String? {
+        throw UnsupportedOperationException("Only reading operations are allowed")
+    }
+}
+</code></pre></div></div>
+<ul>
+  <li>getLogDao(appContext) 호출이 컴파일되지 않을것이다.
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">Hilt</code> 애플리케이션 컨테이너에서 LogDao 종속성을 잡아 그것을 구현해야 한다.
+        <ul>
+          <li>그러나 힐트는 예를 들어 @AndroidEntryPoint와 같은 Activity에서처럼 즉시 제공되는 ContentProvider에 대한 주입을 지원하지 않는다.
+            <ul>
+              <li>@EntryPoint로 주석을 달아서 접속할 수 있는 새로운 인터페이스를 만들어야 한다.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class LogsContentProvider: ContentProvider() {
+
+    @InstallIn(ApplicationComponent::class)
+    @EntryPoint
+    interface LogsContentProviderEntryPoint {
+        fun logDao(): LogDao
+    }
+
+    ...
+}
+</code></pre></div></div>
+<ul>
+  <li>@EntryPoint in action
+    <ul>
+      <li>원하는 각 바인딩 유형(한정자 포함)에 대한 접근자 방법을 가진 인터페이스다.</li>
+      <li>진입점을 설치할 구성요소를 지정하려면 인터페이스에 @InstallIn으로 주석을 달아야 한다.</li>
+    </ul>
+  </li>
+  <li>가장 좋은 방법은 그것을 사용하는 클래스 안에 새로운 EntryPoint 인터페이스를 추가하는 것이다.</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class LogsContentProvider: ContentProvider() {
+    ...
+
+    private fun getLogDao(appContext: Context): LogDao {
+        val hiltEntryPoint = EntryPointAccessors.fromApplication(
+            appContext,
+            LogsContentProviderEntryPoint::class.java
+        )
+        return hiltEntryPoint.logDao()
+    }
+}
+</code></pre></div></div>
+<ul>
+  <li>applicationContext를 정적 EntryPoints.get 메서드와 @EntryPoint로 주석을 붙인 인터페이스 클래스로 전달하는 방법을 기억하자.</li>
+</ul>
 :ET

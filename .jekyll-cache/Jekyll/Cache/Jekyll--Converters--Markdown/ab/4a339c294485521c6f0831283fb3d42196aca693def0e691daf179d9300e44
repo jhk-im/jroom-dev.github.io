@@ -1,4 +1,4 @@
-I"?�<p float="center">
+I"$�<p float="center">
   <img src="/assets/images/gif/2020-10-2516-05.gif" width="300" />
 </p>
 
@@ -720,7 +720,7 @@ class CustomTestRunner : AndroidJUnitRunner() {
         <ul>
           <li>파일을 열고 기본 testInstrupmentRunner 콘텐츠를 다음으로 교체한다.<br />
 ```
-// build.gradle(Project)</li>
+// build.gradle(Module)</li>
         </ul>
       </li>
     </ul>
@@ -736,5 +736,19 @@ class CustomTestRunner : AndroidJUnitRunner() {
     …
 }</p>
 
-<p>```</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 
+ 
+`Hilt`를 사용하는 테스트 실행
+</code></pre></div></div>
+<p>@RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
+class AppTest {</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@get:Rule
+var hiltRule = HiltAndroidRule(this)
+
+... } ``` - 에뮬레이터 테스트 클래스가 힐트를 사용하려면 다음을 수행해야 한다.   
+- 각 테스트에 대해 `Hilt` 구성요소 생성을 담당하는 @HiltAndroidTest를 추가한다.   
+- 구성요소의 사애를 관리하고 테스트에 주입하는데 사용되는 HiltAndroidRule을 사용한다.
+</code></pre></div></div>
 :ET

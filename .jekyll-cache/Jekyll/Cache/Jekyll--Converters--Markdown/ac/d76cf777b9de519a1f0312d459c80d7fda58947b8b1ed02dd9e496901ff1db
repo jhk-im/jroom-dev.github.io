@@ -1,4 +1,4 @@
-I"$�<p float="center">
+I"��<p float="center">
   <img src="/assets/images/gif/2020-10-2516-05.gif" width="300" />
 </p>
 
@@ -718,36 +718,61 @@ class CustomTestRunner : AndroidJUnitRunner() {
     <ul>
       <li>app/build.gradle 파일의 testInstrumentRunner 특성에 지정되어 있다.
         <ul>
-          <li>파일을 열고 기본 testInstrupmentRunner 콘텐츠를 다음으로 교체한다.<br />
-```
-// build.gradle(Module)</li>
+          <li>파일을 열고 기본 testInstrupmentRunner 콘텐츠를 다음으로 교체한다.</li>
         </ul>
       </li>
     </ul>
   </li>
 </ul>
 
-<p>android {
-    …
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// build.gradle(Module)
+
+android {
+    ...
     defaultConfig {
-        …
-        testInstrumentationRunner “com.example.android.hilt.CustomTestRunner”
+        ...
+        testInstrumentationRunner "com.example.android.hilt.CustomTestRunner"
     }
-    …
-}</p>
+    ...
+}
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   
-`Hilt`를 사용하는 테스트 실행
 </code></pre></div></div>
-<p>@RunWith(AndroidJUnit4::class)
+
+<p><code class="language-plaintext highlighter-rouge">Hilt</code>를 사용하는 테스트 실행</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@RunWith(AndroidJUnit4::class)
 @HiltAndroidTest
-class AppTest {</p>
+class AppTest {
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@get:Rule
-var hiltRule = HiltAndroidRule(this)
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
 
-... } ``` - 에뮬레이터 테스트 클래스가 힐트를 사용하려면 다음을 수행해야 한다.   
-- 각 테스트에 대해 `Hilt` 구성요소 생성을 담당하는 @HiltAndroidTest를 추가한다.   
-- 구성요소의 사애를 관리하고 테스트에 주입하는데 사용되는 HiltAndroidRule을 사용한다.
+    ...
+}
+</code></pre></div></div>
+<ul>
+  <li>에뮬레이터 테스트 클래스가 힐트를 사용하려면 다음을 수행해야 한다.
+    <ul>
+      <li>각 테스트에 대해 <code class="language-plaintext highlighter-rouge">Hilt</code> 구성요소 생성을 담당하는 @HiltAndroidTest를 추가한다.</li>
+      <li>구성요소의 사애를 관리하고 테스트에 주입하는데 사용되는 HiltAndroidRule을 사용한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="entrypoint-annotation">@EntryPoint annotation</h2>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Hilt</code>가 지원하지 않는 클래스에 종속성을 주입하는 데 사용되는 @EntryPoint의 사용방법을 알아보자.</li>
+  <li><code class="language-plaintext highlighter-rouge">Hilt</code>는 가장 일반적인 안드로이드 컴포넌트에 대한 지원을 받는다.
+    <ul>
+      <li>직접 지원하지 않거나 사용할 수 없는 클래스에선 @EntryPoint를 사용할 수 있다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>사용 사례
+로그를 애플리케이션 프로세스 밖으로 내보내길 원한다. 그러기 위해선 ContentProvider를 이용해야 한다. 특정 로그 또는 앱의 모든 로그를 조회할 수 있도록 허용한다. 데이터를 검색하기 위해 <code class="language-plaintext highlighter-rouge">Room</code>을 사용할 것이다. 따라서 <code class="language-plaintext highlighter-rouge">LogDao</code>클래스는 데이터베이스 커서를 사용하여 필요한 정보를 반환하는 방법을 노출해야 한다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// data/LogDao.kt
+
+
 </code></pre></div></div>
 :ET
