@@ -21,7 +21,7 @@ title_separator          : "$#124;"
 subtitle                 : "Android & Flutter & Fullstack" 
 name                     : "Jeong Hun Kim"
 description              : "Android & Flutter & Fullstack"
-url                      : "https://jrrom-dev.github.io/"
+url                      : "https://jroomdev.github.io/"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : "ll0301/ll0301.github.io"
 teaser                   : "/assets/images/background/teaser1.jpg"
@@ -100,7 +100,7 @@ author:
   links:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/ll0301"
+      url: "https://github.com/jroomdev"
 
 # Site Footer
 footer:
